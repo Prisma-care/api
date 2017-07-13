@@ -15,6 +15,7 @@ class StoryController extends Controller
     public function index()
     {
         $stories = Story::all();
+        return $stories->toJson();
     }
 
     /**
@@ -35,15 +36,24 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->json()->all();
         $story = new Story;
-        $story->title = $request->title;
-        $story->description = $request->description;
-        $story->happened_at = $request->happened_at;
-        $story->file_name = $request->file_name;
-        $story->albums_id = $request->albums_id;
-        $story->users_id = $request->users_id;
+        $story->title = $data['title'];
+        $story->description = $data['description'];
+        // making happened_at and file_name work for the demo, change this to actual data soon
+        $story->happened_at = date("Y-m-d H:i:s");
+        $story->file_name = str_replace(' ', '', $data['title']);
+        $story->albums_id = 1;
+        $story->users_id = 1;
+        //$story->albums_id = $request->albums_id;
+        //$story->users_id = $request->users_id;
 
         $story->save();
+        return response()->json([
+            'id' => $story->id,
+            'title' => $story->title,
+            'description' => $story->description
+        ]);
     }
 
     /**
@@ -79,7 +89,7 @@ class StoryController extends Controller
      */
     public function update(Request $request, Story $story)
     {
-        $story = Story::find($id);
+        $story = Story::find($story);
 
         $story->title = $request->title;
         $story->description = $request->description;

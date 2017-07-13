@@ -15,6 +15,6 @@ class Story extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'happened_at', 'file_name','albums_id', 'users_id', 
+        'title', 'description', 'happened_at', 'file_name','albums_id', 'users_id',
     ];
 }
