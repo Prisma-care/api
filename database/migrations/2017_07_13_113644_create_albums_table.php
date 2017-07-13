@@ -15,6 +15,9 @@ class CreateAlbumsTable extends Migration
     {
         Schema::create('albums', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
+            $table->string('description');
+            $table->foreign('profiles_id')->reference('id')->on('profiles');
             $table->timestamps();
         });
     }
