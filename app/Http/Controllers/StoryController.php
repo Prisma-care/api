@@ -119,11 +119,13 @@ class StoryController extends Controller
         $PUBLIC_DIR = '/public';
         $UPLOADS_FOLDER = '/img/storyUploads/';
 
-        $imageName = $story->id . '.' .$request->file('image')->getClientOriginalExtension();
+        $imageName = $story->id . '.' . $request->file('image')->getClientOriginalExtension();
         $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
         $request->file('image')->move($location, $imageName);
 
         $story->file_name = $UPLOADS_FOLDER . $imageName;
-        return $story->file_name;
+        return response()->json([
+            'source' => $story->file_name
+        ], 201);
     }
 }
