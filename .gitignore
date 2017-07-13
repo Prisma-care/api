@@ -13,3 +13,5 @@ yarn-error.log
 
 _ide_helper.php
 /*.meta.php
+
+.DS_Store
