@@ -53,7 +53,7 @@ class StoryController extends Controller
             'id' => $story->id,
             'title' => $story->title,
             'description' => $story->description
-        ]);
+        ], 201);
     }
 
     /**
@@ -64,7 +64,7 @@ class StoryController extends Controller
      */
     public function show(Story $story)
     {
-        $story = Story::find($id);
+        $story = Story::find($story);
 
         return $story;
     }
@@ -110,5 +110,20 @@ class StoryController extends Controller
     public function destroy(Story $story)
     {
         Story::destroy($story);
+    }
+
+    public function upload(Request $request, $id)
+    {
+        $story = Story::find($id);
+
+        $PUBLIC_DIR = '/public';
+        $UPLOADS_FOLDER = '/img/storyUploads/';
+
+        $imageName = $story->id . '.' .$request->file('image')->getClientOriginalExtension();
+        $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
+        $request->file('image')->move($location, $imageName);
+
+        $story->file_name = $UPLOADS_FOLDER . $imageName;
+        return $story->file_name;
     }
 }

@@ -20,4 +20,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::resource('story', 'StoryController', [
         'except' => ['edit', 'create']
     ]);
+
+    Route::post('story/{id}/asset', 'StoryController@upload');
 });
