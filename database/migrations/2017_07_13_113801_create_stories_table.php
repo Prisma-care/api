@@ -19,8 +19,10 @@ class CreateStoriesTable extends Migration
             $table->string('description');
             $table->datetime('happened_at');
             $table->string('file_name');
-            $table->foreign('albums_id')->reference('id')->on('albums');
-            $table->foreign('users_id')->reference('id')->on('users');
+            $table->integer('albums_id')->unsigned();
+            $table->foreign('albums_id')->references('id')->on('albums');
+            $table->integer('users_id')->unsigned();
+            $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
