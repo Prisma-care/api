@@ -1,0 +1,555 @@
+---
+swagger: '2.0'
+info:
+  version: 0.0.0
+  title: Prisma
+  description: API spec for the Prisma Project
+basePath: /api/v1
+paths:
+  /user:
+    post:
+      parameters:
+        - in: body
+          name: user
+          description: The user to create.
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - password
+              - firstName
+              - lastName
+            properties:
+              id:
+                type: integer
+              email:
+                type: string
+              password:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              dateOfBirth:
+                type: string
+                format: date
+              birthPlace:
+                type: string
+      responses:
+        201:
+          description: User created
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              email:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              dateOfBirth:
+                type: string
+                format: YYYY-mm-dd
+              birthPlace:
+                type: string
+        400:
+          $ref: "#/responses/BadRequest"
+  /user/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+      responses:
+        200:
+          description: User information
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              email:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              dateOfBirth:
+                type: string
+                format: date
+              birthPlace:
+                type: string
+        403:
+          $ref: "#/responses/Forbidden"
+    patch:
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+        - in: body
+          name: user
+          description: The user to create.
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              dateOfBirth:
+                type: string
+                format: date
+              birthPlace:
+                type: string
+      responses:
+        204:
+          description: Update successful
+        400:
+          $ref: "#/responses/BadRequest"
+        403:
+          $ref: "#/responses/Forbidden"
+  /user/{id}/picture:
+    get:
+      parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+      responses:
+        200:
+          description: Profile picture for user {id}
+          schema:
+            type: object
+            properties:
+              source:
+                type: string
+                description: Location of the image
+        403:
+          $ref: "#/responses/Forbidden"
+    post:
+      consumes:
+        - multipart/form-data
+      parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+      responses:
+        200:
+          description: Profile picture for user {id}
+          schema:
+            type: object
+            properties:
+              source:
+                type: string
+                description: Location of the image
+        400:
+          $ref: "#/responses/BadRequest"
+    put:
+      parameters:
+          - in: path
+            name: id
+            type: integer
+            required: true
+      responses:
+        200:
+          description: Profile picture for user {id}
+          schema:
+            type: object
+            properties:
+              source:
+                type: string
+                description: Location of the image
+        400:
+          $ref: "#/responses/BadRequest"
+        403:
+          $ref: "#/responses/Forbidden"
+    delete:
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+      responses:
+        204:
+          description: Picture successfully deleted
+  /user/signin:
+    post:
+      responses:
+        501:
+          $ref: "#/responses/NotImplemented"
+  /user/signout:
+    post:
+      responses:
+        501:
+          $ref: "#/responses/NotImplemented"
+
+  /patient:
+    get:
+      responses:
+        501:
+          $ref: "#/responses/NotImplemented"
+  /patient/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Patient information
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              firstName:
+                type: string
+              lastName:
+                type: string
+              carehome:
+                type: string
+              interests:
+                type: array
+                items:
+                  type: string
+              timeline:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    storyId:
+                      type: integer
+                    date:
+                      type: string
+                      format: format-mm-dd
+              connections:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    withUser:
+                      type: integer
+                    withPerson:
+                      type: string
+                    relationType:
+                      type: string
+                      enum: ["father", "mother", "caregiver", "son", "daughter", "grandson", "granddaughter", "friend", "other"]
+              workplaces:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    location:
+                      type: string
+                    start:
+                      type: string
+                      format: date
+                    end:
+                      type: string
+                      format: date
+        403:
+          $ref: "#/responses/Unauthorized"
+  /patient/{id}/album:
+    get:
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Albums
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Album"
+        401:
+          $ref: "#/responses/Forbidden"
+  /patient/{patientId}/album/{albumId}:
+    get:
+      parameters:
+        - in: path
+          name: patientId
+          type: integer
+          required: true
+        - in: path
+          name: albumId
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Albums
+          schema:
+            $ref: "#/definitions/Album"
+    patch:
+      parameters:
+        - in: path
+          name: patientId
+          type: integer
+          required: true
+        - in: path
+          name: albumId
+          type: integer
+          required: true
+        - in: body
+          name: Album
+          description: The album to patch
+          schema:
+            $ref: "#/definitions/Album"
+      responses:
+        204:
+          description: Album updated successfully
+    delete:
+      parameters:
+        - in: path
+          name: patientId
+          type: integer
+          required: true
+        - in: path
+          name: albumId
+          type: integer
+          required: true
+      responses:
+        204:
+          description: Album deleted successfully
+  /patient/{id}/story:
+    post:
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+        - in: body
+          name: user
+          description: The user to create.
+          required: true
+          schema:
+            properties:
+              type:
+                type: integer
+              title:
+                type: string
+              description:
+                type: string
+              creationDate:
+                type: string
+                format: datetime
+              dateHapppened:
+                type: string
+                format: date
+              likesFrom:
+                type: array
+                items:
+                  type: integer
+              categories:
+                type: array
+                items:
+                  type: integer
+              albumId:
+                type: integer
+              originId:
+                type: integer
+      responses:
+        201:
+          description: stories
+          schema:
+            $ref: "#/definitions/Story"
+  /patient/{patientId}/story/{storyId}:
+      get:
+        parameters:
+          - in: path
+            name: patientId
+            type: integer
+            required: true
+          - in: path
+            name: storyId
+            type: integer
+            required: true
+        responses:
+          200:
+            description: stories
+            schema:
+              $ref: "#/definitions/Story"
+      put:
+        parameters:
+          - in: path
+            name: patientId
+            type: integer
+            required: true
+          - in: path
+            name: storyId
+            type: integer
+            required: true
+        responses:
+          200:
+            description: stories
+            schema:
+              $ref: "#/definitions/Story"
+      delete:
+        parameters:
+        - in: path
+          name: patientId
+          type: integer
+          required: true
+        - in: path
+          name: storyId
+          type: integer
+          required: true
+        responses:
+          204:
+            description: Story successfully deleted
+  /patient/{patientId}/story/{storyId}/asset:
+      post:
+        parameters:
+          - in: path
+            name: patientId
+            type: integer
+            required: true
+          - in: path
+            name: storyId
+            type: integer
+            required: true
+        responses:
+          201:
+            description: asset for story {storyId}
+            schema:
+              type: object
+              properties:
+                storyId:
+                  type: integer
+                source:
+                  type: string
+                typeId:
+                  type: integer
+      put:
+        parameters:
+          - in: path
+            name: patientId
+            type: integer
+            required: true
+          - in: path
+            name: storyId
+            type: integer
+            required: true
+        responses:
+          200:
+            description: asset for story {storyId}
+            schema:
+              type: object
+              properties:
+                storyId:
+                  type: integer
+                source:
+                  type: string
+                typeId:
+                  type: integer
+definitions:
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+  Album:
+    type: object
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      description:
+        type: string
+      stories:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            type:
+              type: string
+            source:
+              type: string
+  Story:
+    type: object
+    properties:
+      id:
+        type: integer
+      type:
+        type: integer
+      source:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      creationDate:
+        type: string
+        format: datetime
+      dateHapppened:
+        type: string
+        format: date
+      likesFrom:
+        type: array
+        items:
+          type: integer
+      comments:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            storyId:
+              type: integer
+            userId:
+              type: integer
+            comment:
+              type: string
+      categories:
+        type: array
+        items:
+          type: integer
+      albumId:
+        type: integer
+      originId:
+        type: integer
+responses:
+  Unauthorized:
+    description: Unauthorized
+    schema:
+      $ref: "#/definitions/Error"
+  Forbidden:
+    description: Forbidden
+    schema:
+      $ref: "#/definitions/Error"
+  NotImplemented:
+    description: Not yet implemented
+    schema:
+      $ref: "#/definitions/Error"
+  BadRequest:
+    description: Bad Request
+    schema:
+      $ref: "#/definitions/Error"
+        
