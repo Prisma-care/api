@@ -14,7 +14,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        //
+        $albums = Album::all();
     }
 
     /**
@@ -35,7 +35,12 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $album = new Album;
+        $album->title = $request->title;
+        $album->description = $request->description;
+        $album->profiles_id = $request->profiles_id;
+
+        $album->save();
     }
 
     /**
@@ -46,7 +51,9 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        //
+        $album = Story::find($album);
+
+        return $album;
     }
 
     /**
@@ -69,7 +76,12 @@ class AlbumController extends Controller
      */
     public function update(Request $request, Album $album)
     {
-        //
+        $album = Album::find($album);
+        $album->title = $request->title;
+        $album->description = $request->description;
+        $album->profiles_id = $request->profiles_id;
+
+        $album->save();
     }
 
     /**
@@ -80,6 +92,6 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
-        //
+        Album::destroy($album);
     }
 }

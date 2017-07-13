@@ -79,9 +79,14 @@ class StoryController extends Controller
      */
     public function update(Request $request, Story $story)
     {
-        $story = App\Story::find($id);
+        $story = Story::find($id);
 
-        $story->title = 'test update story';
+        $story->title = $request->title;
+        $story->description = $request->description;
+        $story->happened_at = $request->happened_at;
+        $story->file_name = $request->file_name;
+        $story->albums_id = $request->albums_id;
+        $story->users_id = $request->users_id;
 
         $story->save();
     }
