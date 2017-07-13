@@ -195,25 +195,25 @@ paths:
           $ref: "#/responses/NotImplemented"
 
   /patient:
-    get:
-      responses:
-        501:
-          $ref: "#/responses/NotImplemented"
-  /patient/{id}:
-    get:
+    post:
       parameters:
-        - in: path
-          name: id
-          type: integer
+        - in: body
+          name: Patient
+          description: The patient to create
           required: true
-      responses:
-        200:
-          description: Patient information
           schema:
             type: object
+            required:
+              - creatorId
+              - creatorRelation
+              - firstName
+              - lastName
             properties:
-              id:
+              creatorId:
                 type: integer
+              creatorRelation:
+                type: string
+                enum: ["father", "mother", "caregiver", "son", "daughter", "grandson", "granddaughter", "friend", "other"]
               firstName:
                 type: string
               lastName:
@@ -224,28 +224,6 @@ paths:
                 type: array
                 items:
                   type: string
-              timeline:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    storyId:
-                      type: integer
-                    date:
-                      type: string
-                      format: format-mm-dd
-              connections:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    withUser:
-                      type: integer
-                    withPerson:
-                      type: string
-                    relationType:
-                      type: string
-                      enum: ["father", "mother", "caregiver", "son", "daughter", "grandson", "granddaughter", "friend", "other"]
               workplaces:
                 type: array
                 items:
@@ -261,6 +239,23 @@ paths:
                     end:
                       type: string
                       format: date
+      responses:
+        201:
+          description: Patient created
+          schema:
+            $ref: "#/definitions/Patient"
+  /patient/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Patient information
+          schema:
+            $ref: "#/definitions/Patient"
         403:
           $ref: "#/responses/Unauthorized"
   /patient/{id}/album:
@@ -535,6 +530,58 @@ definitions:
         type: integer
       originId:
         type: integer
+  Patient:
+    type: object
+    properties:
+      id:
+        type: integer
+      firstName:
+        type: string
+      lastName:
+        type: string
+      carehome:
+        type: string
+      interests:
+        type: array
+        items:
+          type: string
+      timeline:
+        type: array
+        items:
+          type: object
+          properties:
+            storyId:
+              type: integer
+            date:
+              type: string
+              format: format-mm-dd
+      connections:
+        type: array
+        items:
+          type: object
+          properties:
+            withUser:
+              type: integer
+            withPerson:
+              type: string
+            relationType:
+              type: string
+              enum: ["father", "mother", "caregiver", "son", "daughter", "grandson", "granddaughter", "friend", "other"]
+      workplaces:
+        type: array
+        items:
+          type: object
+          properties:
+            title:
+              type: string
+            location:
+              type: string
+            start:
+              type: string
+              format: date
+            end:
+              type: string
+              format: date
 responses:
   Unauthorized:
     description: Unauthorized
@@ -552,4 +599,3 @@ responses:
     description: Bad Request
     schema:
       $ref: "#/definitions/Error"
-        
