@@ -3,15 +3,14 @@ php:
   - '7.0'
 sudo: false
 before_script:
-  - cp .ci.env .env
+  - cp .env.travis .env
   - composer install --dev --prefer-source --no-interaction
   - php artisan key:generate
   - php artisan migrate
+script:
+  - vendor/bin/phpunit
 notifications:
   email: false
-cache:
-  directories:
-    - node_modules
 branches:
   only:
     - master
