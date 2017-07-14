@@ -1,0 +1,17 @@
+language: php
+php:
+  - '7.0'
+sudo: false
+before_script:
+  - cp .env.travis .env
+  - composer install --dev --prefer-source --no-interaction
+  - php artisan key:generate && php artisan config:clear
+  - php artisan migrate
+script:
+  - vendor/bin/phpunit
+notifications:
+  email: false
+branches:
+  only:
+    - master
+    - dev
