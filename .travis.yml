@@ -14,4 +14,4 @@ notifications:
 branches:
   only:
     - master
-    - dev
+    - develop
