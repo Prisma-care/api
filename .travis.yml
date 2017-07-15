@@ -1,21 +1,23 @@
 language: php
 php:
-  - '7.0'
+- '7.0'
 sudo: false
 services:
-  - mysql
+- mysql
 before_install:
-  - mysql -e 'CREATE DATABASE prisma_test;'
+- openssl aes-256-cbc -K $encrypted_54f5af2fecf1_key -iv $encrypted_54f5af2fecf1_iv
+  -in deploy_rsa.enc -out ci/deploy_rsa -d
+- mysql -e 'CREATE DATABASE prisma_test;'
 before_script:
-  - cp ci/.env.travis .env
-  - composer install --dev --prefer-source --no-interaction
-  - php artisan key:generate && php artisan config:clear
-  - php artisan migrate
+- cp ci/.env.travis .env
+- composer install --dev --prefer-source --no-interaction
+- php artisan key:generate && php artisan config:clear
+- php artisan migrate
 script:
-  - vendor/bin/phpunit
+- vendor/bin/phpunit
 notifications:
   email: false
 branches:
   only:
-    - master
-    - develop
+  - master
+  - develop
