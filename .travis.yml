@@ -7,7 +7,7 @@ services:
 before_install:
   - mysql -e 'CREATE DATABASE prisma_test;'
 before_script:
-  - cp .env.travis .env
+  - cp ci/.env.travis .env
   - composer install --dev --prefer-source --no-interaction
   - php artisan key:generate && php artisan config:clear
   - php artisan migrate
