@@ -1,21 +1,36 @@
 language: php
 php:
-  - '7.0'
+- '7.0'
 sudo: false
 services:
-  - mysql
+- mysql
+addons:
+  ssh_known_hosts: 146.185.145.169
 before_install:
-  - mysql -e 'CREATE DATABASE prisma_test;'
+- openssl aes-256-cbc -K $encrypted_54f5af2fecf1_key -iv $encrypted_54f5af2fecf1_iv
+  -in ci/deploy_rsa.enc -out ci/deploy_rsa -d
+- mysql -e 'CREATE DATABASE prisma_test;'
 before_script:
-  - cp .env.travis .env
-  - composer install --dev --prefer-source --no-interaction
-  - php artisan key:generate && php artisan config:clear
-  - php artisan migrate
+- cp ci/.env.travis .env
+- composer install --dev --prefer-source --no-interaction
+- php artisan key:generate && php artisan config:clear
+- php artisan migrate
 script:
-  - vendor/bin/phpunit
+- vendor/bin/phpunit
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_<...>_key -iv $encrypted_<...>_iv -in ci/deploy_rsa.enc -out /tmp/deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: rsync -r --delete-after --quiet . ci@146.185.145.169:$BUILD_PATH
+  on:
+    branch: master
 notifications:
   email: false
 branches:
   only:
-    - master
-    - develop
+  - master
+  - develop
