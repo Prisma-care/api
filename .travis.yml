@@ -24,13 +24,13 @@ before_deploy:
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
-- ssh-agent -k
 deploy:
   provider: script
   skip_cleanup: true
   script: rsync -rtgoP --quiet $TRAVIS_BUILD_DIR/ ci@146.185.145.169:$BUILD_PATH
   on:
     branch: master
+after_deploy: ssh-agent -k
 notifications:
   email: false
 branches:
