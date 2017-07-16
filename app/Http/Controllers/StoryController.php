@@ -40,7 +40,7 @@ class StoryController extends Controller
         $story->title = $request->input('title');
         $story->description = $request->input('description');
         // making happened_at and file_name work for the demo, change this to actual data soon
-        $story->happened_at = date("Y-m-d H:i:s");
+        $story->happened_at = date('Y-m-d H:i:s');
         $story->file_name = str_replace(' ', '', $request->input('title'));
         $story->albums_id = 1;
         $story->users_id = 1;
@@ -48,11 +48,22 @@ class StoryController extends Controller
         //$story->users_id = $request->input('users_id');
 
         $story->save();
-        return response()->json([
+
+        $responseCode = 201;
+        $createdStory = [
             'id' => $story->id,
             'title' => $story->title,
             'description' => $story->description
-        ], 201);
+        ];
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'Created',
+                'location' => env('APP_URL') . '/story/' . $story->id
+            ],
+            'response' => $createdStory
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
@@ -123,8 +134,18 @@ class StoryController extends Controller
         $request->file('image')->move($location, $imageName);
 
         $story->file_name = $UPLOADS_FOLDER . $imageName;
-        return response()->json([
-            'source' => $story->file_name
-        ], 201);
+
+        $responseCode = 201;
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'Created',
+                'location' => env('APP_URL') . $story->file_name
+            ],
+            'response' => [
+                'id' => $story->id
+            ]
+        ];
+        return response()->json($response, $responseCode);
     }
 }
