@@ -36,17 +36,16 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->json()->all();
         $story = new Story;
-        $story->title = $data['title'];
-        $story->description = $data['description'];
+        $story->title = $request->input('title');
+        $story->description = $request->input('description');
         // making happened_at and file_name work for the demo, change this to actual data soon
         $story->happened_at = date("Y-m-d H:i:s");
-        $story->file_name = str_replace(' ', '', $data['title']);
+        $story->file_name = str_replace(' ', '', $request->input('title'));
         $story->albums_id = 1;
         $story->users_id = 1;
-        //$story->albums_id = $request->albums_id;
-        //$story->users_id = $request->users_id;
+        //$story->albums_id = $request->input('albums_id');
+        //$story->users_id = $request->input('users_id');
 
         $story->save();
         return response()->json([
@@ -91,12 +90,12 @@ class StoryController extends Controller
     {
         $story = Story::find($story);
 
-        $story->title = $request->title;
-        $story->description = $request->description;
-        $story->happened_at = $request->happened_at;
-        $story->file_name = $request->file_name;
-        $story->albums_id = $request->albums_id;
-        $story->users_id = $request->users_id;
+        $story->title = $request->input('title');
+        $story->description = $request->input('description');
+        $story->happened_at = $request->input('happened_at');
+        $story->file_name = $request->input('file_name');
+        $story->albums_id = $request->input('albums_id');
+        $story->users_id = $request->input('users_id');
 
         $story->save();
     }
