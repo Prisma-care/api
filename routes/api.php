@@ -26,8 +26,11 @@ Route::group(['prefix' => 'v1'], function () {
         'except' => ['edit', 'create']
     ]);
 
-    Route::resource('story', 'StoryController', [
-        'except' => ['edit', 'create']
+    Route::resource('patient.story', 'StoryController', [
+        'except' => ['index', 'edit', 'create']
     ]);
-    Route::post('story/{id}/asset', 'StoryController@upload');
+
+    Route::resource('patient.story.asset', 'StoryAssetController', [
+       'only' => ['store', 'show', 'update']
+    ]);
 });

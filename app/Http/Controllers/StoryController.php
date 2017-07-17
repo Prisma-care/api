@@ -34,32 +34,34 @@ class StoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $patientId)
     {
         $story = new Story;
-        $story->title = $request->input('title');
         $story->description = $request->input('description');
-        // making happened_at and file_name work for the demo, change this to actual data soon
-        $story->happened_at = date('Y-m-d H:i:s');
+        $story->title = $request->input('title') ? $request->input('title') : null;
+        $story->happened_at = $request->input('happened_at')
+            ? $request->input('happened_at')
+            : null;
         $story->file_name = str_replace(' ', '', $request->input('title'));
-        $story->albums_id = 1;
-        $story->users_id = 1;
-        //$story->albums_id = $request->input('albums_id');
-        //$story->users_id = $request->input('users_id');
+        $story->users_id = $request->input('creatorId');
+        $story->albums_id = $request->input('albumId');
 
         $story->save();
 
         $responseCode = 201;
         $createdStory = [
             'id' => $story->id,
+            'description' => $story->description,
             'title' => $story->title,
-            'description' => $story->description
+            'happened_at' => $story->happened_at,
+            'albumId' => $story->albums_id,
+            'creatorId' => $story->users_id
         ];
         $response = [
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/story/' . $story->id
+                'location' => env('APP_URL') . '/patient/'. $patientId . '/story/' . $story->id
             ],
             'response' => $createdStory
         ];
@@ -72,11 +74,28 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function show(Story $story)
+    public function show($patientId, $storyId)
     {
-        $story = Story::find($story);
-
-        return $story;
+        $story = Story::find($storyId)->first();
+        $responseCode = 200;
+        $gotStory = [
+            'id' => $story->description,
+            'description' => $story->description,
+            'title' => $story->title,
+            'happened_at' => $story->happened_at,
+            'albumId' => $story->albums_id,
+            'creatorId' => $story->users_id,
+            // TODO update fixture after implementation
+            'favorited' => false
+        ];
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => $gotStory
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
@@ -120,32 +139,5 @@ class StoryController extends Controller
     public function destroy(Story $story)
     {
         Story::destroy($story);
-    }
-
-    public function upload(Request $request, $id)
-    {
-        $story = Story::find($id);
-
-        $PUBLIC_DIR = '/public';
-        $UPLOADS_FOLDER = '/img/storyUploads/';
-
-        $imageName = $story->id . '.' . $request->file('image')->getClientOriginalExtension();
-        $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
-        $request->file('image')->move($location, $imageName);
-
-        $story->file_name = $UPLOADS_FOLDER . $imageName;
-
-        $responseCode = 201;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => env('APP_URL') . $story->file_name
-            ],
-            'response' => [
-                'id' => $story->id
-            ]
-        ];
-        return response()->json($response, $responseCode);
     }
 }

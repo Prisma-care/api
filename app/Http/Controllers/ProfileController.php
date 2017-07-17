@@ -97,7 +97,6 @@ class ProfileController extends Controller
             'response' => $gotPatient
         ];
         return response()->json($response, $responseCode);
-        return $patient;
     }
 
     /**
