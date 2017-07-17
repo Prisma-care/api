@@ -15,8 +15,8 @@ class CreateStoriesTable extends Migration
     {
         Schema::create('stories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('description')->nullable();
+            $table->string('title')->nullable();
+            $table->string('description');
             $table->datetime('happened_at')->nullable();
             $table->string('file_name');
             $table->integer('albums_id')->unsigned();
