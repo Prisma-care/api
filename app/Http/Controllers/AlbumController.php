@@ -92,13 +92,34 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function show(Album $album)
+    public function show($patientId, $albumId)
     {
-        $album = Story::find($album);
+        $album = Album::find($albumId);
 
-        $stories = Story::where('albums_id', $album->id)->get();
+        $thisAlbum = [
+           'id' => $album->id,
+           'title' => $album->title,
+           'stories' => []
+        ];
+        $stories = Album::find($album->id)->stories;
+        foreach ($stories as $story) {
+            $thisAlbum['stories'][] = [
+                'id' => $story->id,
+                'description' => $story->description,
+                'type' => '',
+                'source' => $story->file_name
+            ];
+        }
 
-        return $album;
+        $responseCode = 200;
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => $thisAlbum
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
