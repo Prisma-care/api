@@ -74,11 +74,28 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function show(Story $story)
+    public function show($patientId, $storyId)
     {
-        $story = Story::find($story);
-
-        return $story;
+        $story = Story::find($storyId)->first();
+        $responseCode = 200;
+        $gotStory = [
+            'id' => $story->description,
+            'description' => $story->description,
+            'title' => $story->title,
+            'happened_at' => $story->happened_at,
+            'albumId' => $story->albums_id,
+            'creatorId' => $story->users_id,
+            // TODO update fixture after implementation
+            'favorited' => false
+        ];
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => $gotStory
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
