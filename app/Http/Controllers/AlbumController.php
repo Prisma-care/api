@@ -33,14 +33,29 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $patientId)
     {
         $album = new Album;
-        $album->title = $request->title;
-        $album->description = $request->description;
-        $album->profiles_id = $request->profiles_id;
+        $album->title = $request->input('title');
+        $album->description = $request->input('description');
+        $album->profiles_id = $patientId;
 
         $album->save();
+
+        $responseCode = 201;
+        $createdAlbum = [
+            'id' => $album->id,
+            'title' => $album->title
+        ];
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'Created',
+                'location' => env('APP_URL') . '/patient/' . $patientId . '/album/' . $album->id
+            ],
+            'response' => $createdAlbum
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
