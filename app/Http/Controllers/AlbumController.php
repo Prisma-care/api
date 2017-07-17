@@ -15,6 +15,34 @@ class AlbumController extends Controller
     public function index()
     {
         $albums = Album::all();
+        $allAlbums = [];
+        foreach ($albums as $album) {
+            $thisAlbum = [
+               'id' => $album->id,
+               'title' => $album->title,
+               'stories' => []
+            ];
+            $stories = Album::find($album->id)->stories;
+            foreach ($stories as $story) {
+                $thisAlbum['stories'][] = [
+                    'id' => $story->id,
+                    'description' => $story->description,
+                    'type' => '',
+                    'source' => $story->file_name
+                ];
+            }
+            $allAlbums[] = $thisAlbum;
+        }
+
+        $responseCode = 200;
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => $allAlbums
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
