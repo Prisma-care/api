@@ -13,6 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'v1'], function () {
+    Route::middleware('auth:api')->get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::resource('patient', 'ProfileController', [
+        'only' => ['store', 'show']
+    ]);
+
+    Route::resource('patient.album', 'AlbumController', [
+        'except' => ['edit', 'create']
+    ]);
+
+    Route::resource('patient.story', 'StoryController', [
+        'except' => ['index', 'edit', 'create']
+    ]);
+
+    Route::resource('patient.story.asset', 'StoryAssetController', [
+       'only' => ['store', 'show', 'update']
+    ]);
 });

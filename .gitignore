@@ -5,6 +5,8 @@
 /vendor
 /.idea
 /.vagrant
+/public/img/storyUploads
+
 Homestead.json
 Homestead.yaml
 npm-debug.log
