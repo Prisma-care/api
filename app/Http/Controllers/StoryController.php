@@ -121,31 +121,4 @@ class StoryController extends Controller
     {
         Story::destroy($story);
     }
-
-    public function upload(Request $request, $patientId, $storyId)
-    {
-        $story = Story::find($storyId);
-
-        $PUBLIC_DIR = '/public';
-        $UPLOADS_FOLDER = '/img/storyUploads/';
-
-        $imageName = $story->id . '.' . $request->file('image')->getClientOriginalExtension();
-        $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
-        $request->file('image')->move($location, $imageName);
-
-        $story->file_name = $UPLOADS_FOLDER . $imageName;
-
-        $responseCode = 201;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => env('APP_URL') . $story->file_name
-            ],
-            'response' => [
-                'id' => $story->id
-            ]
-        ];
-        return response()->json($response, $responseCode);
-    }
 }
