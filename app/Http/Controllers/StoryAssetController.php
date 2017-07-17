@@ -40,7 +40,7 @@ class StoryAssetController extends Controller
         $PUBLIC_DIR = '/public';
         $UPLOADS_FOLDER = '/img/storyUploads/';
 
-        $imageName = $story->id . $story->file_name . '.' . $request->file('image')->getClientOriginalExtension();
+        $imageName = $story->id . '.' . $request->file('image')->getClientOriginalExtension();
         $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
         $request->file('image')->move($location, $imageName);
 
