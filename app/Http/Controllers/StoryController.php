@@ -34,7 +34,7 @@ class StoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $patientId)
     {
         $story = new Story;
         $story->title = $request->input('title');
@@ -59,7 +59,7 @@ class StoryController extends Controller
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/story/' . $story->id
+                'location' => env('APP_URL') . '/patient/'. $patientId .'/story/' . $story->id
             ],
             'response' => $createdStory
         ];
@@ -122,9 +122,9 @@ class StoryController extends Controller
         Story::destroy($story);
     }
 
-    public function upload(Request $request, $id)
+    public function upload(Request $request, $patientId, $storyId)
     {
-        $story = Story::find($id);
+        $story = Story::find($storyId);
 
         $PUBLIC_DIR = '/public';
         $UPLOADS_FOLDER = '/img/storyUploads/';
