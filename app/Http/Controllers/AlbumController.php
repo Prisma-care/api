@@ -36,9 +36,9 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
         $album = new Album;
-        $album->title = $request->title;
-        $album->description = $request->description;
-        $album->profiles_id = $request->profiles_id;
+        $album->title = $request->input('title');
+        $album->description = $request->input('description');
+        $album->profiles_id = $request->input('profiles_id');
 
         $album->save();
     }
@@ -52,6 +52,8 @@ class AlbumController extends Controller
     public function show(Album $album)
     {
         $album = Story::find($album);
+
+        $stories = Story::where('albums_id', $album->id)->get();
 
         return $album;
     }
