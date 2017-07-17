@@ -75,11 +75,29 @@ class ProfileController extends Controller
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show(Profile $profile)
+    public function show(Profile $patient)
     {
-        $profile = Profile::find($profile);
-
-        return $profile;
+        $patient = Profile::find($patient)->first();
+        $responseCode = 200;
+        $gotPatient = [
+            'id' => $patient->id,
+            'firstName' => $patient->firstname,
+            'lastName' => $patient->lastname,
+            'carehome' => $patient->care_house,
+            'dateOfBirth' => $patient->date_of_birth,
+            'birthPlace' => $patient->birth_location,
+            'location' => $patient->location,
+            'createdAt' => $patient->created_at
+        ];
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => $gotPatient
+        ];
+        return response()->json($response, $responseCode);
+        return $patient;
     }
 
     /**
