@@ -15,6 +15,34 @@ class AlbumController extends Controller
     public function index()
     {
         $albums = Album::all();
+        $allAlbums = [];
+        foreach ($albums as $album) {
+            $thisAlbum = [
+               'id' => $album->id,
+               'title' => $album->title,
+               'stories' => []
+            ];
+            $stories = Album::find($album->id)->stories;
+            foreach ($stories as $story) {
+                $thisAlbum['stories'][] = [
+                    'id' => $story->id,
+                    'description' => $story->description,
+                    'type' => '',
+                    'source' => $story->file_name
+                ];
+            }
+            $allAlbums[] = $thisAlbum;
+        }
+
+        $responseCode = 200;
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => $allAlbums
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
@@ -33,14 +61,29 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $patientId)
     {
         $album = new Album;
-        $album->title = $request->title;
-        $album->description = $request->description;
-        $album->profiles_id = $request->profiles_id;
+        $album->title = $request->input('title');
+        $album->description = $request->input('description');
+        $album->profiles_id = $patientId;
 
         $album->save();
+
+        $responseCode = 201;
+        $createdAlbum = [
+            'id' => $album->id,
+            'title' => $album->title
+        ];
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'Created',
+                'location' => env('APP_URL') . '/patient/' . $patientId . '/album/' . $album->id
+            ],
+            'response' => $createdAlbum
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
@@ -49,11 +92,34 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function show(Album $album)
+    public function show($patientId, $albumId)
     {
-        $album = Story::find($album);
+        $album = Album::find($albumId);
 
-        return $album;
+        $thisAlbum = [
+           'id' => $album->id,
+           'title' => $album->title,
+           'stories' => []
+        ];
+        $stories = Album::find($album->id)->stories;
+        foreach ($stories as $story) {
+            $thisAlbum['stories'][] = [
+                'id' => $story->id,
+                'description' => $story->description,
+                'type' => '',
+                'source' => $story->file_name
+            ];
+        }
+
+        $responseCode = 200;
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => $thisAlbum
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**

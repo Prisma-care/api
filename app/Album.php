@@ -17,4 +17,10 @@ class Album extends Model
     protected $fillable = [
         'title', 'description', 'profiles_id',
     ];
+
+    public function stories()
+    {
+    	return $this->hasMany('App\Story', 'albums_id');
+    }
+
 }

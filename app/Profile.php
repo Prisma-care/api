@@ -17,4 +17,9 @@ class Profile extends Model
     protected $fillable = [
         'firstname','lastname','date_of_birth','birth_location','location','care_house',
     ];
+
+    public function albums()
+    {
+    	return $this->hasMany('App\Album');
+    }
 }

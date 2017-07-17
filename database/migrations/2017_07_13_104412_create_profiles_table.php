@@ -17,10 +17,10 @@ class CreateProfilesTable extends Migration
             $table->increments('id');
             $table->string('firstname');
             $table->string('lastname');
-            $table->datetime('date_of_birth');
-            $table->string('birth_location');
-            $table->string('location');
-            $table->string('care_house');
+            $table->datetime('date_of_birth')->nullable();
+            $table->string('birth_location')->nullable();
+            $table->string('location')->nullable();
+            $table->string('care_house')->nullable();
             $table->timestamps();
         });
     }
