@@ -22,6 +22,10 @@ Route::group(['prefix' => 'v1'], function () {
         'only' => ['store', 'show']
     ]);
 
+    Route::resource('patient.album', 'AlbumController', [
+        'except' => ['edit', 'create']
+    ]);
+
     Route::resource('story', 'StoryController', [
         'except' => ['edit', 'create']
     ]);
