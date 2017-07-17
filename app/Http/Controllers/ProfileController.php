@@ -38,14 +38,35 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $profile = new Profile;
-        $profile->firstname = $request->firstname;
-        $profile->lastname = $request->lastname;
-        $profile->date_of_birth = $request->date_of_birth;
-        $profile->birth_location = $request->birth_location;
-        $profile->location = $request->location;
-        $profile->care_house = $request->care_house;
+
+        $profile->firstname = $request->input('firstName');
+        $profile->lastname = $request->input('lastName');
+        $profile->care_house = $request->input('carehome');
+        $profile->date_of_birth = $request->input('dateOfBirth');
+        $profile->birth_location = $request->input('birthPlace');
+        $profile->location = $request->input('location');
 
         $profile->save();
+
+        $responseCode = 201;
+        $createdPatient = [
+            'id' => $profile->id,
+            'firstName' => $profile->firstname,
+            'lastName' => $profile->lastname,
+            'carehome' => $profile->care_house,
+            'dateOfBirth' => $profile->date_of_birth,
+            'birthPlace' => $profile->birth_location,
+            'location' => $profile->location
+        ];
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'Created',
+                'location' => env('APP_URL') . '/patient/' . $profile->id
+            ],
+            'response' => $createdPatient
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
