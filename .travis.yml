@@ -17,10 +17,9 @@ before_script:
 - php artisan migrate
 script:
 - vendor/bin/phpunit
-after_success:
+before_deploy:
 - rm .env
 - php artisan jwt:generate > /dev/null
-before_deploy:
 - openssl aes-256-cbc -K $encrypted_54f5af2fecf1_key -iv $encrypted_54f5af2fecf1_iv -in ci/deploy_rsa.enc -out /tmp/deploy_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
