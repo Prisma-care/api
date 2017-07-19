@@ -14,9 +14,12 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::post('user/signin', [
+       'as' => 'signin', 'uses' => 'Auth\LoginController@signin'
+    ]);
+    Route::post('user/signout', [
+       'as' => 'signout', 'uses' => 'Auth\LogoutController@signout'
+    ]);
 
     Route::resource('patient', 'ProfileController', [
         'only' => ['store', 'show']
