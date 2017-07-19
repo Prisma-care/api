@@ -3,37 +3,43 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use JWTAuth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
 
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function signin(Request $request)
     {
-        $this->middleware('guest')->except('logout');
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $credentials = $request->only('email', 'password');
+        try {
+            if (! $token = JWTAuth::attempt($credentials)) {
+                $response = response()->json([
+                    'code' => '401',
+                    'message' => 'Invalid credentials'
+                ], 401);
+            } else {
+                $response = response()->json([
+                    'meta' => [
+                        'code' => '200',
+                        'message' => 'OK'
+                    ],
+                    'token' => $token
+                ], 200);
+            }
+        } catch (JWTException $e) {
+            $response = response()->json([
+                'code' => '500',
+                'message' => 'Unexpected error logging in the user'
+            ], 500);
+        }
+
+        return $response;
     }
 }
