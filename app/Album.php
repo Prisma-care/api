@@ -15,12 +15,22 @@ class Album extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'profiles_id',
+        'title', 'description', 'profile_id',
     ];
 
     public function stories()
     {
-    	return $this->hasMany('App\Story', 'albums_id');
+    	return $this->hasMany('App\Story');
+    }
+
+    public function albums()
+    {
+        return $this->hasMany('App\Heritage');
+    }
+    
+    public function patient()
+    {
+        return $this->belongsTo('App\Patient');
     }
 
 }

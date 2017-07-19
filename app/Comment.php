@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Category extends Model
+class Comment extends Model
 {
     use Notifiable;
 
@@ -15,11 +15,17 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'comment','user_id','story_id',
     ];
 
-    public function heritage()
+    public function author()
     {
-    	return $this->belongsToMany('App\Heritage');
+    	return $this->belongsTo('App\User');
     }
+
+    public function story()
+    {
+    	return $this-belongsTo('App\Story');
+    }
+
 }

@@ -17,4 +17,14 @@ class Story extends Model
     protected $fillable = [
         'title', 'description', 'happened_at', 'file_name','albums_id', 'users_id',
     ];
+
+    public function comments()
+    {
+    	return $this->hasMany('App\Comments');
+    }
+
+    public function album()
+    {
+    	return $this->belongsTo('App\Album');
+    }
 }

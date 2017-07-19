@@ -38,7 +38,7 @@ class AlbumController extends Controller
         $album = new Album;
         $album->title = $request->input('title');
         $album->description = $request->input('description');
-        $album->profiles_id = $patientId;
+        $album->patient_id = $patientId;
 
         $album->save();
 
@@ -96,7 +96,7 @@ class AlbumController extends Controller
         $album = Album::find($album);
         $album->title = $request->title;
         $album->description = $request->description;
-        $album->profiles_id = $request->profiles_id;
+        $album->patient_id = $request->patient_id;
 
         $album->save();
     }

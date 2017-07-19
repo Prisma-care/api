@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Profile;
+use App\Patient;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profiles = Profile::all();
+        $patients = patient::all();
 
-        return $profiles;
+        return $patients;
     }
 
     /**
@@ -37,32 +37,32 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $profile = new Profile;
+        $patient = new patient;
 
-        $profile->firstname = $request->input('firstName');
-        $profile->lastname = $request->input('lastName');
-        $profile->care_house = $request->input('carehome');
-        $profile->date_of_birth = $request->input('dateOfBirth');
-        $profile->birth_location = $request->input('birthPlace');
-        $profile->location = $request->input('location');
+        $patient->firstname = $request->input('firstName');
+        $patient->lastname = $request->input('lastName');
+        $patient->care_house = $request->input('carehome');
+        $patient->date_of_birth = $request->input('dateOfBirth');
+        $patient->birth_location = $request->input('birthPlace');
+        $patient->location = $request->input('location');
 
-        $profile->save();
+        $patient->save();
 
         $responseCode = 201;
         $createdPatient = [
-            'id' => $profile->id,
-            'firstName' => $profile->firstname,
-            'lastName' => $profile->lastname,
-            'carehome' => $profile->care_house,
-            'dateOfBirth' => $profile->date_of_birth,
-            'birthPlace' => $profile->birth_location,
-            'location' => $profile->location
+            'id' => $patient->id,
+            'firstName' => $patient->firstname,
+            'lastName' => $patient->lastname,
+            'carehome' => $patient->care_house,
+            'dateOfBirth' => $patient->date_of_birth,
+            'birthPlace' => $patient->birth_location,
+            'location' => $patient->location
         ];
         $response = [
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/' . $profile->id
+                'location' => env('APP_URL') . '/patient/' . $patient->id
             ],
             'response' => $createdPatient
         ];
@@ -72,12 +72,12 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function show(Profile $patient)
+    public function show(patient $patient)
     {
-        $patient = Profile::find($patient)->first();
+        $patient = patient::find($patient)->first();
         $responseCode = 200;
         $gotPatient = [
             'id' => $patient->id,
@@ -97,16 +97,15 @@ class ProfileController extends Controller
             'response' => $gotPatient
         ];
         return response()->json($response, $responseCode);
-        return $patient;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profile $profile)
+    public function edit(patient $patient)
     {
         //
     }
@@ -115,30 +114,30 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Profile  $profile
+     * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profile $profile)
+    public function update(Request $request, patient $patient)
     {
-        $profile = Profile::find($profile);
-        $profile->firstname = $request->firstname;
-        $profile->lastname = $request->lastname;
-        $profile->date_of_birth = $request->date_of_birth;
-        $profile->birth_location = $request->birth_location;
-        $profile->location = $request->location;
-        $profile->care_house = $request->care_house;
+        $patient = patient::find($patient);
+        $patient->firstname = $request->firstname;
+        $patient->lastname = $request->lastname;
+        $patient->date_of_birth = $request->date_of_birth;
+        $patient->birth_location = $request->birth_location;
+        $patient->location = $request->location;
+        $patient->care_house = $request->care_house;
 
-        $profile->save();
+        $patient->save();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Profile $profile)
+    public function destroy(patient $patient)
     {
-        Profile::destroy($profile);
+        patient::destroy($patient);
     }
 }

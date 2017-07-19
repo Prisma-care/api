@@ -42,10 +42,10 @@ class StoryController extends Controller
         // making happened_at and file_name work for the demo, change this to actual data soon
         $story->happened_at = date('Y-m-d H:i:s');
         $story->file_name = str_replace(' ', '', $request->input('title'));
-        $story->albums_id = 1;
-        $story->users_id = 1;
-        //$story->albums_id = $request->input('albums_id');
-        //$story->users_id = $request->input('users_id');
+        $story->album_id = 1;
+        $story->user_id = 1;
+        //$story->album_id = $request->input('album_id');
+        //$story->user_id = $request->input('user_id');
 
         $story->save();
 
@@ -105,8 +105,8 @@ class StoryController extends Controller
         $story->description = $request->input('description');
         $story->happened_at = $request->input('happened_at');
         $story->file_name = $request->input('file_name');
-        $story->albums_id = $request->input('albums_id');
-        $story->users_id = $request->input('users_id');
+        $story->album_id = $request->input('album_id');
+        $story->user_id = $request->input('user_id');
 
         $story->save();
     }
