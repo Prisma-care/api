@@ -79,7 +79,7 @@ class StoryController extends Controller
         $story = Story::find($storyId)->first();
         $responseCode = 200;
         $gotStory = [
-            'id' => $story->description,
+            'id' => $story->id,
             'description' => $story->description,
             'title' => $story->title,
             'happened_at' => $story->happened_at,
