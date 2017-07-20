@@ -37,14 +37,28 @@ class StoryAssetController extends Controller
     {
         $story = Story::find($storyId);
 
+        if (!$request->hasFile('asset')) {
+            return response()->json([
+                 'code' => 400,
+                 'message' => 'No asset was provided or the form-data request was malformed'
+            ]);
+        } elseif (!$request->file('asset')->isValid()) {
+            return response()->json([
+                 'code' => 500,
+                 'message' => 'Asset upload failed, please try again later.'
+            ]);
+        }
+
+        //$this->retrieveItem('headers', $key, $default);
+
         $PUBLIC_DIR = '/public';
         $UPLOADS_FOLDER = '/img/storyUploads/';
 
-        $imageName = $story->id . '.' . $request->file('image')->getClientOriginalExtension();
+        $assetName = $story->id . '.' . $request->asset->extension();
         $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
-        $request->file('image')->move($location, $imageName);
+        $request->file('asset')->move($location, $assetName);
 
-        $story->file_name = $UPLOADS_FOLDER . $imageName;
+        $story->file_name = $UPLOADS_FOLDER . $assetName;
 
         $responseCode = 201;
         $response = [
