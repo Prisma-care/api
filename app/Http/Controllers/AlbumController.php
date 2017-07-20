@@ -79,7 +79,7 @@ class AlbumController extends Controller
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/' . $patientId . '/album/' . $album->id
+                'location' => $request->url() . '/' . $album->id
             ],
             'response' => $createdAlbum
         ];

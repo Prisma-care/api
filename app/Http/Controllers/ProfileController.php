@@ -62,7 +62,7 @@ class ProfileController extends Controller
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/' . $profile->id
+                'location' => $request->url() . '/' . $profile->id
             ],
             'response' => $createdPatient
         ];

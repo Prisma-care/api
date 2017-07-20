@@ -61,7 +61,7 @@ class StoryController extends Controller
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/'. $patientId . '/story/' . $story->id
+                'location' => $request->url() . '/' . $story->id
             ],
             'response' => $createdStory
         ];
