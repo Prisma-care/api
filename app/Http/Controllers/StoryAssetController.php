@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class StoryAssetController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
