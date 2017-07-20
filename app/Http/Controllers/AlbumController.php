@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Validator;
-use App\Album;
+use App\Story;
 use App\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -124,7 +124,7 @@ class AlbumController extends Controller
     {
         try {
             Profile::findOrFail($patientId);
-            Album::findOrFail($albumId);
+            Story::findOrFail($albumId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
             return response()->json([
