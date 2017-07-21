@@ -121,14 +121,16 @@ class StoryController extends Controller
         }
 
         $story = Story::find($storyId)->first();
+
         $responseCode = 200;
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
             'title' => $story->title,
-            'happened_at' => $story->happened_at,
+            'happenedAt' => $story->happened_at,
             'albumId' => $story->albums_id,
             'creatorId' => $story->users_id,
+            'assetSource' => $story->file_name,
             // TODO update fixture after implementation
             'favorited' => false
         ];
