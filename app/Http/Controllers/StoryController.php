@@ -47,7 +47,7 @@ class StoryController extends Controller
         $story->happened_at = $request->input('happened_at')
             ? $request->input('happened_at')
             : null;
-        $story->file_name = str_replace(' ', '', $request->input('title'));
+        $story->file_name = null;
         $story->users_id = $request->input('creatorId');
         $story->albums_id = $request->input('albumId');
 
@@ -81,15 +81,16 @@ class StoryController extends Controller
      */
     public function show($patientId, $storyId)
     {
-        $story = Story::find($storyId)->first();
+        $story = Story::find($storyId);
         $responseCode = 200;
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
             'title' => $story->title,
-            'happened_at' => $story->happened_at,
+            'happenedAt' => $story->happened_at,
             'albumId' => $story->albums_id,
             'creatorId' => $story->users_id,
+            'assetSource' => $story->file_name,
             // TODO update fixture after implementation
             'favorited' => false
         ];
