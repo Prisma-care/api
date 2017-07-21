@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Story;
+use App\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class StoryAssetController extends Controller
 {
@@ -40,6 +42,17 @@ class StoryAssetController extends Controller
      */
     public function store(Request $request, $patientId, $storyId)
     {
+        try {
+            Profile::findOrFail($patientId);
+            Story::findOrFail($storyId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->json([
+                'code' => 400,
+                'message' => "There is no $failingResource resource with the provided id."
+            ]);
+        }
+
         $story = Story::find($storyId);
 
         if (!$request->hasFile('asset')) {

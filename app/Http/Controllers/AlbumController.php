@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Album;
+use App\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AlbumController extends Controller
 {
@@ -68,12 +71,37 @@ class AlbumController extends Controller
      */
     public function store(Request $request, $patientId)
     {
-        $album = new Album;
-        $album->title = $request->input('title');
-        $album->description = $request->input('description');
-        $album->profiles_id = $patientId;
+        try {
+            Profile::findOrFail($patientId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->json([
+                'code' => 400,
+                'message' => "There is no $failingResource resource with the provided id."
+            ]);
+        }
 
-        $album->save();
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:albums'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $album = new Album([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'profiles_id' => $patientId
+        ]);
+        if (!$album->save()) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'The album could not be created'
+            ]);
+        }
 
         $responseCode = 201;
         $createdAlbum = [
@@ -84,7 +112,7 @@ class AlbumController extends Controller
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/' . $patientId . '/album/' . $album->id
+                'location' => $request->url() . '/' . $album->id
             ],
             'response' => $createdAlbum
         ];
@@ -99,8 +127,18 @@ class AlbumController extends Controller
      */
     public function show($patientId, $albumId)
     {
-        $album = Album::find($albumId);
+        try {
+            Profile::findOrFail($patientId);
+            Album::findOrFail($albumId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->json([
+                'code' => 400,
+                'message' => "There is no $failingResource resource with the provided id."
+            ]);
+        }
 
+        $album = Album::find($albumId);
         $thisAlbum = [
            'id' => $album->id,
            'title' => $album->title,
