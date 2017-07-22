@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Profile;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,16 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required',
+            'lastName' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => $validator->errors()
+            ]);
+        }
         $profile = new Profile;
 
         $profile->firstname = $request->input('firstName');
@@ -67,7 +78,7 @@ class ProfileController extends Controller
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/' . $profile->id
+                'location' => $request->url() . '/' . $profile->id
             ],
             'response' => $createdPatient
         ];
@@ -82,6 +93,16 @@ class ProfileController extends Controller
      */
     public function show(Profile $patient)
     {
+        try {
+            Profile::findOrFail($patient);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->json([
+                'code' => 400,
+                'message' => "There is no $failingResource resource with the provided id."
+            ]);
+        }
+
         $patient = Profile::find($patient)->first();
         $responseCode = 200;
         $gotPatient = [

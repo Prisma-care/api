@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use App\Profile;
 use App\Story;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class StoryController extends Controller
 {
@@ -41,17 +44,42 @@ class StoryController extends Controller
      */
     public function store(Request $request, $patientId)
     {
-        $story = new Story;
-        $story->description = $request->input('description');
-        $story->title = $request->input('title') ? $request->input('title') : null;
-        $story->happened_at = $request->input('happened_at')
-            ? $request->input('happened_at')
-            : null;
-        $story->file_name = null;
-        $story->users_id = $request->input('creatorId');
-        $story->albums_id = $request->input('albumId');
+        try {
+            Profile::findOrFail($patientId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->json([
+                'code' => 400,
+                'message' => "There is no $failingResource resource with the provided id."
+            ]);
+        }
 
-        $story->save();
+        $validator = Validator::make($request->all(), [
+            'description' => 'required',
+            'creatorId' => 'required',
+            'albumId' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'code' => 400,
+                'message' => $validator->errors()
+            ]);
+        }
+
+        $story = new Story([
+            'description' => $request->input('description'),
+            'title' => $request->input('title'),
+            'happened_at' => $request->input('happened_at'),
+            'file_name' => str_replace(' ', '', $request->input('title')),
+            'users_id' => $request->input('creatorId'),
+            'albums_id' => $request->input('albumId')
+        ]);
+        if (!$story->save()) {
+            return response()->json([
+                'code' => 500,
+                'message' => 'The story could not be created'
+            ]);
+        }
 
         $responseCode = 201;
         $createdStory = [
@@ -66,7 +94,7 @@ class StoryController extends Controller
             'meta' => [
                 'code' => $responseCode,
                 'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/'. $patientId . '/story/' . $story->id
+                'location' => $request->url() . '/' . $story->id
             ],
             'response' => $createdStory
         ];
@@ -81,7 +109,19 @@ class StoryController extends Controller
      */
     public function show($patientId, $storyId)
     {
-        $story = Story::find($storyId);
+        try {
+            Profile::findOrFail($patientId);
+            Story::findOrFail($storyId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->json([
+                'code' => 400,
+                'message' => "There is no $failingResource resource with the provided id."
+            ]);
+        }
+
+        $story = Story::find($storyId)->first();
+
         $responseCode = 200;
         $gotStory = [
             'id' => $story->id,
