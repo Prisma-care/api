@@ -130,6 +130,7 @@ class StoryController extends Controller
         }
 
         $story = Story::find($storyId)->first();
+
         $responseCode = 200;
         $gotStory = [
             'id' => $story->id,
