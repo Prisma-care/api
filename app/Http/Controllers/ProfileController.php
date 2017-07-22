@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProfileController extends Controller
 {
@@ -91,10 +92,10 @@ class ProfileController extends Controller
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show(Profile $patient)
+    public function show($patientId)
     {
         try {
-            Profile::findOrFail($patient);
+            Profile::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
             return response()->json([
@@ -103,7 +104,7 @@ class ProfileController extends Controller
             ]);
         }
 
-        $patient = Profile::find($patient)->first();
+        $patient = Profile::find($patientId)->first();
         $responseCode = 200;
         $gotPatient = [
             'id' => $patient->id,

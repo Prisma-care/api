@@ -10,6 +10,15 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class StoryController extends Controller
 {
+    private $keyTranslations = array(
+        'id' => 'id',
+        'title' => 'title',
+        'description' => 'description',
+        'happenedAt' => 'happened_at',
+        'creatorId' => 'users_id',
+        'albumId' => 'albums_id'
+    );
+
     public function __construct()
     {
         $this->middleware('jwt.auth');
@@ -69,7 +78,7 @@ class StoryController extends Controller
         $story = new Story([
             'description' => $request->input('description'),
             'title' => $request->input('title'),
-            'happened_at' => $request->input('happened_at'),
+            'happened_at' => $request->input('happenedAt'),
             'file_name' => str_replace(' ', '', $request->input('title')),
             'users_id' => $request->input('creatorId'),
             'albums_id' => $request->input('albumId')
@@ -86,7 +95,7 @@ class StoryController extends Controller
             'id' => $story->id,
             'description' => $story->description,
             'title' => $story->title,
-            'happened_at' => $story->happened_at,
+            'happenedAt' => $story->happened_at,
             'albumId' => $story->albums_id,
             'creatorId' => $story->users_id
         ];
@@ -162,18 +171,54 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Story $story)
+    public function update(Request $request, $patientId, $storyId)
     {
-        $story = Story::find($story);
+        if (!$request->isMethod('PATCH')) {
+            return response()->json([
+                'code' => 405,
+                'message' => "Method not allowed"
+            ]);
+        }
 
-        $story->title = $request->input('title');
-        $story->description = $request->input('description');
-        $story->happened_at = $request->input('happened_at');
-        $story->file_name = $request->input('file_name');
-        $story->albums_id = $request->input('albums_id');
-        $story->users_id = $request->input('users_id');
+        try {
+            Profile::findOrFail($patientId);
+            Story::findOrFail($storyId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->json([
+                'code' => 400,
+                'message' => "There is no $failingResource resource with the provided id."
+            ]);
+        }
 
-        $story->save();
+        $story = Story::find($storyId);
+        $values = array_filter($request->all());
+
+        foreach (array_keys($values) as $key) {
+            $translatedKey = (isset($this->keyTranslations[$key]))
+                                ? $this->keyTranslations[$key]
+                                : null;
+            if ($translatedKey) {
+                $story[$translatedKey] = $values[$key];
+            }
+        }
+
+        if (!$story->update()) {
+            return response()->json([
+                'code' => 500,
+                'message' => "The story could not be updated"
+            ]);
+        }
+
+        $responseCode = 200;
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => []
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
@@ -182,8 +227,21 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Story $story)
+    public function destroy($patienId, $storyId)
     {
-        Story::destroy($story);
+        if (Story::destroy($storyId)) {
+            return response()->json([
+                'meta' => [
+                    'code' => 200,
+                    'message' => 'OK'
+                ],
+                'response' => []
+            ]);
+        } else {
+            return response()->json([
+                'code' => 500,
+                'message' => "The story could not be deleted"
+            ]);
+        }
     }
 }
