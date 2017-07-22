@@ -25,7 +25,13 @@ class ResponseMacroServiceProvider extends ServiceProvider
             if ($location) {
                 $response['meta']['location'] = $location;
             }
-            return Response::json($response);
+            return Response::json($response, $code);
+        });
+        Response::macro('exception', function ($message, $code) {
+            return Response::json([
+                'code' => $code,
+                'message' => $message
+            ], $code);
         });
     }
 
