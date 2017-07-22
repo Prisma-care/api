@@ -93,20 +93,12 @@ class AlbumController extends Controller
             throw new JsonException('The album could not be created', 500);
         }
 
-        $responseCode = 201;
         $createdAlbum = [
             'id' => $album->id,
             'title' => $album->title
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => $request->url() . '/' . $album->id
-            ],
-            'response' => $createdAlbum
-        ];
-        return response()->json($response, $responseCode);
+        $location = $request->url() . '/' . $album->id;
+        return response()->success($createdAlbum, 201, 'Created', $location);
     }
 
     /**
