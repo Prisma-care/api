@@ -28,7 +28,9 @@ class LoginController extends Controller
                         'code' => '200',
                         'message' => 'OK'
                     ],
-                    'token' => $token
+                    'response' => [
+                        'token' => $token
+                    ]
                 ], 200);
             }
         } catch (JWTException $e) {

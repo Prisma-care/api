@@ -6,6 +6,7 @@ use Validator;
 use App\Profile;
 use App\Exceptions\JsonException;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProfileController extends Controller
 {
@@ -89,16 +90,16 @@ class ProfileController extends Controller
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show(Profile $patient)
+    public function show($patientId)
     {
         try {
-            Profile::findOrFail($patient);
+            Profile::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
             throw new JsonException("There is no $failingResource resource with the provided id.", 400);
         }
 
-        $patient = Profile::find($patient)->first();
+        $patient = Profile::find($patientId)->first();
         $responseCode = 200;
         $gotPatient = [
             'id' => $patient->id,
