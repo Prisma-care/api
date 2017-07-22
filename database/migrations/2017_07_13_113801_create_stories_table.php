@@ -20,7 +20,6 @@ class CreateStoriesTable extends Migration
             $table->datetime('happened_at')->nullable();
             $table->string('file_name');
             $table->integer('albums_id')->unsigned();
-            $table->foreign('albums_id')->references('id')->on('albums');
             $table->integer('users_id')->unsigned();
             $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
