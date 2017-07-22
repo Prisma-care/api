@@ -133,15 +133,7 @@ class AlbumController extends Controller
             ];
         }
 
-        $responseCode = 200;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $thisAlbum
-        ];
-        return response()->json($response, $responseCode);
+        return response()->success($thisAlbum, 200, 'OK');
     }
 
     /**
@@ -197,15 +189,8 @@ class AlbumController extends Controller
                 'message' => "The album could not be updated"
             ]);
         }
-        $responseCode = 200;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => []
-        ];
-        return response()->json($response, $responseCode);
+
+        return response()->success([], 200, 'OK');
     }
 
     /**
@@ -217,13 +202,7 @@ class AlbumController extends Controller
     public function destroy($patienId, $albumId)
     {
         if (Album::destroy($albumId)) {
-            return response()->json([
-                'meta' => [
-                    'code' => 200,
-                    'message' => 'OK'
-                ],
-                'response' => []
-            ]);
+            return response()->success([], 200, 'OK');
         } else {
             return response()->json([
                 'code' => 500,

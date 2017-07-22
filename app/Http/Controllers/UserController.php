@@ -53,17 +53,12 @@ class UserController extends Controller
             throw new JsonException('Unexpected error while creating the user', 500);
         }
 
-        return response()->json([
-            'meta' => [
-                'code' => '201',
-                'message' => 'Created',
-                'location' => env('APP_URL') . '/user/ ' . $user->id
-            ],
-            'response' => [
-                'id' => $user->id,
-                'email' => $user->email
-            ]
-        ], 201);
+        $createdUser = [
+            'id' => $user->id,
+            'email' => $user->email
+        ];
+        $location = env('APP_URL') . '/user/ ' . $user->id;
+        return response()->success($createdUser, 201, 'Created', $location);
     }
 
     /**

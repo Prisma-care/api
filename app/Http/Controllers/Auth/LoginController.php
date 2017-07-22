@@ -23,15 +23,7 @@ class LoginController extends Controller
             if (! $token = JWTAuth::attempt($credentials)) {
                 throw new JsonException('Invalid credentials', 401);
             } else {
-                $response = response()->json([
-                    'meta' => [
-                        'code' => '200',
-                        'message' => 'OK'
-                    ],
-                    'response' => [
-                        'token' => $token
-                    ]
-                ], 200);
+                return response()->success(['token' => $token], 200, 'OK');
             }
         } catch (JWTException $e) {
             throw new JsonException('Unexpected error logging in the user', 500);

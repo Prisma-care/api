@@ -75,18 +75,8 @@ class StoryAssetController extends Controller
         $story->file_name = env('APP_URL') . $UPLOADS_FOLDER . $assetName;
         $story->save();
 
-        $responseCode = 201;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => $story->file_name
-            ],
-            'response' => [
-                'id' => $story->id
-            ]
-        ];
-        return response()->json($response, $responseCode);
+        $location = $story->file_name;
+        return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
 
     /**

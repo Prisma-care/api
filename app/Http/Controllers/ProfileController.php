@@ -63,7 +63,6 @@ class ProfileController extends Controller
 
         $profile->save();
 
-        $responseCode = 201;
         $createdPatient = [
             'id' => $profile->id,
             'firstName' => $profile->firstname,
@@ -73,15 +72,9 @@ class ProfileController extends Controller
             'birthPlace' => $profile->birth_location,
             'location' => $profile->location
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => $request->url() . '/' . $profile->id
-            ],
-            'response' => $createdPatient
-        ];
-        return response()->json($response, $responseCode);
+
+        $location = $request->url() . '/' . $profile->id;
+        return response()->success($createdPatient, 201, 'Created', $location);
     }
 
     /**
@@ -100,7 +93,6 @@ class ProfileController extends Controller
         }
 
         $patient = Profile::find($patientId)->first();
-        $responseCode = 200;
         $gotPatient = [
             'id' => $patient->id,
             'firstName' => $patient->firstname,
@@ -111,14 +103,8 @@ class ProfileController extends Controller
             'location' => $patient->location,
             'createdAt' => $patient->created_at
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $gotPatient
-        ];
-        return response()->json($response, $responseCode);
+
+        return response()->success($gotPatient, 200, 'OK');
     }
 
     /**

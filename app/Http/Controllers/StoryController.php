@@ -82,7 +82,6 @@ class StoryController extends Controller
             throw new JsonException('The story could not be created', 500);
         }
 
-        $responseCode = 201;
         $createdStory = [
             'id' => $story->id,
             'description' => $story->description,
@@ -91,15 +90,9 @@ class StoryController extends Controller
             'albumId' => $story->albums_id,
             'creatorId' => $story->users_id
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => $request->url() . '/' . $story->id
-            ],
-            'response' => $createdStory
-        ];
-        return response()->json($response, $responseCode);
+
+        $location = $request->url() . '/' . $story->id;
+        return response()->success($createdStory, 201, 'Created', $location);
     }
 
     /**
@@ -119,8 +112,6 @@ class StoryController extends Controller
         }
 
         $story = Story::find($storyId)->first();
-
-        $responseCode = 200;
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
@@ -132,14 +123,8 @@ class StoryController extends Controller
             // TODO update fixture after implementation
             'favorited' => false
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $gotStory
-        ];
-        return response()->json($response, $responseCode);
+
+        return response()->success($gotStory, 200, 'OK');
     }
 
     /**
@@ -199,15 +184,7 @@ class StoryController extends Controller
             ]);
         }
 
-        $responseCode = 200;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => []
-        ];
-        return response()->json($response, $responseCode);
+        return response()->success([], 200, 'OK');
     }
 
     /**
@@ -219,13 +196,7 @@ class StoryController extends Controller
     public function destroy($patienId, $storyId)
     {
         if (Story::destroy($storyId)) {
-            return response()->json([
-                'meta' => [
-                    'code' => 200,
-                    'message' => 'OK'
-                ],
-                'response' => []
-            ]);
+            return response()->success([], 200, 'OK');
         } else {
             return response()->json([
                 'code' => 500,
