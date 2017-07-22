@@ -49,15 +49,7 @@ class AlbumController extends Controller
             $allAlbums[] = $thisAlbum;
         }
 
-        $responseCode = 200;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $allAlbums
-        ];
-        return response()->json($response, $responseCode);
+        return response()->success($allAlbums, 200, 'OK');
     }
 
     /**
