@@ -83,10 +83,7 @@ class AlbumController extends Controller
             'title' => 'required|unique:albums'
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'code' => 400,
-                'message' => $validator->errors()
-            ]);
+            throw new JsonException($validator->errors(), 400);
         }
 
         $album = new Album([
@@ -95,10 +92,7 @@ class AlbumController extends Controller
             'profiles_id' => $patientId
         ]);
         if (!$album->save()) {
-            return response()->json([
-                'code' => 500,
-                'message' => 'The album could not be created'
-            ]);
+            throw new JsonException('The album could not be created', 500);
         }
 
         $responseCode = 201;
@@ -130,10 +124,7 @@ class AlbumController extends Controller
             Album::findOrFail($albumId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            throw new JsonException("There is no $failingResource resource with the provided id.", 400);
         }
 
         $album = Album::find($albumId);

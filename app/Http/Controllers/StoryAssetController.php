@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Story;
 use App\Profile;
+use App\Exceptions\JsonException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -47,24 +48,15 @@ class StoryAssetController extends Controller
             Story::findOrFail($storyId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            throw new JsonException("There is no $failingResource resource with the provided id.", 400);
         }
 
         $story = Story::find($storyId);
 
         if (!$request->hasFile('asset')) {
-            return response()->json([
-                 'code' => 400,
-                 'message' => 'No asset was provided or the form-data request was malformed'
-            ]);
+            throw new JsonException('No asset was provided or the form-data request was malformed', 400);
         } elseif (!$request->file('asset')->isValid()) {
-            return response()->json([
-                 'code' => 500,
-                 'message' => 'Asset upload failed, please try again later.'
-            ]);
+            throw new JsonException('Asset upload failed, please try again later.', 500);
         }
 
         //$this->retrieveItem('headers', $key, $default);

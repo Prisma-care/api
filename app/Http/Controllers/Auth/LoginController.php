@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use JWTAuth;
+use App\Exceptions\JsonException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use JWTAuth;
 
 class LoginController extends Controller
 {
@@ -20,10 +21,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
-                $response = response()->json([
-                    'code' => '401',
-                    'message' => 'Invalid credentials'
-                ], 401);
+                throw new JsonException('Invalid credentials', 401);
             } else {
                 $response = response()->json([
                     'meta' => [
@@ -34,10 +32,7 @@ class LoginController extends Controller
                 ], 200);
             }
         } catch (JWTException $e) {
-            $response = response()->json([
-                'code' => '500',
-                'message' => 'Unexpected error logging in the user'
-            ], 500);
+            throw new JsonException('Unexpected error logging in the user', 500);
         }
 
         return $response;

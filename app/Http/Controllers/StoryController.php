@@ -48,10 +48,7 @@ class StoryController extends Controller
             Profile::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            throw new JsonException("There is no $failingResource resource with the provided id.", 400);
         }
 
         $validator = Validator::make($request->all(), [
@@ -60,10 +57,7 @@ class StoryController extends Controller
             'albumId' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'code' => 400,
-                'message' => $validator->errors()
-            ]);
+            throw new JsonException($validators->errors(), 400);
         }
 
         $story = new Story([
@@ -75,10 +69,7 @@ class StoryController extends Controller
             'albums_id' => $request->input('albumId')
         ]);
         if (!$story->save()) {
-            return response()->json([
-                'code' => 500,
-                'message' => 'The story could not be created'
-            ]);
+            throw new JsonException('The story could not be created', 500);
         }
 
         $responseCode = 201;
@@ -114,10 +105,7 @@ class StoryController extends Controller
             Story::findOrFail($storyId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            throw new JsonException("There is no $failingResource resource with the provided id.", 400);
         }
 
         $story = Story::find($storyId)->first();
