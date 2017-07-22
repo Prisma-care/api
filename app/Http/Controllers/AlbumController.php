@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Album;
 use App\Profile;
+use App\Exceptions\JsonException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -75,10 +76,7 @@ class AlbumController extends Controller
             Profile::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            throw new JsonException("There is no $failingResource resource with the provided id.", 400);
         }
 
         $validator = Validator::make($request->all(), [
