@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Profile;
 use App\Story;
+use App\Exceptions\JsonException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
