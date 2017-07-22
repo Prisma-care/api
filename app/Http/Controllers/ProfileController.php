@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\Profile;
-use App\Exceptions\JsonException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -50,7 +49,7 @@ class ProfileController extends Controller
             'lastName' => 'required'
         ]);
         if ($validator->fails()) {
-            throw new JsonException($validator->errors(), 400);
+            return response()->exception($validator->errors(), 400);
         }
 
         $profile = new Profile;
@@ -89,7 +88,7 @@ class ProfileController extends Controller
             Profile::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            throw new JsonException("There is no $failingResource resource with the provided id.", 400);
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
         $patient = Profile::find($patientId)->first();
