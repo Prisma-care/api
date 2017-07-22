@@ -10,7 +10,7 @@ Project Prisma is part of [open Summer of Code 2017](http://2017.summerofcode.be
 - Michiel Leyman [(@MichielLeyman)](https://github.com/MichielLeyman) - backend & project management
 - Simon Westerlinck [(@siimonco)](https://github.com/siimonco) - backend
 - Jean-Pacifique Mboynincungu [(@oxnoctisxo)](https://github.com/oxnoctisxo) - frontend & system analysis
-- Thor Galle ([@th0rgall)](https://github.com/th0rgall) - frontend & user testing
+- Thor Galle [(@th0rgall)](https://github.com/th0rgall) - frontend & user testing
 
 You can find a task overview (both frontend and backend) on [on our Kanban](https://waffle.io/oSoc17/prisma-backend).
 
