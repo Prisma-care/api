@@ -241,8 +241,21 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Album $album)
+    public function destroy($patienId, $albumId)
     {
-        Album::destroy($album);
+        if (Album::destroy($albumId)) {
+            return response()->json([
+                'meta' => [
+                    'code' => 200,
+                    'message' => 'OK'
+                ],
+                'response' => []
+            ]);
+        } else {
+            return response()->json([
+                'code' => 500,
+                'message' => "The album could not be deleted"
+            ]);
+        }
     }
 }
