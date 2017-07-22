@@ -15,6 +15,12 @@ class AlbumController extends Controller
         $this->middleware('jwt.auth');
     }
 
+    private $keyTranslations = array(
+        'id' => 'id',
+        'title' => 'title',
+        'description' => 'description'
+    );
+
     /**
      * Display a listing of the resource.
      *
@@ -183,14 +189,50 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Album $album)
+    public function update(Request $request, $patientId, $albumId)
     {
-        $album = Album::find($album);
-        $album->title = $request->title;
-        $album->description = $request->description;
-        $album->profiles_id = $request->profiles_id;
+        if (!$request->isMethod('PATCH')) {
+            return response()->json([
+                'code' => 405,
+                'message' => "Method not allowed"
+            ]);
+        }
+        try {
+            Profile::findOrFail($patientId);
+            Album::findOrFail($albumId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->json([
+                'code' => 400,
+                'message' => "There is no $failingResource resource with the provided id."
+            ]);
+        }
 
-        $album->save();
+        $album = Album::find($albumId);
+        $values = array_filter($request->all());
+        foreach (array_keys($values) as $key) {
+            $translatedKey = (isset($this->keyTranslations[$key]))
+                                ? $this->keyTranslations[$key]
+                                : null;
+            if ($translatedKey) {
+                $story[$translatedKey] = $values[$key];
+            }
+        }
+        if (!$album->update()) {
+            return response()->json([
+                'code' => 500,
+                'message' => "The album could not be updated"
+            ]);
+        }
+        $responseCode = 200;
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => []
+        ];
+        return response()->json($response, $responseCode);
     }
 
     /**
