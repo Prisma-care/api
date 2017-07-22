@@ -226,8 +226,21 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Story $story)
+    public function destroy($patienId, $storyId)
     {
-        Story::destroy($story);
+        if (Story::destroy($storyId)) {
+            return response()->json([
+                'meta' => [
+                    'code' => 200,
+                    'message' => 'OK'
+                ],
+                'response' => []
+            ]);
+        } else {
+            return response()->json([
+                'code' => 500,
+                'message' => "The story could not be deleted"
+            ]);
+        }
     }
 }
