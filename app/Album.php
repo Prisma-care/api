@@ -15,7 +15,7 @@ class Album extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'profile_id',
+        'title', 'description', 'patient_id',
     ];
 
     public function stories()

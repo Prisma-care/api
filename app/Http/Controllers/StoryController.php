@@ -118,11 +118,10 @@ class StoryController extends Controller
             'description' => $story->description,
             'title' => $story->title,
             'happenedAt' => $story->happened_at,
-            'albumId' => $story->albums_id,
-            'creatorId' => $story->users_id,
-            'assetSource' => $story->file_name,
-            // TODO update fixture after implementation
-            'favorited' => false
+            'albumId' => $story->album_id,
+            'creatorId' => $story->user_id,
+            'assetSource' => $story->asset_name,
+            'favorited' => $story->favorited
         ];
 
         return response()->success($gotStory, 200, 'OK');

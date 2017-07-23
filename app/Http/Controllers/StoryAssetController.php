@@ -43,7 +43,7 @@ class StoryAssetController extends Controller
     public function store(Request $request, $patientId, $storyId)
     {
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
             Story::findOrFail($storyId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
@@ -65,16 +65,16 @@ class StoryAssetController extends Controller
 
         $extension = ($request->asset->extension())
                     ? ($request->asset->extension())
-                    : pathinfo(storage_path() .'/uploads/categories/featured_image.jpg', PATHINFO_EXTENSION);
+                    : pathinfo($request->asset, PATHINFO_EXTENSION);
          
         $assetName = $story->id . '.' . $extension;
         $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
         $request->file('asset')->move($location, $assetName);
 
-        $story->file_name = env('APP_URL') . $UPLOADS_FOLDER . $assetName;
+        $story->asset_name = env('APP_URL') . $UPLOADS_FOLDER . $assetName;
         $story->save();
 
-        $location = $story->file_name;
+        $location = $story->asset_name;
         return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
 

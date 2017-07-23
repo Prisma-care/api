@@ -70,7 +70,7 @@ class AlbumController extends Controller
     public function store(Request $request, $patientId)
     {
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
             return response()->exception("There is no $failingResource resource with the provided id.", 400);
@@ -109,7 +109,7 @@ class AlbumController extends Controller
     public function show($patientId, $albumId)
     {
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
             Album::findOrFail($albumId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());

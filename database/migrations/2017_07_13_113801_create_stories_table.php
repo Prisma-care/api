@@ -17,8 +17,8 @@ class CreateStoriesTable extends Migration
             $table->increments('id');
             $table->string('description')->nullable();
             $table->date('happened_at')->nullable();
-            $table->string('asset_name');
-            $table->string('asset_type');
+            $table->string('asset_name')->nullable();
+            $table->string('asset_type')->nullable();
             $table->boolean('favorited')->default(0);
             $table->integer('album_id')->unsigned();
             $table->integer('user_id')->unsigned();
