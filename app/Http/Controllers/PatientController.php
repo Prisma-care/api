@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PatientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = patient::all();
+        $patients = Patient::all();
 
         return $patients;
     }
@@ -37,36 +44,36 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $patient = new patient;
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required',
+            'lastName' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->exception($validator->errors(), 400);
+        }
 
-        $patient->firstname = $request->input('firstName');
-        $patient->lastname = $request->input('lastName');
-        $patient->care_house = $request->input('carehome');
-        $patient->date_of_birth = $request->input('dateOfBirth');
-        $patient->birth_location = $request->input('birthPlace');
-        $patient->location = $request->input('location');
+        $profile = new Patient;
+        $profile->firstname = $request->input('firstName');
+        $profile->lastname = $request->input('lastName');
+        $profile->care_home = $request->input('carehome');
+        $profile->date_of_birth = $request->input('dateOfBirth');
+        $profile->birth_place = $request->input('birthPlace');
+        $profile->location = $request->input('location');
 
         $patient->save();
 
-        $responseCode = 201;
         $createdPatient = [
             'id' => $patient->id,
             'firstName' => $patient->firstname,
             'lastName' => $patient->lastname,
             'carehome' => $patient->care_house,
             'dateOfBirth' => $patient->date_of_birth,
-            'birthPlace' => $patient->birth_location,
+            'birthPlace' => $patient->birth_place,
             'location' => $patient->location
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/' . $patient->id
-            ],
-            'response' => $createdPatient
-        ];
-        return response()->json($response, $responseCode);
+
+        $location = $request->url() . '/' . $profile->id;
+        return response()->success($createdPatient, 201, 'Created', $location);
     }
 
     /**
@@ -75,28 +82,28 @@ class PatientController extends Controller
      * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function show(patient $patient)
+    public function show($patientId)
     {
-        $patient = patient::find($patient)->first();
-        $responseCode = 200;
+        try {
+            Patient::findOrFail($patientId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
+
+        $patient = Patient::find($patientId)->first();
         $gotPatient = [
             'id' => $patient->id,
             'firstName' => $patient->firstname,
             'lastName' => $patient->lastname,
-            'carehome' => $patient->care_house,
+            'carehome' => $patient->care_home,
             'dateOfBirth' => $patient->date_of_birth,
-            'birthPlace' => $patient->birth_location,
+            'birthPlace' => $patient->birth_place,
             'location' => $patient->location,
             'createdAt' => $patient->created_at
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $gotPatient
-        ];
-        return response()->json($response, $responseCode);
+
+        return response()->success($gotPatient, 200, 'OK');
     }
 
     /**
@@ -119,15 +126,7 @@ class PatientController extends Controller
      */
     public function update(Request $request, patient $patient)
     {
-        $patient = patient::find($patient);
-        $patient->firstname = $request->firstname;
-        $patient->lastname = $request->lastname;
-        $patient->date_of_birth = $request->date_of_birth;
-        $patient->birth_location = $request->birth_location;
-        $patient->location = $request->location;
-        $patient->care_house = $request->care_house;
-
-        $patient->save();
+        //
     }
 
     /**
@@ -138,6 +137,6 @@ class PatientController extends Controller
      */
     public function destroy(patient $patient)
     {
-        patient::destroy($patient);
+        //
     }
 }

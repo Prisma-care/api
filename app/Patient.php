@@ -20,7 +20,7 @@ class Patient extends Model
 
     public function albums()
     {
-    	return $this->hasMany('App\Album');
+        return $this->hasMany('App\Album');
     }
 
     public function relations()

@@ -20,6 +20,6 @@ class Category extends Model
 
     public function heritage()
     {
-    	return $this->belongsToMany('App\Heritage');
+        return $this->belongsToMany('App\Heritage');
     }
 }

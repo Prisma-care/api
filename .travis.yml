@@ -5,7 +5,7 @@ sudo: false
 services:
 - mysql
 addons:
-  ssh_known_hosts: $APP_ADDRESS
+  ssh_known_hosts: 146.185.145.169
 before_install:
 - openssl aes-256-cbc -K $encrypted_54f5af2fecf1_key -iv $encrypted_54f5af2fecf1_iv
   -in ci/deploy_rsa.enc -out ci/deploy_rsa -d
@@ -17,9 +17,9 @@ before_script:
 - php artisan migrate
 script:
 - vendor/bin/phpunit
-after_success:
-- rm .env
 before_deploy:
+- rm .env
+- php artisan jwt:generate > /dev/null
 - openssl aes-256-cbc -K $encrypted_54f5af2fecf1_key -iv $encrypted_54f5af2fecf1_iv -in ci/deploy_rsa.enc -out /tmp/deploy_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
@@ -27,7 +27,7 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: rsync -rtgoP --quiet $TRAVIS_BUILD_DIR/ ci@$APP_ADDRESS:$BUILD_PATH
+  script: rsync -rtgoP --quiet $TRAVIS_BUILD_DIR/ ci@146.185.145.169:$BUILD_PATH
   on:
     branch: master
 after_deploy: ssh-agent -k

@@ -20,7 +20,7 @@ class Album extends Model
 
     public function stories()
     {
-    	return $this->hasMany('App\Story');
+        return $this->hasMany('App\Story');
     }
 
     public function albums()
@@ -32,5 +32,4 @@ class Album extends Model
     {
         return $this->belongsTo('App\Patient');
     }
-
 }

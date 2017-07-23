@@ -14,9 +14,16 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::resource('user', 'UserController', [
+        'only' => ['store', 'show', 'update']
+    ]);
+
+    Route::post('user/signin', [
+       'as' => 'signin', 'uses' => 'Auth\LoginController@signin'
+    ]);
+    Route::post('user/signout', [
+       'as' => 'signout', 'uses' => 'Auth\LogoutController@signout'
+    ]);
 
     Route::resource('patient', 'ProfileController', [
         'only' => ['store', 'show']
@@ -26,8 +33,11 @@ Route::group(['prefix' => 'v1'], function () {
         'except' => ['edit', 'create']
     ]);
 
-    Route::resource('story', 'StoryController', [
-        'except' => ['edit', 'create']
+    Route::resource('patient.story', 'StoryController', [
+        'except' => ['index', 'edit', 'create']
     ]);
-    Route::post('story/{id}/asset', 'StoryController@upload');
+
+    Route::resource('patient.story.asset', 'StoryAssetController', [
+       'only' => ['store', 'show', 'update']
+    ]);
 });
