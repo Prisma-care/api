@@ -38,14 +38,19 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
+            'firstName' => 'required',
+            'lastName' => 'required'
         ]);
 
         $user = new User([
             'email' => $request->input('email'),
             // TODO split these after updating the migration
-            'name' => $request->input('firstName') . ' ' . $request->input('lastName'),
-            'password' => Hash::make($request->input('password'))
+            'password' => Hash::make($request->input('password')),
+            'first_name' => $request->input('firstName'),
+            'last_name' => $request->input('lastName'),
+            'date_of_birth' => $request->input('dateOfBirth'),
+            'birth_place' => $request->input('birthPlace')
         ]);
 
         if (!$user->save()) {
@@ -56,7 +61,7 @@ class UserController extends Controller
             'id' => $user->id,
             'email' => $user->email
         ];
-        $location = env('APP_URL') . '/user/ ' . $user->id;
+        $location = $request->url() . '/' . $user->id;
         return response()->success($createdUser, 201, 'Created', $location);
     }
 
