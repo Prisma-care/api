@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\Album;
-use App\Profile;
+use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -70,7 +70,7 @@ class AlbumController extends Controller
     public function store(Request $request, $patientId)
     {
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
             return response()->exception("There is no $failingResource resource with the provided id.", 400);
@@ -86,7 +86,7 @@ class AlbumController extends Controller
         $album = new Album([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'profiles_id' => $patientId
+            'patient_id' => $patientId
         ]);
         if (!$album->save()) {
             return response()->exception('The album could not be created', 500);
@@ -109,7 +109,7 @@ class AlbumController extends Controller
     public function show($patientId, $albumId)
     {
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
             Album::findOrFail($albumId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
@@ -160,7 +160,7 @@ class AlbumController extends Controller
         }
 
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
             Album::findOrFail($albumId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());

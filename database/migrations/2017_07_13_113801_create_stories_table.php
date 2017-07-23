@@ -15,13 +15,14 @@ class CreateStoriesTable extends Migration
     {
         Schema::create('stories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->nullable();
-            $table->text('description');
-            $table->datetime('happened_at')->nullable();
-            $table->string('file_name');
-            $table->integer('albums_id')->unsigned();
-            $table->integer('users_id')->unsigned();
-            $table->foreign('users_id')->references('id')->on('users');
+            $table->string('description')->nullable();
+            $table->date('happened_at')->nullable();
+            $table->string('asset_name')->nullable();
+            $table->string('asset_type')->nullable();
+            $table->boolean('favorited')->default(0);
+            $table->integer('album_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

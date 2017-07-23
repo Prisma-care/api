@@ -17,8 +17,8 @@ class CreateAlbumsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('description')->nullable();
-            $table->integer('profiles_id')->unsigned();
-            $table->foreign('profiles_id')->references('id')->on('profiles');
+            $table->integer('patient_id')->unsigned();
+            $table->foreign('patient_id')->references('id')->on('patients');
             $table->timestamps();
         });
     }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Validator;
-use App\Profile;
 use App\Story;
+use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -15,8 +15,8 @@ class StoryController extends Controller
         'title' => 'title',
         'description' => 'description',
         'happenedAt' => 'happened_at',
-        'creatorId' => 'users_id',
-        'albumId' => 'albums_id'
+        'creatorId' => 'user_id',
+        'albumId' => 'album_id'
     );
 
     public function __construct()
@@ -54,7 +54,7 @@ class StoryController extends Controller
     public function store(Request $request, $patientId)
     {
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
             return response()->exception("There is no $failingResource resource with the provided id.", 400);
@@ -73,9 +73,11 @@ class StoryController extends Controller
             'description' => $request->input('description'),
             'title' => $request->input('title'),
             'happened_at' => $request->input('happenedAt'),
-            'file_name' => str_replace(' ', '', $request->input('title')),
-            'users_id' => $request->input('creatorId'),
-            'albums_id' => $request->input('albumId')
+            'asset_name' => str_replace(' ', '', $request->input('title')),
+            // NYI
+            'asset_type' => null,
+            'user_id' => $request->input('creatorId'),
+            'album_id' => $request->input('albumId')
         ]);
         if (!$story->save()) {
             return response()->exception('The story could not be created', 500);
@@ -103,7 +105,7 @@ class StoryController extends Controller
     public function show($patientId, $storyId)
     {
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
             Story::findOrFail($storyId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
@@ -116,11 +118,10 @@ class StoryController extends Controller
             'description' => $story->description,
             'title' => $story->title,
             'happenedAt' => $story->happened_at,
-            'albumId' => $story->albums_id,
-            'creatorId' => $story->users_id,
-            'assetSource' => $story->file_name,
-            // TODO update fixture after implementation
-            'favorited' => false
+            'albumId' => $story->album_id,
+            'creatorId' => $story->user_id,
+            'assetSource' => $story->asset_name,
+            'favorited' => $story->favorited
         ];
 
         return response()->success($gotStory, 200, 'OK');
@@ -151,7 +152,7 @@ class StoryController extends Controller
         }
 
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
             Story::findOrFail($storyId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());

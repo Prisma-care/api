@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Validator;
-use App\Profile;
+use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class ProfileController extends Controller
+class PatientController extends Controller
 {
     public function __construct()
     {
@@ -21,9 +21,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profiles = Profile::all();
+        $patients = Patient::all();
 
-        return $profiles;
+        return $patients;
     }
 
     /**
@@ -52,53 +52,57 @@ class ProfileController extends Controller
             return response()->exception($validator->errors(), 400);
         }
 
-        $profile = new Profile;
-        $profile->firstname = $request->input('firstName');
-        $profile->lastname = $request->input('lastName');
-        $profile->care_house = $request->input('carehome');
-        $profile->date_of_birth = $request->input('dateOfBirth');
-        $profile->birth_location = $request->input('birthPlace');
-        $profile->location = $request->input('location');
+        $patient = new Patient([
+            'first_name' => $request->input('firstName'),
+            'last_name' => $request->input('lastName'),
+            'care_home' => $request->input('careHome'),
+            'date_of_birth' => $request->input('dateOfBirth'),
+            // NYI
+            'birth_place' => $request->input('birthPlace'),
+            'location' => $request->input('location')
+        ]);
 
-        $profile->save();
+        if (!$patient->save()) {
+            return response()->exception('The patient could not be created', 500);
+        }
 
         $createdPatient = [
-            'id' => $profile->id,
-            'firstName' => $profile->firstname,
-            'lastName' => $profile->lastname,
-            'carehome' => $profile->care_house,
-            'dateOfBirth' => $profile->date_of_birth,
-            'birthPlace' => $profile->birth_location,
-            'location' => $profile->location
+            'id' => $patient->id,
+            'firstName' => $patient->first_name,
+            'lastName' => $patient->last_name,
+            'careHome' => $patient->care_home,
+            'dateOfBirth' => $patient->date_of_birth,
+            'birthPlace' => $patient->birth_place,
+            'location' => $patient->location
         ];
 
-        $location = $request->url() . '/' . $profile->id;
+        $location = $request->url() . '/' . $patient->id;
         return response()->success($createdPatient, 201, 'Created', $location);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
     public function show($patientId)
     {
         try {
-            Profile::findOrFail($patientId);
+            Patient::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
             return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
-        $patient = Profile::find($patientId)->first();
+        $patient = Patient::find($patientId)->first();
         $gotPatient = [
             'id' => $patient->id,
-            'firstName' => $patient->firstname,
-            'lastName' => $patient->lastname,
-            'carehome' => $patient->care_house,
+            'firstName' => $patient->first_name,
+            'lastName' => $patient->last_name,
+            'carehome' => $patient->care_home,
             'dateOfBirth' => $patient->date_of_birth,
-            'birthPlace' => $patient->birth_location,
+            'birthPlace' => $patient->birth_place,
             'location' => $patient->location,
             'createdAt' => $patient->created_at
         ];
@@ -109,10 +113,10 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profile $profile)
+    public function edit(patient $patient)
     {
         //
     }
@@ -121,30 +125,22 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Profile  $profile
+     * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profile $profile)
+    public function update(Request $request, patient $patient)
     {
-        $profile = Profile::find($profile);
-        $profile->firstname = $request->firstname;
-        $profile->lastname = $request->lastname;
-        $profile->date_of_birth = $request->date_of_birth;
-        $profile->birth_location = $request->birth_location;
-        $profile->location = $request->location;
-        $profile->care_house = $request->care_house;
-
-        $profile->save();
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Profile  $profile
+     * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Profile $profile)
+    public function destroy(patient $patient)
     {
-        Profile::destroy($profile);
+        //
     }
 }

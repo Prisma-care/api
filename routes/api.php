@@ -25,7 +25,7 @@ Route::group(['prefix' => 'v1'], function () {
        'as' => 'signout', 'uses' => 'Auth\LogoutController@signout'
     ]);
 
-    Route::resource('patient', 'ProfileController', [
+    Route::resource('patient', 'PatientController', [
         'only' => ['store', 'show']
     ]);
 

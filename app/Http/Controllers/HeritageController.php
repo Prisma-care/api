@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Heritage;
 
-class UserController extends Controller
+class HeritageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $heritage = Heritage::all();
     }
 
     /**
@@ -36,33 +35,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required',
-            'firstName' => 'required',
-            'lastName' => 'required'
-        ]);
-
-        $user = new User([
-            'email' => $request->input('email'),
-            // TODO split these after updating the migration
-            'password' => Hash::make($request->input('password')),
-            'first_name' => $request->input('firstName'),
-            'last_name' => $request->input('lastName'),
-            'date_of_birth' => $request->input('dateOfBirth'),
-            'birth_place' => $request->input('birthPlace')
-        ]);
-
-        if (!$user->save()) {
-            return response()->exception('Unexpected error while creating the user', 500);
-        }
-
-        $createdUser = [
-            'id' => $user->id,
-            'email' => $user->email
-        ];
-        $location = $request->url() . '/' . $user->id;
-        return response()->success($createdUser, 201, 'Created', $location);
+        //
     }
 
     /**
@@ -71,9 +44,27 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(heritage $heritage)
     {
-        //
+        $heritage = Heritage::find($heritage)->first();
+        $responseCode = 200;
+        $gotHeritage = [
+            'id' => $heritage->id,
+            'filename' => $heritage->filename,
+            'title' => $heritage->title,
+            'description' => $heritage->description,
+            'happened_in' => $heritage->happened_in,
+        ];
+
+        $response = [
+            'meta' => [
+                'code' => $responseCode,
+                'message' => 'OK'
+            ],
+            'response' => $gotHeritage
+        ];
+
+        return response()->json($response,$responseCode);
     }
 
     /**
