@@ -14,7 +14,7 @@ class AddOndeleteCascadeToStories extends Migration
     public function up()
     {
         Schema::table('stories', function (Blueprint $table) {
-            $table->foreign('albums_id')->references('id')->on('albums')->onDelete('cascade');
+            $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
         });
     }
 
