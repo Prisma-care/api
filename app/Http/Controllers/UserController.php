@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\User;
 
 class UserController extends Controller
 {
@@ -48,24 +48,16 @@ class UserController extends Controller
             'password' => Hash::make($request->input('password'))
         ]);
 
-        if ($user->save()) {
-            return response()->json([
-                'meta' => [
-                    'code' => '201',
-                    'message' => 'Created',
-                    'location' => env('APP_URL') . '/user/ ' . $user->id
-                ],
-                'response' => [
-                    'id' => $user->id,
-                    'email' => $user->email
-                ]
-            ], 201);
+        if (!$user->save()) {
+            return response()->exception('Unexpected error while creating the user', 500);
         }
 
-        return response()->json([
-            'code' => '500',
-            'message' => 'Unexpected error while creating the user'
-        ], 500);
+        $createdUser = [
+            'id' => $user->id,
+            'email' => $user->email
+        ];
+        $location = env('APP_URL') . '/user/ ' . $user->id;
+        return response()->success($createdUser, 201, 'Created', $location);
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use Exception;
-use App\Exceptions\JsonException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -45,12 +44,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($request->expectsJson() && $exception instanceof JsonException) {
-            return response()->json([
-                'code' => $exception->code,
-                'message' => $exception->message
-            ], $exception->code);
-        }
         return parent::render($request, $exception);
     }
 

@@ -57,10 +57,7 @@ class StoryController extends Controller
             Profile::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
         $validator = Validator::make($request->all(), [
@@ -69,10 +66,7 @@ class StoryController extends Controller
             'albumId' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'code' => 400,
-                'message' => $validator->errors()
-            ]);
+            return response()->exception($validators->errors(), 400);
         }
 
         $story = new Story([
@@ -84,13 +78,9 @@ class StoryController extends Controller
             'albums_id' => $request->input('albumId')
         ]);
         if (!$story->save()) {
-            return response()->json([
-                'code' => 500,
-                'message' => 'The story could not be created'
-            ]);
+            return response()->exception('The story could not be created', 500);
         }
 
-        $responseCode = 201;
         $createdStory = [
             'id' => $story->id,
             'description' => $story->description,
@@ -99,15 +89,9 @@ class StoryController extends Controller
             'albumId' => $story->albums_id,
             'creatorId' => $story->users_id
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => $request->url() . '/' . $story->id
-            ],
-            'response' => $createdStory
-        ];
-        return response()->json($response, $responseCode);
+
+        $location = $request->url() . '/' . $story->id;
+        return response()->success($createdStory, 201, 'Created', $location);
     }
 
     /**
@@ -123,15 +107,10 @@ class StoryController extends Controller
             Story::findOrFail($storyId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
         $story = Story::find($storyId)->first();
-
-        $responseCode = 200;
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
@@ -143,14 +122,8 @@ class StoryController extends Controller
             // TODO update fixture after implementation
             'favorited' => false
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $gotStory
-        ];
-        return response()->json($response, $responseCode);
+
+        return response()->success($gotStory, 200, 'OK');
     }
 
     /**
@@ -174,10 +147,7 @@ class StoryController extends Controller
     public function update(Request $request, $patientId, $storyId)
     {
         if (!$request->isMethod('PATCH')) {
-            return response()->json([
-                'code' => 405,
-                'message' => "Method not allowed"
-            ]);
+            return response()->exception("Method not allowed", 405);
         }
 
         try {
@@ -185,10 +155,7 @@ class StoryController extends Controller
             Story::findOrFail($storyId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
         $story = Story::find($storyId);
@@ -204,21 +171,10 @@ class StoryController extends Controller
         }
 
         if (!$story->update()) {
-            return response()->json([
-                'code' => 500,
-                'message' => "The story could not be updated"
-            ]);
+            return response()->exception("The story could not be updated", 500);
         }
 
-        $responseCode = 200;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => []
-        ];
-        return response()->json($response, $responseCode);
+        return response()->success([], 200, 'OK');
     }
 
     /**
@@ -230,18 +186,9 @@ class StoryController extends Controller
     public function destroy($patienId, $storyId)
     {
         if (Story::destroy($storyId)) {
-            return response()->json([
-                'meta' => [
-                    'code' => 200,
-                    'message' => 'OK'
-                ],
-                'response' => []
-            ]);
+            return response()->success([], 200, 'OK');
         } else {
-            return response()->json([
-                'code' => 500,
-                'message' => "The story could not be deleted"
-            ]);
+            return response()->exception("The story could not be deleted", 500);
         }
     }
 }

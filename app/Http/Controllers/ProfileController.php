@@ -49,13 +49,10 @@ class ProfileController extends Controller
             'lastName' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'code' => 400,
-                'message' => $validator->errors()
-            ]);
+            return response()->exception($validator->errors(), 400);
         }
-        $profile = new Profile;
 
+        $profile = new Profile;
         $profile->firstname = $request->input('firstName');
         $profile->lastname = $request->input('lastName');
         $profile->care_house = $request->input('carehome');
@@ -65,7 +62,6 @@ class ProfileController extends Controller
 
         $profile->save();
 
-        $responseCode = 201;
         $createdPatient = [
             'id' => $profile->id,
             'firstName' => $profile->firstname,
@@ -75,15 +71,9 @@ class ProfileController extends Controller
             'birthPlace' => $profile->birth_location,
             'location' => $profile->location
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => $request->url() . '/' . $profile->id
-            ],
-            'response' => $createdPatient
-        ];
-        return response()->json($response, $responseCode);
+
+        $location = $request->url() . '/' . $profile->id;
+        return response()->success($createdPatient, 201, 'Created', $location);
     }
 
     /**
@@ -98,14 +88,10 @@ class ProfileController extends Controller
             Profile::findOrFail($patientId);
         } catch (ModelNotFoundException $e) {
             $failingResource = class_basename($e->getModel());
-            return response()->json([
-                'code' => 400,
-                'message' => "There is no $failingResource resource with the provided id."
-            ]);
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
         $patient = Profile::find($patientId)->first();
-        $responseCode = 200;
         $gotPatient = [
             'id' => $patient->id,
             'firstName' => $patient->firstname,
@@ -116,14 +102,8 @@ class ProfileController extends Controller
             'location' => $patient->location,
             'createdAt' => $patient->created_at
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $gotPatient
-        ];
-        return response()->json($response, $responseCode);
+
+        return response()->success($gotPatient, 200, 'OK');
     }
 
     /**
