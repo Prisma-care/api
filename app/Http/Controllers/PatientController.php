@@ -52,27 +52,31 @@ class PatientController extends Controller
             return response()->exception($validator->errors(), 400);
         }
 
-        $profile = new Patient;
-        $profile->firstname = $request->input('firstName');
-        $profile->lastname = $request->input('lastName');
-        $profile->care_home = $request->input('carehome');
-        $profile->date_of_birth = $request->input('dateOfBirth');
-        $profile->birth_place = $request->input('birthPlace');
-        $profile->location = $request->input('location');
+        $patient = new Patient([
+            'first_name' => $request->input('firstName'),
+            'last_name' => $request->input('lastName'),
+            'care_home' => $request->input('careHome'),
+            'date_of_birth' => $request->input('dateOfBirth'),
+            // NYI
+            'birth_place' => $request->input('birthPlace'),
+            'location' => $request->input('location')
+        ]);
 
-        $patient->save();
+        if (!$patient->save()) {
+            return response()->exception('The patient could not be created', 500);
+        }
 
         $createdPatient = [
             'id' => $patient->id,
-            'firstName' => $patient->firstname,
-            'lastName' => $patient->lastname,
-            'carehome' => $patient->care_house,
+            'firstName' => $patient->first_name,
+            'lastName' => $patient->last_name,
+            'careHome' => $patient->care_home,
             'dateOfBirth' => $patient->date_of_birth,
             'birthPlace' => $patient->birth_place,
             'location' => $patient->location
         ];
 
-        $location = $request->url() . '/' . $profile->id;
+        $location = $request->url() . '/' . $patient->id;
         return response()->success($createdPatient, 201, 'Created', $location);
     }
 
@@ -94,8 +98,8 @@ class PatientController extends Controller
         $patient = Patient::find($patientId)->first();
         $gotPatient = [
             'id' => $patient->id,
-            'firstName' => $patient->firstname,
-            'lastName' => $patient->lastname,
+            'firstName' => $patient->first_name,
+            'lastName' => $patient->last_name,
             'carehome' => $patient->care_home,
             'dateOfBirth' => $patient->date_of_birth,
             'birthPlace' => $patient->birth_place,

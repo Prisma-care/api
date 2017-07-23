@@ -15,7 +15,7 @@ class Patient extends Model
      * @var array
      */
     protected $fillable = [
-        'firstname','lastname','date_of_birth','birth_location','location','care_house',
+        'first_name', 'last_name', 'date_of_birth', 'birth_place', 'location', 'care_home'
     ];
 
     public function albums()
