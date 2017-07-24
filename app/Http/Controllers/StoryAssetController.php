@@ -76,6 +76,8 @@ class StoryAssetController extends Controller
         $story->save();
 
         $location = $story->asset_name;
+
+        resize($story->id, $extension);
         return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
 
@@ -124,8 +126,21 @@ class StoryAssetController extends Controller
         //
     }
 
-    public function resize($image)
+    public function resize($id, $ext)
     {
+        //get url
+        $PUBLIC_DIR = '/public';
+        $UPLOADS_FOLDER = '/img/storyUploads/';
+        $fileUrl = '../' . $PUBLIC_DIR . $UPLOADS_FOLDER;
 
+        //load original file
+        $img = Image::make($fileUrl . $id . '.' . $ext)
+
+        //make thumbs
+        $img->fit(500,500);
+        
+        //save thumbnail as new file
+        $newName = $id . '_thumb.' . $ext;
+        $img->save($fileUrl . $newName);
     }
 }
