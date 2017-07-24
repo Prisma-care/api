@@ -40,4 +40,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::resource('patient.story.asset', 'StoryAssetController', [
        'only' => ['store', 'show', 'update']
     ]);
+
+    Route::match(['link'], 'patient/{patientId}/connection', 'ConnectionController@connect');
 });
