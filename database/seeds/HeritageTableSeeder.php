@@ -191,7 +191,7 @@ class HeritageTableSeeder extends Seeder
         $heritage->categories()->sync([8,9]);
 
         $heritage = Heritage::create([
-            'asset_name' => 'nutella.jpg',
+            'asset_name' => '21.jpg',
             'asset_type' => 'image',
             'description' => 'Pietro Ferrero maakte een pasta bestaande uit hazelnoten, suiker en een snuifje cacao. Dit werd uitgebracht onder de naam SuperCrema, nu beter bekend als Nutella.',
             'happened_at' => '14 mei 1946',
@@ -199,7 +199,7 @@ class HeritageTableSeeder extends Seeder
         $heritage->categories()->sync([1,10]);
 
         $heritage = Heritage::create([
-            'asset_name' => 'mcdonalds.jpg',
+            'asset_name' => '22.jpg',
             'asset_type' => 'image',
             'description' => 'Het eerste McDonald fastfoodketen restaurant werd geopend naast de Monrovia luchthaven in LA, US',
             'happened_at' => '1937',
@@ -207,7 +207,7 @@ class HeritageTableSeeder extends Seeder
         $heritage->categories()->sync([10]);
 
         $heritage = Heritage::create([
-            'asset_name' => 'borstbollen.jpg',
+            'asset_name' => '23.jpg',
             'asset_type' => 'image',
             'description' => 'Camille Wyckmans maakte de eerste borstbollen op basis van een regionaal recept. Aanvankelijk verkocht hij ze enkel thuis in zijn eigen kruidenierswinkel maar dit werd vlug uitgebreid naar grotere locaties.',
             'happened_at' => '1946',
