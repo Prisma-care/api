@@ -6,6 +6,7 @@ use App\Story;
 use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Image;
 
 class StoryAssetController extends Controller
 {
@@ -121,5 +122,10 @@ class StoryAssetController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function resize($image)
+    {
+
     }
 }
