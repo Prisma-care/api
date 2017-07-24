@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ConnectionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
      /**
      * Connect a user with a patient.
      *
