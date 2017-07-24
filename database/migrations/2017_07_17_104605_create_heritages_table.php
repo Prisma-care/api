@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHeritageTable extends Migration
+class CreateHeritagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateHeritageTable extends Migration
      */
     public function up()
     {
-        Schema::create('heritage', function (Blueprint $table) {
+        Schema::create('heritages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('filename')->nullable();
-            $table->string('title');
-            $table->string('description')->nullable();
-            $table->date('happened_in')->nullable();
+            $table->string('asset_name');
+            $table->string('asset_type');
+            $table->string('description', 1000);
+            $table->string('happened_at')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateHeritageTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('heritage');
+        Schema::dropIfExists('heritages');
     }
 }
