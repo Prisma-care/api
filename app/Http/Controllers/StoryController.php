@@ -2,11 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Story;
+use App\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class StoryController extends Controller
 {
+    private $keyTranslations = array(
+        'id' => 'id',
+        'title' => 'title',
+        'description' => 'description',
+        'happenedAt' => 'happened_at',
+        'creatorId' => 'user_id',
+        'albumId' => 'album_id'
+    );
+
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,36 +53,47 @@ class StoryController extends Controller
      */
     public function store(Request $request, $patientId)
     {
-        $story = new Story;
-        $story->description = $request->input('description');
-        $story->title = $request->input('title') ? $request->input('title') : null;
-        $story->happened_at = $request->input('happened_at')
-            ? $request->input('happened_at')
-            : null;
-        $story->file_name = null;
-        $story->users_id = $request->input('creatorId');
-        $story->albums_id = $request->input('albumId');
+        try {
+            Patient::findOrFail($patientId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
 
-        $story->save();
+        $validator = Validator::make($request->all(), [
+            'description' => 'required',
+            'creatorId' => 'required',
+            'albumId' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->exception($validators->errors(), 400);
+        }
 
-        $responseCode = 201;
+        $story = new Story([
+            'description' => $request->input('description'),
+            'title' => $request->input('title'),
+            'happened_at' => $request->input('happenedAt'),
+            'asset_name' => str_replace(' ', '', $request->input('title')),
+            // NYI
+            'asset_type' => null,
+            'user_id' => $request->input('creatorId'),
+            'album_id' => $request->input('albumId')
+        ]);
+        if (!$story->save()) {
+            return response()->exception('The story could not be created', 500);
+        }
+
         $createdStory = [
             'id' => $story->id,
             'description' => $story->description,
             'title' => $story->title,
-            'happened_at' => $story->happened_at,
+            'happenedAt' => $story->happened_at,
             'albumId' => $story->albums_id,
             'creatorId' => $story->users_id
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/'. $patientId . '/story/' . $story->id
-            ],
-            'response' => $createdStory
-        ];
-        return response()->json($response, $responseCode);
+
+        $location = $request->url() . '/' . $story->id;
+        return response()->success($createdStory, 201, 'Created', $location);
     }
 
     /**
@@ -76,27 +104,27 @@ class StoryController extends Controller
      */
     public function show($patientId, $storyId)
     {
-        $story = Story::find($storyId);
-        $responseCode = 200;
+        try {
+            Patient::findOrFail($patientId);
+            Story::findOrFail($storyId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
+
+        $story = Story::find($storyId)->first();
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
             'title' => $story->title,
             'happenedAt' => $story->happened_at,
-            'albumId' => $story->albums_id,
-            'creatorId' => $story->users_id,
-            'assetSource' => $story->file_name,
-            // TODO update fixture after implementation
-            'favorited' => false
+            'albumId' => $story->album_id,
+            'creatorId' => $story->user_id,
+            'assetSource' => $story->asset_name,
+            'favorited' => $story->favorited
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $gotStory
-        ];
-        return response()->json($response, $responseCode);
+
+        return response()->success($gotStory, 200, 'OK');
     }
 
     /**
@@ -117,18 +145,37 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Story $story)
+    public function update(Request $request, $patientId, $storyId)
     {
-        $story = Story::find($story);
+        if (!$request->isMethod('PATCH')) {
+            return response()->exception("Method not allowed", 405);
+        }
 
-        $story->title = $request->input('title');
-        $story->description = $request->input('description');
-        $story->happened_at = $request->input('happened_at');
-        $story->file_name = $request->input('file_name');
-        $story->albums_id = $request->input('albums_id');
-        $story->users_id = $request->input('users_id');
+        try {
+            Patient::findOrFail($patientId);
+            Story::findOrFail($storyId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
 
-        $story->save();
+        $story = Story::find($storyId);
+        $values = array_filter($request->all());
+
+        foreach (array_keys($values) as $key) {
+            $translatedKey = (isset($this->keyTranslations[$key]))
+                                ? $this->keyTranslations[$key]
+                                : null;
+            if ($translatedKey) {
+                $story[$translatedKey] = $values[$key];
+            }
+        }
+
+        if (!$story->update()) {
+            return response()->exception("The story could not be updated", 500);
+        }
+
+        return response()->success([], 200, 'OK');
     }
 
     /**
@@ -137,8 +184,12 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Story $story)
+    public function destroy($patienId, $storyId)
     {
-        Story::destroy($story);
+        if (Story::destroy($storyId)) {
+            return response()->success([], 200, 'OK');
+        } else {
+            return response()->exception("The story could not be deleted", 500);
+        }
     }
 }

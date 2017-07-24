@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Profile extends Model
+class Relation extends Model
 {
     use Notifiable;
 
@@ -15,11 +15,17 @@ class Profile extends Model
      * @var array
      */
     protected $fillable = [
-        'firstname','lastname','date_of_birth','birth_location','location','care_house',
+        'type',
     ];
 
-    public function albums()
+    public function users()
     {
-    	return $this->hasMany('App\Album');
+        return $this->belongsToMany('App\User');
     }
+
+    public function patients()
+    {
+        return $this->belongsToMany('App\Patient');
+    }
+
 }

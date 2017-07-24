@@ -2,11 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Album;
+use App\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AlbumController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
+    private $keyTranslations = array(
+        'id' => 'id',
+        'title' => 'title',
+        'description' => 'description'
+    );
+
     /**
      * Display a listing of the resource.
      *
@@ -34,15 +48,7 @@ class AlbumController extends Controller
             $allAlbums[] = $thisAlbum;
         }
 
-        $responseCode = 200;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $allAlbums
-        ];
-        return response()->json($response, $responseCode);
+        return response()->success($allAlbums, 200, 'OK');
     }
 
     /**
@@ -63,27 +69,35 @@ class AlbumController extends Controller
      */
     public function store(Request $request, $patientId)
     {
-        $album = new Album;
-        $album->title = $request->input('title');
-        $album->description = $request->input('description');
-        $album->profiles_id = $patientId;
+        try {
+            Patient::findOrFail($patientId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
 
-        $album->save();
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:albums'
+        ]);
+        if ($validator->fails()) {
+            return response()->exception($validator->errors(), 400);
+        }
 
-        $responseCode = 201;
+        $album = new Album([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'patient_id' => $patientId
+        ]);
+        if (!$album->save()) {
+            return response()->exception('The album could not be created', 500);
+        }
+
         $createdAlbum = [
             'id' => $album->id,
             'title' => $album->title
         ];
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => env('APP_URL') . '/patient/' . $patientId . '/album/' . $album->id
-            ],
-            'response' => $createdAlbum
-        ];
-        return response()->json($response, $responseCode);
+        $location = $request->url() . '/' . $album->id;
+        return response()->success($createdAlbum, 201, 'Created', $location);
     }
 
     /**
@@ -94,8 +108,15 @@ class AlbumController extends Controller
      */
     public function show($patientId, $albumId)
     {
-        $album = Album::find($albumId);
+        try {
+            Patient::findOrFail($patientId);
+            Album::findOrFail($albumId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
 
+        $album = Album::find($albumId);
         $thisAlbum = [
            'id' => $album->id,
            'title' => $album->title,
@@ -111,15 +132,7 @@ class AlbumController extends Controller
             ];
         }
 
-        $responseCode = 200;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'OK'
-            ],
-            'response' => $thisAlbum
-        ];
-        return response()->json($response, $responseCode);
+        return response()->success($thisAlbum, 200, 'OK');
     }
 
     /**
@@ -140,14 +153,35 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Album $album)
+    public function update(Request $request, $patientId, $albumId)
     {
-        $album = Album::find($album);
-        $album->title = $request->title;
-        $album->description = $request->description;
-        $album->profiles_id = $request->profiles_id;
+        if (!$request->isMethod('PATCH')) {
+            return response()->exception('Method not allowed', 405);
+        }
 
-        $album->save();
+        try {
+            Patient::findOrFail($patientId);
+            Album::findOrFail($albumId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
+
+        $album = Album::find($albumId);
+        $values = array_filter($request->all());
+        foreach (array_keys($values) as $key) {
+            $translatedKey = (isset($this->keyTranslations[$key]))
+                                ? $this->keyTranslations[$key]
+                                : null;
+            if ($translatedKey) {
+                $story[$translatedKey] = $values[$key];
+            }
+        }
+        if (!$album->update()) {
+            return response()->exception('The album could not be updated', 500);
+        }
+
+        return response()->success([], 200, 'OK');
     }
 
     /**
@@ -156,8 +190,12 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Album $album)
+    public function destroy($patienId, $albumId)
     {
-        Album::destroy($album);
+        if (Album::destroy($albumId)) {
+            return response()->success([], 200, 'OK');
+        } else {
+            return response()->exception('The album could not be deleted', 500);
+        }
     }
 }

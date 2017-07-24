@@ -15,6 +15,10 @@ class CreateHeritagesTable extends Migration
     {
         Schema::create('heritages', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('asset_name');
+            $table->string('asset_type');
+            $table->string('description', 1000);
+            $table->string('happened_at')->nullable();
             $table->timestamps();
         });
     }

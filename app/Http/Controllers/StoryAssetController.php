@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Story;
+use App\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class StoryAssetController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,18 +42,20 @@ class StoryAssetController extends Controller
      */
     public function store(Request $request, $patientId, $storyId)
     {
+        try {
+            Patient::findOrFail($patientId);
+            Story::findOrFail($storyId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
+
         $story = Story::find($storyId);
 
         if (!$request->hasFile('asset')) {
-            return response()->json([
-                 'code' => 400,
-                 'message' => 'No asset was provided or the form-data request was malformed'
-            ]);
+            return response()->exception('No asset was provided or the form-data request was malformed', 400);
         } elseif (!$request->file('asset')->isValid()) {
-            return response()->json([
-                 'code' => 500,
-                 'message' => 'Asset upload failed, please try again later.'
-            ]);
+            return response()->exception('Asset upload failed, please try again later.', 500);
         }
 
         //$this->retrieveItem('headers', $key, $default);
@@ -56,27 +65,17 @@ class StoryAssetController extends Controller
 
         $extension = ($request->asset->extension())
                     ? ($request->asset->extension())
-                    : pathinfo(storage_path() .'/uploads/categories/featured_image.jpg', PATHINFO_EXTENSION);
+                    : pathinfo($request->asset, PATHINFO_EXTENSION);
          
         $assetName = $story->id . '.' . $extension;
         $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
         $request->file('asset')->move($location, $assetName);
 
-        $story->file_name = env('APP_URL') . $UPLOADS_FOLDER . $assetName;
+        $story->asset_name = env('APP_URL') . $UPLOADS_FOLDER . $assetName;
         $story->save();
 
-        $responseCode = 201;
-        $response = [
-            'meta' => [
-                'code' => $responseCode,
-                'message' => 'Created',
-                'location' => $story->file_name
-            ],
-            'response' => [
-                'id' => $story->id
-            ]
-        ];
-        return response()->json($response, $responseCode);
+        $location = $story->asset_name;
+        return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
 
     /**
