@@ -28,8 +28,8 @@ class ConnectionController extends Controller
         if ($patient->users->contains($userId)) {
             return response()->exception('The patient and user are already connected', 400);
         }
+
         $patient->users()->attach($userId);
-        // return response()->exception('The patient and user could not be connected', 500);
         return response()->success([], 200, 'OK');
     }
 
@@ -54,8 +54,8 @@ class ConnectionController extends Controller
         if (!$patient->users->contains($userId)) {
             return response()->exception('The patient and user are not connected', 400);
         }
+
         $patient->users()->detach($userId);
-        // return response()->exception('The patient and user could not be disconnected', 500);
         return response()->success([], 200, 'OK');
     }
 }
