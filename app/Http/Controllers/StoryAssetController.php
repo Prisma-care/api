@@ -77,7 +77,7 @@ class StoryAssetController extends Controller
 
         $location = $story->asset_name;
 
-        resize($story->id, $extension);
+        $this->resize($story->id, $extension);
         return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
 
@@ -134,10 +134,10 @@ class StoryAssetController extends Controller
         $fileUrl = '../' . $PUBLIC_DIR . $UPLOADS_FOLDER;
 
         //load original file
-        $img = Image::make($fileUrl . $id . '.' . $ext)
+        $img = Image::make($fileUrl . $id . '.' . $ext);
 
         //make thumbs
-        $img->fit(500,500);
+        $img->fit(500, 500);
         
         //save thumbnail as new file
         $newName = $id . '_thumb.' . $ext;
