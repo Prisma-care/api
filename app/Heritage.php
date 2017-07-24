@@ -15,11 +15,11 @@ class Heritage extends Model
      * @var array
      */
     protected $fillable = [
-        'filename', 'title', 'description',
+        'asset_name','asset_type', 'description', 'happened_at'
     ];
 
     public function categories()
     {
-        return $this->belongsToMany('App\Category');
+        return $this->belongsToMany('App\Category')->withTimestamps();
     }
 }
