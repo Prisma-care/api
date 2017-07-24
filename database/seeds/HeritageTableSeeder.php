@@ -117,7 +117,7 @@ class HeritageTableSeeder extends Seeder
         	'description' => 'Wielerwedstrijd Brussel-Izegem gewonnen door L. Vandaele. Deze foto maakt deel uit van de collectie van persfotograaf Maurice Terryn, die Izegem portretteerde vanaf de jaren 1950 tot eind de jaren 1990. De volledige collectie (meer dan 35.000 negatieven) werd door Stad Izegem aangekocht.',
         	'happened_at' => '1968',
         	]);
-        $heritage->categories()->sync([5]);
+        $heritage->categories()->sync([3, 5]);
         
         $heritage = Heritage::create(
         	[
@@ -126,7 +126,7 @@ class HeritageTableSeeder extends Seeder
         	'description' => 'Bezoek Koning Boudewijn en Koningin Fabiola',
         	'happened_at' => '3 juli 1964',
         	]);
-        $heritage->categories()->sync([6]);
+        $heritage->categories()->sync([3,6]);
         
         $heritage = Heritage::create(
         	[
@@ -153,7 +153,7 @@ class HeritageTableSeeder extends Seeder
         	'description' => 'Godshuis Lichtervelde. Doordat tijdens de Eerste Wereldoorlog de klaslokalen werden opgeëist door de Duitsers, kregen de jongens in Lichtervelde les in kamertjes van het godshuis.',
         	'happened_at' => '1968',
         	]);
-        $heritage->categories()->sync([7]);
+        $heritage->categories()->sync([3,7]);
         
         $heritage = Heritage::create(
         	[
@@ -171,7 +171,7 @@ class HeritageTableSeeder extends Seeder
         	'description' => 'Postkaart van de Hofmolen te Lichtervelde uitgegeven door Sintobin-Yperman.  Deze molen was wellicht de oudste van Lichtervelde en verdween toen hij helemaal op het einde van de Eerste Wereldoorlog opgeblazen werd door de wegtrekkende Duitse troepen.  De laatste uitbater was Boutte, vandaar dat men ook spreekt van Bouttens molen.',
         	'happened_at' => '1954',
         	]);
-        $heritage->categories()->sync([7]);
+        $heritage->categories()->sync([2,7]);
 
         $heritage = Heritage::create(
         	[
@@ -190,5 +190,28 @@ class HeritageTableSeeder extends Seeder
         	]);
         $heritage->categories()->sync([8,9]);
 
+        $heritage = Heritage::create([
+            'asset_name' => 'nutella.jpg',
+            'asset_type' => 'image',
+            'description' => 'Pietro Ferrero maakte een pasta bestaande uit hazelnoten, suiker en een snuifje cacao. Dit werd uitgebracht onder de naam SuperCrema, nu beter bekend als Nutella.',
+            'happened_at' => '14 mei 1946',
+            ]);
+        $heritage->categories()->sync([1,10]);
+
+        $heritage = Heritage::create([
+            'asset_name' => 'mcdonalds.jpg',
+            'asset_type' => 'image',
+            'description' => 'Het eerste McDonald fastfoodketen restaurant werd geopend naast de Monrovia luchthaven in LA, US',
+            'happened_at' => '1937',
+            ]);
+        $heritage->categories()->sync([10]);
+
+        $heritage = Heritage::create([
+            'asset_name' => 'borstbollen.jpg',
+            'asset_type' => 'image',
+            'description' => 'Camille Wyckmans maakte de eerste borstbollen op basis van een regionaal recept. Aanvankelijk verkocht hij ze enkel thuis in zijn eigen kruidenierswinkel maar dit werd vlug uitgebreid naar grotere locaties.',
+            'happened_at' => '1946',
+            ]);
+        $heritage->categories()->sync([1,10]);
     }
 }
