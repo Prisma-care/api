@@ -17,7 +17,7 @@ class CreateCategoryHeritageTable extends Migration
             $table->increments('id');
             $table->integer('heritage_id')->unsigned();
             $table->foreign('heritage_id')->references('id')->on('heritages');
-            $table->integer('category_id')->unisnged();
+            $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
