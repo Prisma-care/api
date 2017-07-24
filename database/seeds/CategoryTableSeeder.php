@@ -40,6 +40,9 @@ class CategoryTableSeeder extends Seeder
         	[
         	'name' => 'Roeselare'
         	],
+            [
+            'name' => 'Voeding'
+            ]
         ];
 
         foreach($categories as $category){
