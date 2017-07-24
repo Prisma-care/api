@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use JWTAuth;
 use App\Patient;
 use Illuminate\Http\Request;
 
@@ -22,8 +23,7 @@ class ConnectionController extends Controller
             return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
-        // TODO make dynamic by getting from JWT Auth token
-        $userId = 1;
+        $userId = JWTAuth::parseToken()->authenticate()->id;
         $patient = Patient::find($patientId);
         if ($patient->users->contains($userId)) {
             return response()->exception('The patient and user are already connected', 400);
@@ -48,8 +48,7 @@ class ConnectionController extends Controller
             return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
-        // TODO make dynamic by getting from JWT Auth token
-        $userId = 1;
+        $userId = JWTAuth::parseToken()->authenticate()->id;
         $patient = Patient::find($patientId);
         if (!$patient->users->contains($userId)) {
             return response()->exception('The patient and user are not connected', 400);
