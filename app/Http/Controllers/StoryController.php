@@ -15,6 +15,7 @@ class StoryController extends Controller
         'title' => 'title',
         'description' => 'description',
         'happenedAt' => 'happened_at',
+        'favorited' => 'favorited',
         'creatorId' => 'user_id',
         'albumId' => 'album_id'
     );
