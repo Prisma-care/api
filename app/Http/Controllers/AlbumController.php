@@ -50,7 +50,7 @@ class AlbumController extends Controller
                     'id' => $story->id,
                     'description' => $story->description,
                     'type' => '',
-                    'source' => $story->file_name
+                    'source' => $story->asset_name
                 ];
             }
             $allAlbums[] = $thisAlbum;
@@ -136,7 +136,7 @@ class AlbumController extends Controller
                 'id' => $story->id,
                 'description' => $story->description,
                 'type' => '',
-                'source' => $story->file_name
+                'source' => $story->asset_name
             ];
         }
 
