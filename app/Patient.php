@@ -64,7 +64,7 @@ class Patient extends Model
         foreach ($heritageData as $heritage) {
             $story = Story::create([
                 'description' => ($heritage->description) ?: "",
-                'asset_name' => $heritage->asset_name,
+                'asset_name' => env('APP_URL') . '/storage/heritage/' . $heritage->asset_name,
                 'asset_type' > $heritage->asset_type,
                 // TODO The user id should be user named Prisma or System
                 'user_id' => 1,
