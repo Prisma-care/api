@@ -66,6 +66,8 @@ class PatientController extends Controller
             return response()->exception('The patient could not be created', 500);
         }
 
+        $patient->prepopulate();
+
         $createdPatient = [
             'id' => $patient->id,
             'firstName' => $patient->first_name,
