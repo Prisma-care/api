@@ -24,11 +24,19 @@ class AlbumController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  int $patiendId
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($patientId)
     {
-        $albums = Album::all();
+        try {
+            Patient::findOrFail($patientId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
+
+        $albums = Patient::find($patientId)->albums;
         $allAlbums = [];
         foreach ($albums as $album) {
             $thisAlbum = [
