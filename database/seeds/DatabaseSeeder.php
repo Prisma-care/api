@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Heritage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +14,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
         $this->call(HeritageTableSeeder::class);
-
+        $this->call(UsersTableSeeder::class);
     }
 }
