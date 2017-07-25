@@ -112,7 +112,7 @@ class StoryController extends Controller
             return response()->exception("There is no $failingResource resource with the provided id.", 400);
         }
 
-        $story = Story::find($storyId)->first();
+        $story = Story::find($storyId);
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
