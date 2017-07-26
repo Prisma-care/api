@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="#">Coming soon</a>
+                    <a href="#">API version {{ config('app.version') }}</a>
                 </div>
             </div>
         </div>
