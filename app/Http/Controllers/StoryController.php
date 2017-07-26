@@ -86,8 +86,8 @@ class StoryController extends Controller
             'id' => $story->id,
             'description' => $story->description,
             'happenedAt' => $story->happened_at,
-            'albumId' => $story->albums_id,
-            'creatorId' => $story->users_id
+            'albumId' => $story->album_id,
+            'creatorId' => $story->user_id
         ];
 
         $location = $request->url() . '/' . $story->id;

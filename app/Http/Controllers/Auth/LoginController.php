@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use JWTAuth;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -22,9 +23,14 @@ class LoginController extends Controller
             if (! $token = JWTAuth::attempt($credentials)) {
                 return response()->exception('Invalid credentials', 401);
             } else {
-                return response()->success(['token' => $token], 200, 'OK');
+                $userId = Auth::user()->id;
+                return response()->success([
+                    'id' => $userId,
+                    'token' => $token
+                ], 200, 'OK');
             }
         } catch (JWTException $e) {
+            return response()->exception($e->getMessage(), 500);
             return response()->exception('Unexpected error while logging in the user', 500);
         }
 
