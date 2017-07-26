@@ -35,7 +35,8 @@ deploy:
     branch: master
 after_deploy: ssh-agent -k
 notifications:
-  email: false
+  email:
+    on_failure: always
 branches:
   only:
   - master

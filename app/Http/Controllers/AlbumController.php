@@ -50,6 +50,7 @@ class AlbumController extends Controller
                     'id' => $story->id,
                     'description' => $story->description,
                     'type' => '',
+                    'favorited' => $story->favorited,
                     'source' => $story->asset_name
                 ];
             }
@@ -136,6 +137,7 @@ class AlbumController extends Controller
                 'id' => $story->id,
                 'description' => $story->description,
                 'type' => '',
+                'favorited' => $story->favorited,
                 'source' => $story->asset_name
             ];
         }

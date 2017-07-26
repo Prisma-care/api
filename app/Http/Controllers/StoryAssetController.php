@@ -76,7 +76,7 @@ class StoryAssetController extends Controller
         $story->save();
 
         $location = $story->asset_name;
-      
+
         $this->resize($story->id, $extension);
         return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
