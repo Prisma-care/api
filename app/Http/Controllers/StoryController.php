@@ -12,7 +12,6 @@ class StoryController extends Controller
 {
     private $keyTranslations = array(
         'id' => 'id',
-        'title' => 'title',
         'description' => 'description',
         'happenedAt' => 'happened_at',
         'favorited' => 'favorited',
@@ -72,9 +71,8 @@ class StoryController extends Controller
 
         $story = new Story([
             'description' => $request->input('description'),
-            'title' => $request->input('title'),
             'happened_at' => $request->input('happenedAt'),
-            'asset_name' => str_replace(' ', '', $request->input('title')),
+            'asset_name' => null,
             // NYI
             'asset_type' => null,
             'user_id' => $request->input('creatorId'),
@@ -87,10 +85,9 @@ class StoryController extends Controller
         $createdStory = [
             'id' => $story->id,
             'description' => $story->description,
-            'title' => $story->title,
             'happenedAt' => $story->happened_at,
-            'albumId' => $story->albums_id,
-            'creatorId' => $story->users_id
+            'albumId' => $story->album_id,
+            'creatorId' => $story->user_id
         ];
 
         $location = $request->url() . '/' . $story->id;
@@ -117,7 +114,6 @@ class StoryController extends Controller
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
-            'title' => $story->title,
             'happenedAt' => $story->happened_at,
             'albumId' => $story->album_id,
             'creatorId' => $story->user_id,
@@ -161,8 +157,7 @@ class StoryController extends Controller
         }
 
         $story = Story::find($storyId);
-        $values = array_filter($request->all());
-
+        $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
                                 ? $this->keyTranslations[$key]
@@ -171,7 +166,6 @@ class StoryController extends Controller
                 $story[$translatedKey] = $values[$key];
             }
         }
-
         if (!$story->update()) {
             return response()->exception("The story could not be updated", 500);
         }
