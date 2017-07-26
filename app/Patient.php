@@ -75,8 +75,8 @@ class Patient extends Model
             $story = Story::create([
                 'description' => ($heritage->description) ?: "",
                 'asset_name' => env('APP_URL') . '/storage/heritage/' . $heritage->asset_name,
-                'asset_type' > $heritage->asset_type,
-                // TODO The user id should be user named Prisma or System
+                'asset_type' => $heritage->asset_type,
+                'is_heritage' => true,
                 'user_id' => 1,
                 'album_id' => $albumId
             ]);
