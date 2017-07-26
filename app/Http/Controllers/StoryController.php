@@ -158,7 +158,6 @@ class StoryController extends Controller
 
         $story = Story::find($storyId);
         $values = $request->all();
-        $keys = [];
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
                                 ? $this->keyTranslations[$key]
