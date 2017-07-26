@@ -57,7 +57,10 @@ class Patient extends Model
             $heritage = $category->heritage;
             $this->createStoriesFromHeritage($heritage, $album->id);
         }
-        $empties = ['Kindertijd', 'Huwelijk'];
+        $empties = [
+            'Kindertijd', 'Opleiding en werk', 'De liefde',
+            'Familie en vrienden', 'Vrije tijd', 'Vakanties'
+        ];
         foreach ($empties as $emptyAlbum) {
             $album = Album::create([
                 'title' => $emptyAlbum,
