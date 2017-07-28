@@ -12,10 +12,26 @@ class UserTest extends TestCase
 {
 	private $token;
 
+	public function testSignup()
+	{
+		$requestBody = [
+			'firstName' => 'User',
+			'lastName' => 'Test',
+		    'email' => 'testing@prisma.care',
+		    'password' => '123'
+		];
+		$response = $this->json('POST', 'v1/user', $requestBody)
+		     ->assertJsonStructure([
+		         'meta' => [ 'code', 'message', 'location' ],
+		         'response' => [ 'id', 'email' ]
+		     ])
+		     ->assertStatus(201);
+	}
+
    	public function testSignin()
 	{
 		$requestBody = [
-		    'email' => 'michiel.leyman@gmail.com',
+		    'email' => 'testing@prisma.care',
 		    'password' => '123'
 		];
 		$response = $this->json('POST', 'v1/user/signin', $requestBody)
