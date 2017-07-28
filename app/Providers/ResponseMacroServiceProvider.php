@@ -29,8 +29,11 @@ class ResponseMacroServiceProvider extends ServiceProvider
         });
         Response::macro('exception', function ($message, $code) {
             return Response::json([
-                'code' => $code,
-                'message' => $message
+                'meta' => [
+                    'code' => $code,
+                    'message' => $message
+                ],
+                'response' => []
             ], $code);
         });
     }
