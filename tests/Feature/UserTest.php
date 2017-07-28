@@ -10,15 +10,20 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
-	private $token;
+	public function setUp()
+	{
+		parent::setUp();
+		$this->artisan('migrate:refresh');
+	    $this->artisan('db:seed', ['--class' => 'TestDatabaseSeeder']);
+	}
 
 	public function testSignup()
 	{
 		$requestBody = [
 			'firstName' => 'User',
 			'lastName' => 'Test',
-		    'email' => 'testing@prisma.care',
-		    'password' => '123'
+		    'email' => 'unique@prisma.care',
+		    'password' => 'unique@prisma.care'
 		];
 		$response = $this->json('POST', 'v1/user', $requestBody)
 		     ->assertJsonStructure([
@@ -32,7 +37,7 @@ class UserTest extends TestCase
 	{
 		$requestBody = [
 		    'email' => 'testing@prisma.care',
-		    'password' => '123'
+		    'password' => 'testing@prisma.care'
 		];
 		$response = $this->json('POST', 'v1/user/signin', $requestBody)
 		     ->assertJsonStructure([

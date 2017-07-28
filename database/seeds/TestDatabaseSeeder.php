@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Production\UsersTableSeeder;
 
-class DatabaseSeeder extends Seeder
+class TestDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UsersTableSeeder::class);
+        $this->call(TestUsersTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
         $this->call(HeritageTableSeeder::class);
     }
