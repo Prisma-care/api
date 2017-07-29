@@ -9,6 +9,11 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    protected $exceptionResponseStructure = [
+		'meta' => [ 'code', 'message' ],
+		'response' => []
+    ];
+
     public function setUp()
 	{
 		parent::setUp();

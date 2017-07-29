@@ -34,10 +34,7 @@ class SignupTest extends TestCase
 			$request = $this->baseRequest;
 			unset($request[$key]);
 			$response = $this->json('POST', 'v1/user', $request)
-		     ->assertJsonStructure([
-		         'meta' => [ 'code', 'message' ],
-		         'response' => []
-		     ])
+		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 		}
 	}
@@ -47,10 +44,7 @@ class SignupTest extends TestCase
 		$request = $this->baseRequest;
 		$request['email'] = 'signpu@prisma';
 		$response = $this->json('POST', 'v1/user', $request)
-		     ->assertJsonStructure([
-		         'meta' => [ 'code', 'message' ],
-		         'response' => []
-		     ])
+		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 	}
 
@@ -59,10 +53,7 @@ class SignupTest extends TestCase
 		$request = $this->baseRequest;
 		$request['email'] = 'testing@prisma.care';
 		$response = $this->json('POST', 'v1/user', $request)
-		     ->assertJsonStructure([
-		         'meta' => [ 'code', 'message' ],
-		         'response' => []
-		     ])
+		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 	}
 }
