@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 
 use JWTAuth;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -21,7 +20,7 @@ class SigninTest extends TestCase
 
 	public function testSignin()
 	{
-		$response = $this->json('POST', $this->endpoint, $this->baseRequest)
+		$response = $this->postJson($this->endpoint, $this->baseRequest)
 		     ->assertJsonStructure([
 		         'meta' => [ 'code', 'message' ],
 		         'response' => [ 'id', 'token' ]
@@ -36,27 +35,27 @@ class SigninTest extends TestCase
 
 	public function testSigninWithInvalidEmail()
 	{
-		$request = $this->baseRequest;
-		$request['email'] = 'invalid';
-		$response = $this->json('POST', $this->endpoint, $request)
+		$body = $this->baseRequest;
+		$body['email'] = 'invalid';
+		$response = $this->postJson($this->endpoint, $body)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 	}
 
 	public function testSigninWithUnregisteredEmail()
 	{
-		$request = $this->baseRequest;
-		$request['email'] = 'nonexistent@prisma.care';
-		$response = $this->json('POST', $this->endpoint, $request)
+		$body = $this->baseRequest;
+		$body['email'] = 'nonexistent@prisma.care';
+		$response = $this->postJson($this->endpoint, $body)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(401);
 	}
 
 	public function testSigninWithInvalidPassword()
 	{
-		$request = $this->baseRequest;
-		$request['password'] = 'invalid';
-		$response = $this->json('POST', $this->endpoint, $request)
+		$body = $this->baseRequest;
+		$body['password'] = 'invalid';
+		$response = $this->postJson($this->endpoint, $body)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(401);
 	}
