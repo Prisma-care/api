@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
+use JWTAuth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -23,7 +26,12 @@ class SigninTest extends TestCase
 		         'meta' => [ 'code', 'message' ],
 		         'response' => [ 'id', 'token' ]
 		     ])
-		     ->assertStatus(200);
+		     ->assertStatus(200)
+		     ->getData();
+		$userId = $response->response->id;
+		if (Auth::user()->id !== $userId) {
+	        $this->fail('User was not really logged in after request');
+	    }
 	}
 
 	public function testSigninWithInvalidEmail()
