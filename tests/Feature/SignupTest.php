@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SignupTest extends TestCase
 {
+	private $endpoint = 'v1/user';
 	private $baseRequest = [
 		'firstName' => 'Signup',
 		'lastName' => 'Test',
@@ -19,7 +20,7 @@ class SignupTest extends TestCase
 
 	public function testSignup()
 	{
-		$response = $this->json('POST', 'v1/user', $this->baseRequest)
+		$response = $this->json('POST', $this->endpoint, $this->baseRequest)
 		     ->assertJsonStructure([
 		         'meta' => [ 'code', 'message', 'location' ],
 		         'response' => [ 'id', 'email' ]
@@ -33,7 +34,7 @@ class SignupTest extends TestCase
 		foreach ($requiredKeys as $key) {
 			$request = $this->baseRequest;
 			unset($request[$key]);
-			$response = $this->json('POST', 'v1/user', $request)
+			$response = $this->json('POST', $this->endpoint, $request)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 		}
@@ -43,7 +44,7 @@ class SignupTest extends TestCase
 	{
 		$request = $this->baseRequest;
 		$request['email'] = 'signup@prisma';
-		$response = $this->json('POST', 'v1/user', $request)
+		$response = $this->json('POST', $this->endpoint, $request)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 	}
@@ -52,7 +53,7 @@ class SignupTest extends TestCase
 	{
 		$request = $this->baseRequest;
 		$request['email'] = 'testing@prisma.care';
-		$response = $this->json('POST', 'v1/user', $request)
+		$response = $this->json('POST', $this->endpoint, $request)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 	}
