@@ -4,7 +4,7 @@ use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class TestUsersTableSeeder extends Seeder
+class UserTestTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
