@@ -42,7 +42,7 @@ class SignupTest extends TestCase
 	public function testSignupWithInvalidEmail()
 	{
 		$request = $this->baseRequest;
-		$request['email'] = 'signpu@prisma';
+		$request['email'] = 'signup@prisma';
 		$response = $this->json('POST', 'v1/user', $request)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
