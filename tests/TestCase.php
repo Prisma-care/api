@@ -38,4 +38,13 @@ abstract class TestCase extends BaseTestCase
 		$this->headers['HTTP_Authorization'] = 'Bearer ' . $token;
 		$this->refreshApplication();
 	}
+
+	/**
+     * Returns everything after the third slash in a string
+     * So for URL 'https://localhost/v1/something/1', it returns 'v1/something/1'
+     */
+	protected function parseResourceLocation($location)
+	{
+		return substr($location, (strpos($location, '/', strpos($location, '/') + 2) + 1));
+	}
 }
