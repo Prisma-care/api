@@ -11,6 +11,15 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class PatientTest extends TestCase
 {
     private $endpoint = 'v1/patient';
+    private $baseObject = [
+    	'id' => null,
+		'firstName' => 'Patient',
+		'lastName' => 'Testing',
+	    'careHome' => null,
+	    'dateOfBirth' => null,
+	    'birthPlace' => null,
+	    'location' => null
+	];
 
  	public function setUp()
     {
@@ -28,8 +37,32 @@ class PatientTest extends TestCase
 
     public function testGetPatient()
 	{
-		$this->refreshApplication();
 		$response = $this->getJson($this->endpoint . '/1', $this->headers)
+			->assertJsonStructure([
+		         'meta' => $this->metaResponseStructure,
+		         'response' => array_keys($this->baseObject)
+		     ])
 		    ->assertStatus(200);
 	}
+
+	public function testGetPatientWithInvalidId()
+	{
+		$response = $this->getJson($this->endpoint . '/0', $this->headers)
+			->assertJsonStructure($this->exceptionResponseStructure)
+		    ->assertStatus(400);
+	}
+
+	public function testCreatePatient()
+	{
+		$body = $this->baseObject;
+		unset($body['id']);
+		$response = $this->postJson($this->endpoint, $body, $this->headers)
+			->assertJsonStructure([
+		         'meta' => $this->metaCreatedResponseStructure,
+		         'response' => array_keys($this->baseObject)
+		     ])
+		    ->assertStatus(201);
+	}
+
+
 }

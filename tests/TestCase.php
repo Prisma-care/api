@@ -11,12 +11,13 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    protected $metaResponseStructure = ['code', 'message'];
+    protected $metaCreatedResponseStructure = ['code', 'message', 'location'];
     protected $exceptionResponseStructure = [
-		'meta' => [ 'code', 'message'],
+		'meta' => ['code', 'message'],
 		'response' => []
     ];
 
-    protected $params = [];
     protected $headers = [
 	    'HTTP_Authorization' => 'Bearer <token>'
     ];
@@ -35,5 +36,6 @@ abstract class TestCase extends BaseTestCase
 		}
 		$token = JWTAuth::fromUser($user);
 		$this->headers['HTTP_Authorization'] = 'Bearer ' . $token;
+		$this->refreshApplication();
 	}
 }
