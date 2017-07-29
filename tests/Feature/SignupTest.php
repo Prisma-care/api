@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class SignupTest extends TestCase
 {
 	private $endpoint = 'v1/user';
-	private $baseRequest = [
+	private $baseObject = [
 		'firstName' => 'Signup',
 		'lastName' => 'Test',
 	    'email' => 'signup@test.com',
@@ -20,9 +20,9 @@ class SignupTest extends TestCase
 
 	public function testSignup()
 	{
-		$response = $this->json('POST', $this->endpoint, $this->baseRequest)
+		$response = $this->postJson($this->endpoint, $this->baseObject)
 		     ->assertJsonStructure([
-		         'meta' => [ 'code', 'message', 'location' ],
+		         'meta' => $this->metaCreatedResponseStructure,
 		         'response' => [ 'id', 'email' ]
 		     ])
 		     ->assertStatus(201);
@@ -32,9 +32,9 @@ class SignupTest extends TestCase
 	{
 		$requiredKeys = [ 'firstName', 'lastName', 'email', 'password'];
 		foreach ($requiredKeys as $key) {
-			$request = $this->baseRequest;
-			unset($request[$key]);
-			$response = $this->json('POST', $this->endpoint, $request)
+			$body = $this->baseObject;
+			unset($body[$key]);
+			$response = $this->postJson($this->endpoint, $body)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 		}
@@ -42,18 +42,18 @@ class SignupTest extends TestCase
 
 	public function testSignupWithInvalidEmail()
 	{
-		$request = $this->baseRequest;
-		$request['email'] = 'signup@prisma';
-		$response = $this->json('POST', $this->endpoint, $request)
+		$body = $this->baseObject;
+		$body['email'] = 'signup@prisma';
+		$response = $this->postJson($this->endpoint, $body)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 	}
 
 	public function testSignupWithTakenEmail()
 	{
-		$request = $this->baseRequest;
-		$request['email'] = 'testing@prisma.care';
-		$response = $this->json('POST', $this->endpoint, $request)
+		$body = $this->baseObject;
+		$body['email'] = 'testing@prisma.care';
+		$response = $this->postJson($this->endpoint, $body)
 		     ->assertJsonStructure($this->exceptionResponseStructure)
 		     ->assertStatus(400);
 	}
