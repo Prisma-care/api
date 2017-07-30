@@ -9,7 +9,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AlbumTest extends TestCase
 {
-    private $endpoint = 'v1/patient/1/album';
+    private $existingPatientId = 1;
+    private $baseEndpoint = 'v1/patient/{patientId}/album';
+    private $endpoint;
     private $baseObject = [
     	'id' => null,
   		'title' => 'Sports',
@@ -37,6 +39,14 @@ class AlbumTest extends TestCase
         ]
       ]
     );
+    $this->endpoint = $this->getEndpointWithValidPatientId();
+  }
+
+  private function getEndpointWithValidPatientId() {
+    return str_replace('{patientId}', $this->existingPatientId, $this->baseEndpoint);
+  }
+  private function getEndpointWithInvalidPatientId() {
+    return str_replace('{patientId}', 0, $this->baseEndpoint);
   }
 
   public function testResourceIsProtected()
@@ -59,6 +69,14 @@ class AlbumTest extends TestCase
       ->assertStatus(200);
   }
 
+  public function testIndexAlbumWithInvalidPatientId()
+  {
+    $endpoint = $this->getEndpointWithInvalidPatientId();
+    $response = $this->getJson($endpoint, $this->headers)
+      ->assertJsonStructure($this->exceptionResponseStructure)
+      ->assertStatus(400);
+  }
+
   public function testGetAlbum($location = null)
   {
     $endpoint = $this->endpoint . '/1';
@@ -74,6 +92,14 @@ class AlbumTest extends TestCase
   }
 
   public function testGetAlbumWithInvalidPatientId()
+  {
+    $endpoint = $this->getEndpointWithInvalidPatientId() . '/1';
+    $response = $this->getJson($endpoint, $this->headers)
+      ->assertJsonStructure($this->exceptionResponseStructure)
+      ->assertStatus(400);
+  }
+
+  public function testGetAlbumWithInvalidAlbumId()
   {
     $endpoint = $this->endpoint . '/0';
     $response = $this->getJson($endpoint, $this->headers)
@@ -96,8 +122,9 @@ class AlbumTest extends TestCase
 
   public function testCreateAlbumWithInvalidPatientId()
   {
+    $endpoint = $this->getEndpointWithInvalidPatientId();
     $body = [ 'title' => str_random(16) ];
-    $response = $this->postJson('v1/patient/0/album', $body, $this->headers)
+    $response = $this->postJson($endpoint, $body, $this->headers)
       ->assertJsonStructure($this->exceptionResponseStructure)
       ->assertStatus(400);
   }
