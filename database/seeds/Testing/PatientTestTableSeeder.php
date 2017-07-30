@@ -17,6 +17,6 @@ class PatientTestTableSeeder extends Seeder
             'first_name' => 'Patient',
             'last_name' => 'Testing'
         ]);
+        $patient->prepopulate();
     }
 }
-
