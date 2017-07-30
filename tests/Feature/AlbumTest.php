@@ -80,4 +80,25 @@ class AlbumTest extends TestCase
       ->assertJsonStructure($this->exceptionResponseStructure)
       ->assertStatus(400);
   }
+
+  public function testCreateAlbum()
+  {
+    $body = [ 'title' => str_random(16) ];
+    $response = $this->postJson($this->endpoint, $body, $this->headers)
+      ->assertJsonStructure([
+        'meta' => $this->metaCreatedResponseStructure,
+        'response' => [ 'id', 'title' ]
+      ])
+      ->assertStatus(201)
+      ->getData();
+    $this->testGetAlbum($response->meta->location);
+  }
+
+  public function testCreateAlbumWithInvalidPatientId()
+  {
+    $body = [ 'title' => str_random(16) ];
+    $response = $this->postJson('v1/patient/0/album', $body, $this->headers)
+      ->assertJsonStructure($this->exceptionResponseStructure)
+      ->assertStatus(400);
+  }
 }

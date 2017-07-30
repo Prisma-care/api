@@ -16,5 +16,6 @@ class TestDatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         $this->call(UserTestTableSeeder::class);
         $this->call(PatientTestTableSeeder::class);
+        $this->call(AlbumTestTableSeeder::class);
     }
 }
