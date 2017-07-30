@@ -128,4 +128,37 @@ class AlbumTest extends TestCase
       ->assertJsonStructure($this->exceptionResponseStructure)
       ->assertStatus(400);
   }
+
+  public function testCreateAlbumWithTakenTitle()
+  {
+    $body = [ 'title' => 'Taken' ];
+    $response = $this->postJson($this->endpoint, $body, $this->headers)
+      ->assertJsonStructure($this->exceptionResponseStructure)
+      ->assertStatus(400);
+  }
+
+  public function testUpdateAlbum()
+  {
+    $album = \App\Album::create(['title' => str_random(20), 'patient_id' => 1]);
+    $endpoint = $this->endpoint . '/' . $album->id;
+    $newTitle = str_random(20);
+    $response = $this->patchJson($endpoint, ['title' => $newTitle], $this->headers)
+      ->assertJsonStructure([
+        'meta' => $this->metaResponseStructure,
+        'response' => []
+      ])
+      ->assertStatus(200);
+    $album = \App\Album::find($album->id);
+    $this->assertEquals($album->title, $newTitle);
+  }
+
+  public function testDeleteAlbum()
+  {
+    $response = $this->deleteJson($this->endpoint . '/1', [], $this->headers)
+      ->assertJsonStructure([
+        'meta' => $this->metaResponseStructure,
+        'response' => []
+      ])
+      ->assertStatus(200);
+  }
 }
