@@ -66,7 +66,7 @@ class StoryController extends Controller
             'albumId' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->exception($validators->errors(), 400);
+            return response()->exception($validator->errors(), 400);
         }
 
         $story = new Story([
@@ -87,7 +87,8 @@ class StoryController extends Controller
             'description' => $story->description,
             'happenedAt' => $story->happened_at,
             'albumId' => $story->album_id,
-            'creatorId' => $story->user_id
+            'creatorId' => $story->user_id,
+            'favorited' => false
         ];
 
         $location = $request->url() . '/' . $story->id;

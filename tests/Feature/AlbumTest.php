@@ -24,7 +24,7 @@ class AlbumTest extends TestCase
           'source' => 'A source'
         ]
       ]
-	];
+	  ];
   private $objectStructure;
 
  	public function setUp()
