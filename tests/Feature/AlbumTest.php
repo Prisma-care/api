@@ -47,6 +47,18 @@ class AlbumTest extends TestCase
 		    ->assertStatus(401);
 	}
 
+  public function testIndexAlbum()
+  {
+    $response = $this->getJson($this->endpoint, $this->headers)
+      ->assertJsonStructure([
+        'meta' => $this->metaResponseStructure,
+        'response' => [
+            '*' => $this->baseObjectStructure
+          ]
+      ])
+      ->assertStatus(200);
+  }
+
   public function testGetAlbum($location = null)
   {
     $endpoint = $this->endpoint . '/1';
@@ -59,5 +71,13 @@ class AlbumTest extends TestCase
         'response' => $this->baseObjectStructure
       ])
       ->assertStatus(200);
+  }
+
+  public function testGetAlbumWithInvalidPatientId()
+  {
+    $endpoint = $this->endpoint . '/0';
+    $response = $this->getJson($endpoint, $this->headers)
+      ->assertJsonStructure($this->exceptionResponseStructure)
+      ->assertStatus(400);
   }
 }
