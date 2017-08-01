@@ -102,7 +102,7 @@ class PatientController extends Controller
             'id' => $patient->id,
             'firstName' => $patient->first_name,
             'lastName' => $patient->last_name,
-            'carehome' => $patient->care_home,
+            'careHome' => $patient->care_home,
             'dateOfBirth' => $patient->date_of_birth,
             'birthPlace' => $patient->birth_place,
             'location' => $patient->location,

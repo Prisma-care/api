@@ -4,7 +4,7 @@ use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class UsersTableSeeder extends Seeder
+class UserTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
     {
         $user = User::create([
             'email' => "noreply@prisma.care",
-            'password' => Hash::make(str_random(8)),
+            'password' => Hash::make(str_random(20)),
             'first_name' => 'Prisma',
             'last_name' => 'System'
         ]);

@@ -178,13 +178,13 @@ class AlbumController extends Controller
         }
 
         $album = Album::find($albumId);
-        $values = array_filter($request->all());
+        $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
                                 ? $this->keyTranslations[$key]
                                 : null;
             if ($translatedKey) {
-                $story[$translatedKey] = $values[$key];
+                $album[$translatedKey] = $values[$key];
             }
         }
         if (!$album->update()) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use JWTAuth;
+use Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,10 +14,14 @@ class LoginController extends Controller
 
     public function signin(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
+        if ($validator->fails()) {
+            return response()->exception($validator->errors(), 400);
+        }
 
         $credentials = $request->only('email', 'password');
         try {

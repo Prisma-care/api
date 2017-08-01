@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Production\UsersTableSeeder;
 
-class DatabaseSeeder extends Seeder
+class TestDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,5 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoryTableSeeder::class);
         $this->call(HeritageTableSeeder::class);
         $this->call(UserTableSeeder::class);
+        $this->call(UserTestTableSeeder::class);
+        $this->call(PatientTestTableSeeder::class);
+        $this->call(AlbumTestTableSeeder::class);
     }
 }
