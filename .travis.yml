@@ -14,7 +14,7 @@ before_install:
   -in ci/deploy_rsa.enc -out ci/deploy_rsa -d
 before_script:
 - rm .env.testing
-- tee .env .env.testing < .env.travis > /dev/null
+- tee .env .env.testing < ci/.env.travis > /dev/null
 - mysql -e 'CREATE DATABASE prisma_test;'
 - composer install --dev --prefer-source --no-interaction
 - php artisan key:generate && php artisan config:clear
