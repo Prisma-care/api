@@ -13,7 +13,8 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_54f5af2fecf1_key -iv $encrypted_54f5af2fecf1_iv
   -in ci/deploy_rsa.enc -out ci/deploy_rsa -d
 before_script:
-- rm .env.testing && cp ci/.env.travis .env.testing
+- rm .env.testing
+- tee .env .env.testing < .env.travis > /dev/null
 - mysql -e 'CREATE DATABASE prisma_test;'
 - composer install --dev --prefer-source --no-interaction
 - php artisan key:generate && php artisan config:clear
