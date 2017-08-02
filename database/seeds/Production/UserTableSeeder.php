@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeds;
+
 use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
