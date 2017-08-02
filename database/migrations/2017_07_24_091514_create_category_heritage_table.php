@@ -13,7 +13,7 @@ class CreateCategoryHeritageTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_heritage', function(Blueprint $table){
+        Schema::create('category_heritage', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('heritage_id')->unsigned();
             $table->foreign('heritage_id')->references('id')->on('heritages');

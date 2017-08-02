@@ -64,7 +64,7 @@ class HeritageController extends Controller
             'response' => $gotHeritage
         ];
 
-        return response()->json($response,$responseCode);
+        return response()->json($response, $responseCode);
     }
 
     /**

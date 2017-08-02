@@ -30,6 +30,6 @@ class VerifyJWTToken
                 return response()->exception('No authorization token provided', 401);
             }
         }
-       return $next($request);
+        return $next($request);
     }
 }
