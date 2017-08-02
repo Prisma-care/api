@@ -1,7 +1,5 @@
 <?php
 
-namespace Database\Seeds;
-
 use Illuminate\Database\Seeder;
 use Production\UsersTableSeeder;
 
