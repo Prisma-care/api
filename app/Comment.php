@@ -20,12 +20,11 @@ class Comment extends Model
 
     public function author()
     {
-    	return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User');
     }
 
     public function story()
     {
-    	return $this-belongsTo('App\Story');
+        return $this-belongsTo('App\Story');
     }
-
 }

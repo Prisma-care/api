@@ -16,10 +16,10 @@ class LogoutController extends Controller
 
     public function signout(Request $request)
     {
-    	$token = JWTAuth::getToken();
+        $token = JWTAuth::getToken();
         if (JWTAuth::invalidate($token)) {
             Auth::logout();
-        	return response()->success([], 200, 'User logged out successfully');
+            return response()->success([], 200, 'User logged out successfully');
         }
     }
 }
