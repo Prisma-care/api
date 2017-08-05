@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Image;
 use App\Story;
 use App\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Image;
 
 class StoryAssetController extends Controller
 {
@@ -59,25 +61,21 @@ class StoryAssetController extends Controller
             return response()->exception('Asset upload failed, please try again later.', 500);
         }
 
-        //$this->retrieveItem('headers', $key, $default);
+        $asset = $request->file('asset');
+        $extension = ($asset->extension())
+                    ? ($asset->extension())
+                    : pathinfo($asset, PATHINFO_EXTENSION);
 
-        $PUBLIC_DIR = '/public';
-        $UPLOADS_FOLDER = '/img/storyUploads/';
+        $assetName = $storyId;
+        $fullAssetName = "$assetName.$extension";
+        $storagePath = "stories/$patientId/$storyId";
+        $asset->storeAs($storagePath, $fullAssetName);
+        $this->saveThumbs($asset, $storagePath, $assetName, $extension);
 
-        $extension = ($request->asset->extension())
-                    ? ($request->asset->extension())
-                    : pathinfo($request->asset, PATHINFO_EXTENSION);
-
-        $assetName = $story->id . '.' . $extension;
-        $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
-        $request->file('asset')->move($location, $assetName);
-
-        $story->asset_name = env('APP_URL') . $UPLOADS_FOLDER . $assetName;
+        $story->asset_name = $request->url() . '/' . $fullAssetName;
         $story->save();
 
         $location = $story->asset_name;
-
-        $this->resize($story->id, $extension);
         return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
 
@@ -87,9 +85,26 @@ class StoryAssetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($patientId, $storyId, $asset)
     {
-        //
+        try {
+            Patient::findOrFail($patientId);
+            Story::findOrFail($storyId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
+
+        $storagePath = storage_path("app/stories/$patientId/$storyId/$asset");
+
+        if (!File::exists($storagePath)) {
+            return response()->exception('This asset does not exist.', 404);
+        }
+
+        $file = File::get($storagePath);
+        $mimeType = File::mimeType($storagePath);
+
+        return response($file, 200)->header("Content-Type", $mimeType);
     }
 
     /**
@@ -126,21 +141,11 @@ class StoryAssetController extends Controller
         //
     }
 
-    public function resize($id, $ext)
+    private function saveThumbs($image, $path, $assetName, $extension)
     {
-        //get url
-        $PUBLIC_DIR = '/public';
-        $UPLOADS_FOLDER = '/img/storyUploads/';
-        $fileUrl = '../' . $PUBLIC_DIR . $UPLOADS_FOLDER;
-
-        //load original file
-        $img = Image::make($fileUrl . $id . '.' . $ext);
-
-        //make thumbs
-        $img->fit(500, 500);
-
-        //save thumbnail as new file
-        $newName = $id . '_thumb.' . $ext;
-        $img->save($fileUrl . $newName);
+        $assetName = $assetName . '_thumbs.' . $extension;
+        $thumbs = Image::make($image->getRealPath());
+        $thumbs->fit(500, 500);
+        $thumbs->save(base_path() . "/storage/app/$path/$assetName");
     }
 }
