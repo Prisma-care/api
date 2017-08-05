@@ -59,25 +59,23 @@ class StoryAssetController extends Controller
             return response()->exception('Asset upload failed, please try again later.', 500);
         }
 
-        //$this->retrieveItem('headers', $key, $default);
-
-        $PUBLIC_DIR = '/public';
-        $UPLOADS_FOLDER = '/img/storyUploads/';
-
         $extension = ($request->asset->extension())
                     ? ($request->asset->extension())
                     : pathinfo($request->asset, PATHINFO_EXTENSION);
-         
-        $assetName = $story->id . '.' . $extension;
-        $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
-        $request->file('asset')->move($location, $assetName);
 
-        $story->asset_name = env('APP_URL') . $UPLOADS_FOLDER . $assetName;
+
+        $assetName = $story->id . '.' . $extension;
+        $path = $request->file('asset')->storeAs(
+            "stories/$patientId/$storyId",
+            $assetName
+        );
+
+        $story->asset_name = $request->url() . '/' . $assetName;
         $story->save();
 
         $location = $story->asset_name;
 
-        $this->resize($story->id, $extension);
+        // $this->resize($story->id, $extension);
         return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
 
@@ -138,7 +136,7 @@ class StoryAssetController extends Controller
 
         //make thumbs
         $img->fit(500, 500);
-        
+
         //save thumbnail as new file
         $newName = $id . '_thumb.' . $ext;
         $img->save($fileUrl . $newName);
