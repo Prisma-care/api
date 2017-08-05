@@ -27,7 +27,7 @@ class Album extends Model
     {
         return $this->hasMany('App\Heritage');
     }
-    
+
     public function patient()
     {
         return $this->belongsTo('App\Patient');

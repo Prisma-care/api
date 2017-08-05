@@ -67,7 +67,7 @@ class StoryAssetController extends Controller
         $extension = ($request->asset->extension())
                     ? ($request->asset->extension())
                     : pathinfo($request->asset, PATHINFO_EXTENSION);
-         
+
         $assetName = $story->id . '.' . $extension;
         $location = base_path() . $PUBLIC_DIR . $UPLOADS_FOLDER;
         $request->file('asset')->move($location, $assetName);
@@ -138,7 +138,7 @@ class StoryAssetController extends Controller
 
         //make thumbs
         $img->fit(500, 500);
-        
+
         //save thumbnail as new file
         $newName = $id . '_thumb.' . $ext;
         $img->save($fileUrl . $newName);

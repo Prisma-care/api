@@ -10,5 +10,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StoryAssetTest extends TestCase
 {
-
+    public function testPlaceholder()
+    {
+        $this->assertEquals(true, true);
+    }
 }
