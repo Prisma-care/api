@@ -6,8 +6,9 @@ use Image;
 use App\Story;
 use App\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\UploadedFile;
 
 class StoryAssetController extends Controller
 {
@@ -66,11 +67,12 @@ class StoryAssetController extends Controller
                     : pathinfo($asset, PATHINFO_EXTENSION);
 
         $assetName = $storyId;
+        $fullAssetName = "$assetName.$extension";
         $storagePath = "stories/$patientId/$storyId";
-        $asset->storeAs($storagePath, "$assetName.$extension");
+        $asset->storeAs($storagePath, $fullAssetName);
         $this->saveThumbs($asset, $storagePath, $assetName, $extension);
 
-        $story->asset_name = $request->url() . '/' . $assetName;
+        $story->asset_name = $request->url() . '/' . $fullAssetName;
         $story->save();
 
         $location = $story->asset_name;
@@ -83,9 +85,26 @@ class StoryAssetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($patientId, $storyId, $asset)
     {
-        //
+        try {
+            Patient::findOrFail($patientId);
+            Story::findOrFail($storyId);
+        } catch (ModelNotFoundException $e) {
+            $failingResource = class_basename($e->getModel());
+            return response()->exception("There is no $failingResource resource with the provided id.", 400);
+        }
+
+        $storagePath = storage_path("app/stories/$patientId/$storyId/$asset");
+
+        if (!File::exists($storagePath)) {
+            return response()->exception('This asset does not exist.', 404);
+        }
+
+        $file = File::get($storagePath);
+        $mimeType = File::mimeType($storagePath);
+
+        return response($file, 200)->header("Content-Type", $mimeType);
     }
 
     /**
