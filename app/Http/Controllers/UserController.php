@@ -30,7 +30,6 @@ class UserController extends Controller
 
         $user = new User([
             'email' => $request->input('email'),
-            // TODO split these after updating the migration
             'password' => Hash::make($request->input('password')),
             'first_name' => $request->input('firstName'),
             'last_name' => $request->input('lastName'),
