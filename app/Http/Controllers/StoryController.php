@@ -180,7 +180,7 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function destroy($patienId, $storyId)
+    public function destroy($patientId, $storyId)
     {
         if (Story::destroy($storyId)) {
             return response()->success([], 200, 'OK');
