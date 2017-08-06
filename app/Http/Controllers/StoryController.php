@@ -25,27 +25,6 @@ class StoryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $stories = Story::all();
-        return $stories->toJson();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -123,17 +102,6 @@ class StoryController extends Controller
         ];
 
         return response()->success($gotStory, 200, 'OK');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Story  $story
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Story $story)
-    {
-        //
     }
 
     /**
