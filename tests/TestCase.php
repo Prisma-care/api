@@ -26,7 +26,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->artisan('migrate:refresh');
-        $this->artisan('db:seed', ['--class' => 'TestDatabaseSeeder']);
+        $this->artisan('db:seed');
     }
 
     protected function authenticate($user = null)
