@@ -34,7 +34,8 @@ class UserController extends Controller
             'first_name' => $request->input('firstName'),
             'last_name' => $request->input('lastName'),
             'date_of_birth' => $request->input('dateOfBirth'),
-            'birth_place' => $request->input('birthPlace')
+            'birth_place' => $request->input('birthPlace'),
+            'user_type' => $request->input('userType','family')
         ]);
 
         if (!$user->save()) {
