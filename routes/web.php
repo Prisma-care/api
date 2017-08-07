@@ -24,5 +24,22 @@ Route::get('/password/reset/{token}', [
 ]);
 
 Route::post('password/reset', [
-    'uses' => 'Auth\ResetPasswordController@reset'
+    'as' => 'password.request', 'uses' => 'Auth\ResetPasswordController@reset'
 ]);
+
+Route::get('/login', [
+    'as' => 'login', 'uses' => 'Admin\LoginController@showLoginForm'
+]);
+
+Route::post('/login', [
+    'uses' => 'Admin\LoginController@login'
+]);
+
+Route::get('/register', [
+    'as' => 'register', 'uses' => 'Auth\RegisterController@showRegistrationForm'
+]);
+
+Route::post('/register', [
+     'uses' => 'Auth\RegisterController@register'
+]);
+
