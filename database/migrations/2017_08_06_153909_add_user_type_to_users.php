@@ -17,4 +17,11 @@ class AddUserTypeToUsers extends Migration
             $table->string('user_type',50)->default('family');
         });
     }
+    
+    public function down()
+    {
+        Schema::table('users', function ($table) {
+            $table->dropColumn('user_type');
+        });
+    }
 }
