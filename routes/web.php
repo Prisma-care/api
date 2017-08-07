@@ -22,3 +22,7 @@ Route::post('/invite', [
 Route::get('/password/reset/{token}', [
     'as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm'
 ]);
+
+Route::post('password/reset', [
+    'uses' => 'Auth\ResetPasswordController@reset'
+]);
