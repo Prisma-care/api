@@ -13,11 +13,11 @@ class AddUserTypeToUsers extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->string('user_type',50)->default('family');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('user_type', 50)->default('family');
         });
     }
-    
+
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
