@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/download', function () {
+    return view('download');
+});
+
 Route::post('/invite', [
     'uses' => 'Invite\UserController@store'
 ]);
