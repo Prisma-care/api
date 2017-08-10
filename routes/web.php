@@ -30,6 +30,10 @@ Route::get('/password/reset/{token}', [
 Route::post('password/reset', [
     'as' => 'password.request', 'uses' => 'Auth\ResetPasswordController@reset'
 ]);
+// TO DO : guard this in auth middleware later
+Route::get('/goto-download', [
+    'as' => 'goto.download', 'uses' => 'Auth\InviteSetPasswordController@goToDownload'
+]);
 
 Route::get('/login', [
     'as' => 'login', 'uses' => 'Admin\LoginController@showLoginForm'
