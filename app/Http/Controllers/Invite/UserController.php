@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Invite;
 
-use Validator;
+use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Http\Request;
 use Hash;
+use Illuminate\Http\Request;
+use Validator;
 
 class UserController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
