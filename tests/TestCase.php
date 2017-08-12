@@ -5,6 +5,8 @@ namespace Tests;
 use JWTAuth;
 use App\User;
 use App\Patient;
+use App\Album;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -49,11 +51,19 @@ abstract class TestCase extends BaseTestCase
 
     private function seedDefaults()
     {
+        $user = factory(User::class)->create([
+            'email' => 'testing@prisma.care',
+            'password' => Hash::make('testing@prisma.care')
+        ]);
         $patient = factory(Patient::class)->create([
             'first_name' => 'Patient',
             'last_name' => 'Testing'
         ]);
         $patient->prepopulate();
+        $album = factory(Album::class)->create([
+            'title' => 'Taken',
+            'patient_id' => $patient->id
+        ]);
     }
 
     public function seedUsers($amount = 5)
