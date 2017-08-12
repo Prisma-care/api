@@ -51,3 +51,7 @@ Route::post('/register', [
      'uses' => 'Auth\RegisterController@register'
 ]);
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
