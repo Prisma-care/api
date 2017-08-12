@@ -1,9 +1,3 @@
-/*
-
-TO DO: Move to the mailable
-Subject: {{ $inviter }} nodigde je uit voor Prisma
-*/
-
 Geef mee kleur aan de herinneringen van Marie-Josée met de Prisma app voor Android smartphones en tablets.
 
 [[Bevestig je e-mail adres via deze link]] en kies daarna een wachtwoord.
