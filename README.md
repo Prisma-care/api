@@ -32,7 +32,7 @@ Make sure [Composer](https://getcomposer.org/) is installed.
 After cloning, install project dependencies:  
 ```bash
 composer install
-``` 
+```
 
 We use MySQL, you can add settings for your local database configuration in a `.env` file ([see example](https://github.com/Prisma/api/blob/develop/.env.example)). All other configuration that is specific to your local environment should also be set in this file.
 
@@ -40,3 +40,9 @@ Serve the application:
 ```bash
 php artisan serve
 ```
+
+Run API tests:  
+```bash
+./vendor/bin/phpunit --testsuite Feature
+```  
+This uses the `testing` environment, so make sure you have a `.env.testing` file for all configuration specific to running the tests (such as a separate database).
