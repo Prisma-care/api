@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Invite;
 
-use App\Mail\Invitation;
-use Mail;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Mail\Invitation;
 use App\Patient;
+use App\User;
 use Hash;
 use Illuminate\Http\Request;
+use Mail;
 use Validator;
 
 class UserController extends Controller
