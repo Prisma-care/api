@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Invite;
 
+use App\Mail\Invitation;
+use Mail;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Patient;
 use Hash;
 use Illuminate\Http\Request;
 use Validator;
