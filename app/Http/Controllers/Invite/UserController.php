@@ -49,6 +49,7 @@ class UserController extends Controller
         $patient = Patient::findOrFail($patientId);
         $patient->users()->attach($user->id);
 
+        Mail::to($user)->send(new Invitation($patient));
 
         $location = $request->url() . '/' . $user->id;
         return response()->success($createdUser, 201, 'Created', $location);
