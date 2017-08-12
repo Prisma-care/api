@@ -39,9 +39,33 @@ abstract class TestCase extends BaseTestCase
         $this->refreshApplication();
     }
 
-    public function createUsers($amount = 5)
+    public function seedDatabase()
     {
-        $user = factory(\App\User::class, $amount)->make();
+        $this->seedDefaults();
+        $this->seedUsers();
+        $this->seedPatients();
+    }
+
+    private function seedDefaults()
+    {
+        $patient = factory(\App\Patient::class)->create([
+            'first_name' => 'Patient',
+            'last_name' => 'Testing'
+        ]);
+        $patient->prepopulate();
+    }
+
+    public function seedUsers($amount = 5)
+    {
+        factory(\App\User::class, $amount)->create();
+    }
+
+    public function seedPatients($amount = 5)
+    {
+        $patients = factory(\App\Patient::class, $amount)->create();
+        foreach ($patients as $patient) {
+            $patient->prepopulate();
+        }
     }
 
     /**
