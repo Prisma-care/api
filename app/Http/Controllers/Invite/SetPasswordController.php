@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Http\Requests\InviteSetPassword;
+use View;
+use Hash;
+use App\User;
 
-class InviteSetPasswordController extends Controller
+class SetPasswordController extends Controller
 {
 
     /**
-     * Where to redirect users after resetting their password.
+     * Where to redirect users after setting their password.
      *
      * @var string
      */
@@ -23,5 +26,10 @@ class InviteSetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function setPassword(InviteSetPassword $request)
+    {
+
     }
 }
