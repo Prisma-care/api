@@ -39,6 +39,11 @@ abstract class TestCase extends BaseTestCase
         $this->refreshApplication();
     }
 
+    public function createUsers($amount = 5)
+    {
+        $user = factory(\App\User::class, $amount)->make();
+    }
+
     /**
      * Returns everything after the third slash in a string
      * So for URL 'https://localhost/v1/something/1', it returns 'v1/something/1'

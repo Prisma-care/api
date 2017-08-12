@@ -24,6 +24,7 @@ class PatientTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        $user = factory(\App\User::class)->make();
         $this->authenticate();
     }
 
