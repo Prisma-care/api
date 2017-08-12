@@ -51,7 +51,6 @@ class UserController extends Controller
 
         Mail::to($user)->send(new Invitation($patient));
 
-        $location = $request->url() . '/' . $user->id;
-        return response()->success($createdUser, 201, 'Created', $location);
+        return response()->success('Invite email sent', 204);
     }
 }
