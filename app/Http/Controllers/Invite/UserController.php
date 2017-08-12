@@ -47,6 +47,7 @@ class UserController extends Controller
         }
 
         $patient = Patient::findOrFail($patientId);
+        app('auth.password.tokens')->create($user);
         $patient->users()->attach($user->id);
 
         Mail::to($user)->send(new Invitation($patient));
