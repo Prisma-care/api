@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\Patient;
-use App\Http\Requests\StorePatient;
+use App\Http\Requests\PatientRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PatientController extends Controller
@@ -20,7 +20,7 @@ class PatientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePatient $request)
+    public function store(PatientRequest $request)
     {
         $patient = new Patient([
             'first_name' => $request->input('firstName'),
@@ -58,15 +58,8 @@ class PatientController extends Controller
      * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function show($patientId)
+    public function show($patientId, PatientRequest $request)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
         $patient = Patient::find($patientId)->first();
         $gotPatient = [
             'id' => $patient->id,
