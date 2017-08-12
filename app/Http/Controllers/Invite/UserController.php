@@ -26,6 +26,7 @@ class UserController extends Controller
             'firstName' => 'required',
             'lastName' => 'required',
             'patientID' => 'required'
+            'inviterID' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
