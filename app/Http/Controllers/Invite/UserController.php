@@ -46,8 +46,9 @@ class UserController extends Controller
             return response()->exception('Unexpected error while creating the user', 500);
         }
 
-        $patient = Patient::findOrFail($patientId);
         app('auth.password.tokens')->create($user);
+
+        $patient = Patient::findOrFail($request->input($patientId));
         $patient->users()->attach($user->id);
 
         Mail::to($user)->send(new Invitation($patient));
