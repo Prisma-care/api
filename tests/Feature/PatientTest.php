@@ -24,7 +24,6 @@ class PatientTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->seedDatabase();
         $this->authenticate();
     }
 
