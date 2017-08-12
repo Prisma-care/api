@@ -49,10 +49,6 @@ class UserController extends Controller
         $patient = Patient::findOrFail($patientId);
         $patient->users()->attach($user->id);
 
-        $createdUser = [
-            'id' => $user->id,
-            'email' => $user->email
-        ];
 
         $location = $request->url() . '/' . $user->id;
         return response()->success($createdUser, 201, 'Created', $location);
