@@ -23,9 +23,9 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users',
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'patientID' => 'required'
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'patientID' => 'required|integer',
             'inviterID' => 'required|integer'
         ]);
 
