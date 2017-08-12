@@ -15,28 +15,6 @@ class PatientController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $patients = Patient::all();
-
-        return $patients;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -110,39 +88,5 @@ class PatientController extends Controller
         ];
 
         return response()->success($gotPatient, 200, 'OK');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(patient $patient)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, patient $patient)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(patient $patient)
-    {
-        //
     }
 }
