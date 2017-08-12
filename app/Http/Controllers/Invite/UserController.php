@@ -46,8 +46,8 @@ class UserController extends Controller
             return response()->exception('Unexpected error while creating the user', 500);
         }
 
-        // TO DO : connect the user to the patient
-        // TO DO : issue and email invite
+        $patient = Patient::findOrFail($patientId);
+        $patient->users()->attach($user->id);
 
         $createdUser = [
             'id' => $user->id,
