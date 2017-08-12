@@ -53,6 +53,6 @@ class UserController extends Controller
 
         Mail::to($user)->send(new Invitation($patient));
 
-        return response()->success('Invite email sent', 204);
+        return response()->success('Invitation email sent', 204);
     }
 }
