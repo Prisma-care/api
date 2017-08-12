@@ -4,6 +4,7 @@ namespace Tests;
 
 use JWTAuth;
 use App\User;
+use App\Patient;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -48,7 +49,7 @@ abstract class TestCase extends BaseTestCase
 
     private function seedDefaults()
     {
-        $patient = factory(\App\Patient::class)->create([
+        $patient = factory(Patient::class)->create([
             'first_name' => 'Patient',
             'last_name' => 'Testing'
         ]);
@@ -57,12 +58,12 @@ abstract class TestCase extends BaseTestCase
 
     public function seedUsers($amount = 5)
     {
-        factory(\App\User::class, $amount)->create();
+        factory(User::class, $amount)->create();
     }
 
     public function seedPatients($amount = 5)
     {
-        $patients = factory(\App\Patient::class, $amount)->create();
+        $patients = factory(Patient::class, $amount)->create();
         foreach ($patients as $patient) {
             $patient->prepopulate();
         }
