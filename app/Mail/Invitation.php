@@ -30,6 +30,8 @@ class Invitation extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.invite');
+        return $this->view('emails.invite')
+            ->from('info@prisma.care')
+            ->subject('{{ $inviter }} nodigde je uit voor Prisma');
     }
 }
