@@ -154,7 +154,8 @@ class AlbumController extends Controller
      */
     public function destroy($patienId, $albumId)
     {
-        if (Album::destroy($albumId)) {
+        $album = Album::findOrFail($albumId);
+        if ($album->delete()) {
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception('The album could not be deleted', 500);
