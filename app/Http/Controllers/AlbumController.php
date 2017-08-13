@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Album;
 use App\Patient;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreAlbum;
+use App\Http\Requests\UpdateAlbum;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AlbumController extends Controller
@@ -29,14 +30,7 @@ class AlbumController extends Controller
      */
     public function index($patientId)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $albums = Patient::find($patientId)->albums;
+        $albums = Patient::findOrFail($patientId)->albums;
         $allAlbums = [];
         foreach ($albums as $album) {
             $thisAlbum = [
@@ -66,21 +60,9 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $patientId)
+    public function store(StoreAlbum $request, $patientId)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:albums'
-        ]);
-        if ($validator->fails()) {
-            return response()->exception($validator->errors(), 400);
-        }
+        Patient::findOrFail($patientId);
 
         $album = new Album([
             'title' => $request->input('title'),
@@ -107,15 +89,8 @@ class AlbumController extends Controller
      */
     public function show($patientId, $albumId)
     {
-        try {
-            Patient::findOrFail($patientId);
-            Album::findOrFail($albumId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $album = Album::find($albumId);
+        Patient::findOrFail($patientId);
+        $album = Album::findOrFail($albumId);
         $thisAlbum = [
            'id' => $album->id,
            'title' => $album->title,
@@ -142,21 +117,13 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $patientId, $albumId)
+    public function update(UpdateAlbum $request, $patientId, $albumId)
     {
         if (!$request->isMethod('PATCH')) {
             return response()->exception('Method not allowed', 405);
         }
 
-        try {
-            Patient::findOrFail($patientId);
-            Album::findOrFail($albumId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $album = Album::find($albumId);
+        $album = Album::findOrFail($albumId);
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
@@ -181,7 +148,8 @@ class AlbumController extends Controller
      */
     public function destroy($patienId, $albumId)
     {
-        if (Album::destroy($albumId)) {
+        $album = Album::findOrFail($albumId);
+        if ($album->delete()) {
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception('The album could not be deleted', 500);

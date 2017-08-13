@@ -23,8 +23,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
+        $resources = ['patient', 'user', 'album', 'story'];
+        foreach ($resources as $resource) {
+            Route::pattern($resource, '[0-9]+');
+        }
+        Route::pattern('patientId', '[0-9]+');
         parent::boot();
     }
 

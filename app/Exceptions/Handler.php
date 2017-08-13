@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException as ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -44,6 +45,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ModelNotFoundException) {
+            $resource = class_basename($exception->getModel());
+            return response()->exception("There is no $resource resource with the provided id.", 400);
+        }
+        if ($request->expectsJson() && $exception instanceof HttpException) {
+            return response()->exception($exception->getMessage(), $exception->getStatusCode());
+        }
         return parent::render($request, $exception);
     }
 
