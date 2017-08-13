@@ -49,6 +49,9 @@ class Handler extends ExceptionHandler
             $resource = class_basename($exception->getModel());
             return response()->exception("There is no $resource resource with the provided id.", 400);
         }
+        if ($request->expectsJson()) {
+            return response()->exception($exception->getMessage(), $exception->getStatusCode());
+        }
         return parent::render($request, $exception);
     }
 
