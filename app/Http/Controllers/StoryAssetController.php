@@ -25,15 +25,8 @@ class StoryAssetController extends Controller
      */
     public function store(Request $request, $patientId, $storyId)
     {
-        try {
-            Patient::findOrFail($patientId);
-            Story::findOrFail($storyId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $story = Story::find($storyId);
+        Patient::findOrFail($patientId);
+        $story = Story::findOrFail($storyId);
 
         if (!$request->hasFile('asset')) {
             return response()->exception('No asset was provided or the form-data request was malformed', 400);
@@ -67,13 +60,8 @@ class StoryAssetController extends Controller
      */
     public function show($patientId, $storyId, $asset)
     {
-        try {
-            Patient::findOrFail($patientId);
-            Story::findOrFail($storyId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
+        Patient::findOrFail($patientId);
+        Story::findOrFail($storyId);
 
         $storagePath = storage_path("app/stories/$patientId/$storyId/$asset");
 

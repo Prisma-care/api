@@ -15,7 +15,7 @@ class HeritageController extends Controller
      */
     public function show(heritage $heritage)
     {
-        $heritage = Heritage::find($heritage)->first();
+        $heritage = Heritage::firstOrFail($heritage);
         $responseCode = 200;
         $gotHeritage = [
             'id' => $heritage->id,

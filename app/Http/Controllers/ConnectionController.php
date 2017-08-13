@@ -22,15 +22,8 @@ class ConnectionController extends Controller
      */
     public function connect($patientId)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
         $userId = JWTAuth::parseToken()->authenticate()->id;
-        $patient = Patient::find($patientId);
+        $patient = Patient::findOrFail($patientId);
         if ($patient->users->contains($userId)) {
             return response()->exception('The patient and user are already connected', 400);
         }
@@ -47,15 +40,8 @@ class ConnectionController extends Controller
      */
     public function disconnect($patientId)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
         $userId = JWTAuth::parseToken()->authenticate()->id;
-        $patient = Patient::find($patientId);
+        $patient = Patient::findOrFail($patientId);
         if (!$patient->users->contains($userId)) {
             return response()->exception('The patient and user are not connected', 400);
         }
