@@ -29,14 +29,7 @@ class AlbumController extends Controller
      */
     public function index($patientId)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $albums = Patient::find($patientId)->albums;
+        $albums = Patient::findOrFail($patientId)->albums;
         $allAlbums = [];
         foreach ($albums as $album) {
             $thisAlbum = [
@@ -68,12 +61,7 @@ class AlbumController extends Controller
      */
     public function store(Request $request, $patientId)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
+        Patient::findOrFail($patientId);
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|unique:albums'
@@ -107,15 +95,8 @@ class AlbumController extends Controller
      */
     public function show($patientId, $albumId)
     {
-        try {
-            Patient::findOrFail($patientId);
-            Album::findOrFail($albumId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $album = Album::find($albumId);
+        Patient::findOrFail($patientId);
+        $album = Album::findOrFail($albumId);
         $thisAlbum = [
            'id' => $album->id,
            'title' => $album->title,
@@ -148,15 +129,7 @@ class AlbumController extends Controller
             return response()->exception('Method not allowed', 405);
         }
 
-        try {
-            Patient::findOrFail($patientId);
-            Album::findOrFail($albumId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $album = Album::find($albumId);
+        $album = Album::findOrFail($albumId);
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
