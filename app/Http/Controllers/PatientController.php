@@ -60,7 +60,7 @@ class PatientController extends Controller
      */
     public function show($patientId)
     {
-        $patient = Patient::find($patientId)->first();
+        $patient = Patient::findOrFail($patientId);
         $gotPatient = [
             'id' => $patient->id,
             'firstName' => $patient->first_name,
