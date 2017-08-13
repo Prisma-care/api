@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Album;
 use App\Patient;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreAlbum;
+use App\Http\Requests\UpdateAlbum;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AlbumController extends Controller
@@ -59,16 +60,9 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $patientId)
+    public function store(StoreAlbum $request, $patientId)
     {
         Patient::findOrFail($patientId);
-
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:albums'
-        ]);
-        if ($validator->fails()) {
-            return response()->exception($validator->errors(), 400);
-        }
 
         $album = new Album([
             'title' => $request->input('title'),
@@ -123,7 +117,7 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $patientId, $albumId)
+    public function update(UpdateAlbum $request, $patientId, $albumId)
     {
         if (!$request->isMethod('PATCH')) {
             return response()->exception('Method not allowed', 405);
