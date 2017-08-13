@@ -43,4 +43,8 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::match(['link'], 'patient/{patientId}/connection', 'ConnectionController@connect');
     Route::match(['unlink'], 'patient/{patientId}/connection', 'ConnectionController@disconnect');
+
+    Route::post('invite', function(){
+        return response([], 204);
+    });
 });
