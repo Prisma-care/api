@@ -6,6 +6,7 @@ use Validator;
 use App\Story;
 use App\Patient;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreStory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class StoryController extends Controller
@@ -25,50 +26,14 @@ class StoryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $stories = Story::all();
-        return $stories->toJson();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $patientId)
+    public function store(StoreStory $request, $patientId)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'description' => 'required',
-            'creatorId' => 'required',
-            'albumId' => 'required'
-        ]);
-        if ($validator->fails()) {
-            return response()->exception($validators->errors(), 400);
-        }
-
+        Patient::findOrFail($patientId);
         $story = new Story([
             'description' => $request->input('description'),
             'happened_at' => $request->input('happenedAt'),
@@ -87,7 +52,8 @@ class StoryController extends Controller
             'description' => $story->description,
             'happenedAt' => $story->happened_at,
             'albumId' => $story->album_id,
-            'creatorId' => $story->user_id
+            'creatorId' => $story->user_id,
+            'favorited' => false
         ];
 
         $location = $request->url() . '/' . $story->id;
@@ -102,15 +68,8 @@ class StoryController extends Controller
      */
     public function show($patientId, $storyId)
     {
-        try {
-            Patient::findOrFail($patientId);
-            Story::findOrFail($storyId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $story = Story::find($storyId);
+        Patient::findOrFail($patientId);
+        $story = Story::findOrFail($storyId);
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
@@ -122,17 +81,6 @@ class StoryController extends Controller
         ];
 
         return response()->success($gotStory, 200, 'OK');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Story  $story
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Story $story)
-    {
-        //
     }
 
     /**
@@ -148,15 +96,9 @@ class StoryController extends Controller
             return response()->exception("Method not allowed", 405);
         }
 
-        try {
-            Patient::findOrFail($patientId);
-            Story::findOrFail($storyId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
+        Patient::findOrFail($patientId);
+        $story = Story::findOrFail($storyId);
 
-        $story = Story::find($storyId);
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
@@ -179,9 +121,10 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function destroy($patienId, $storyId)
+    public function destroy($patientId, $storyId)
     {
-        if (Story::destroy($storyId)) {
+        $story = Story::findOrFail($storyId);
+        if ($story->delete()) {
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception("The story could not be deleted", 500);

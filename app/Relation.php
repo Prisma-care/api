@@ -27,5 +27,4 @@ class Relation extends Model
     {
         return $this->belongsToMany('App\Patient');
     }
-
 }
