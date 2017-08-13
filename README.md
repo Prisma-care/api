@@ -36,6 +36,17 @@ composer install
 
 We use MySQL, you can add settings for your local database configuration in a `.env` file ([see example](https://github.com/Prisma/api/blob/develop/.env.example)). All other configuration that is specific to your local environment should also be set in this file.
 
+Run database migrations and seed:
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+Generate an app key:
+```bash
+php artisan key:generate
+```
+
 Serve the application:  
 ```bash
 php artisan serve
