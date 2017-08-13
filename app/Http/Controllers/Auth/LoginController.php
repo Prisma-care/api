@@ -6,23 +6,14 @@ use JWTAuth;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Signin;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends Controller
 {
 
-    public function signin(Request $request)
+    public function signin(Signin $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->exception($validator->errors(), 400);
-        }
-
         $credentials = $request->only('email', 'password');
         try {
             if (! $token = JWTAuth::attempt($credentials)) {

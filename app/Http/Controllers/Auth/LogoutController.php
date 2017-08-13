@@ -14,7 +14,7 @@ class LogoutController extends Controller
         $this->middleware('jwt.auth');
     }
 
-    public function signout(Request $request)
+    public function signout()
     {
         $token = JWTAuth::getToken();
         if (JWTAuth::invalidate($token)) {
