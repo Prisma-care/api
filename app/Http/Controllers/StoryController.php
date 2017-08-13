@@ -6,6 +6,7 @@ use Validator;
 use App\Story;
 use App\Patient;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreStory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class StoryController extends Controller
@@ -30,19 +31,9 @@ class StoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $patientId)
+    public function store(StoreStory $request, $patientId)
     {
         Patient::findOrFail($patientId);
-
-        $validator = Validator::make($request->all(), [
-            'description' => 'required',
-            'creatorId' => 'required',
-            'albumId' => 'required'
-        ]);
-        if ($validator->fails()) {
-            return response()->exception($validator->errors(), 400);
-        }
-
         $story = new Story([
             'description' => $request->input('description'),
             'happened_at' => $request->input('happenedAt'),
