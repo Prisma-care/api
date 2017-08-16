@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use JWTAuth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BaseRequest extends FormRequest
@@ -26,6 +27,11 @@ class BaseRequest extends FormRequest
         return [
             //
         ];
+    }
+
+    public function getUser()
+    {
+        return JWTAuth::parseToken()->authenticate();
     }
 
     public function response(array $errors)

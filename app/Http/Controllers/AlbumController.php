@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Album;
 use App\Patient;
-use App\Http\Requests\StoreAlbum;
-use App\Http\Requests\UpdateAlbum;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\Album as AlbumRequest;
 
 class AlbumController extends Controller
 {
@@ -28,9 +26,9 @@ class AlbumController extends Controller
      * @param  int $patiendId
      * @return \Illuminate\Http\Response
      */
-    public function index($patientId)
+    public function index(AlbumRequest\Index $request, $patientId)
     {
-        $albums = Patient::findOrFail($patientId)->albums;
+        $albums = Patient::find($patientId)->albums;
         $allAlbums = [];
         foreach ($albums as $album) {
             $thisAlbum = [
@@ -60,10 +58,8 @@ class AlbumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAlbum $request, $patientId)
+    public function store(AlbumRequest\Store $request, $patientId)
     {
-        Patient::findOrFail($patientId);
-
         $album = new Album([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -87,9 +83,8 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function show($patientId, $albumId)
+    public function show(AlbumRequest\Show $request, $patientId, $albumId)
     {
-        Patient::findOrFail($patientId);
         $album = Album::findOrFail($albumId);
         $thisAlbum = [
            'id' => $album->id,
@@ -117,7 +112,7 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAlbum $request, $patientId, $albumId)
+    public function update(AlbumRequest\Update $request, $patientId, $albumId)
     {
         if (!$request->isMethod('PATCH')) {
             return response()->exception('Method not allowed', 405);
@@ -146,7 +141,7 @@ class AlbumController extends Controller
      * @param  \App\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function destroy($patienId, $albumId)
+    public function destroy(AlbumRequest\Destroy $request, $patienId, $albumId)
     {
         $album = Album::findOrFail($albumId);
         if ($album->delete()) {
