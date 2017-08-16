@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Patient;
+use JWTAuth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePatient extends FormRequest
+class BaseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,13 @@ class StorePatient extends FormRequest
     public function rules()
     {
         return [
-            'firstName' => 'required',
-            'lastName' => 'required'
+            //
         ];
+    }
+
+    public function getUser()
+    {
+        return JWTAuth::parseToken()->authenticate();
     }
 
     public function response(array $errors)
