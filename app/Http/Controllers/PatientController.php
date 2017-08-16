@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Validator;
+use JWTAuth;
 use App\Patient;
 use App\Http\Requests\StorePatient;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -61,6 +62,11 @@ class PatientController extends Controller
     public function show($patientId)
     {
         $patient = Patient::findOrFail($patientId);
+        $user = JWTAuth::parseToken()->authenticate();
+        if ($user->cant('view', $patient)) {
+            return response()->exception('Nu-uh', 403);
+        }
+
         $gotPatient = [
             'id' => $patient->id,
             'firstName' => $patient->first_name,
