@@ -61,6 +61,7 @@ abstract class TestCase extends BaseTestCase
             'last_name' => 'Testing'
         ]);
         $patient->prepopulate();
+        $patient->users()->attach($user->id);
         $album = factory(Album::class)->create([
             'title' => 'Taken',
             'patient_id' => $patient->id

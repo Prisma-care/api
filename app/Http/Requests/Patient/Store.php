@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Patient;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Patient;
+use App\Http\Requests\BaseRequest;
 
-class StoreUser extends BaseRequest
+class Store extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,8 +15,6 @@ class StoreUser extends BaseRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
             'firstName' => 'required',
             'lastName' => 'required'
         ];
