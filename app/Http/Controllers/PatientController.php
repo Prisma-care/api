@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Validator;
-use JWTAuth;
 use App\Patient;
+use App\Http\Requests\ShowPatient;
 use App\Http\Requests\StorePatient;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -59,14 +59,8 @@ class PatientController extends Controller
      * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function show($patientId)
+    public function show(Patient $patient, ShowPatient $request)
     {
-        $patient = Patient::findOrFail($patientId);
-        $user = JWTAuth::parseToken()->authenticate();
-        if ($user->cant('view', $patient)) {
-            return response()->exception('Not Found', 404);
-        }
-
         $gotPatient = [
             'id' => $patient->id,
             'firstName' => $patient->first_name,
