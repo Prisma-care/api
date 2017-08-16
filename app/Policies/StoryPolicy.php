@@ -3,28 +3,27 @@
 namespace App\Policies;
 
 use App\User;
-use App\Patient;
-use App\Album;
+use App\Story;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class AlbumPolicy
+class StoryPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view the album.
+     * Determine whether the user can view the story.
      *
      * @param  \App\User  $user
-     * @param  \App\Album  $album
+     * @param  \App\Story  $story
      * @return mixed
      */
-    public function view(User $user, Album $album)
+    public function view(User $user, Story $story)
     {
         return true;
     }
 
     /**
-     * Determine whether the user can create albums.
+     * Determine whether the user can create stories.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -35,25 +34,25 @@ class AlbumPolicy
     }
 
     /**
-     * Determine whether the user can update the album.
+     * Determine whether the user can update the story.
      *
      * @param  \App\User  $user
-     * @param  \App\Album  $album
+     * @param  \App\Story  $story
      * @return mixed
      */
-    public function update(User $user, Album $album)
+    public function update(User $user, Story $story)
     {
         return true;
     }
 
     /**
-     * Determine whether the user can delete the album.
+     * Determine whether the user can delete the story.
      *
      * @param  \App\User  $user
-     * @param  \App\Album  $album
+     * @param  \App\Story  $story
      * @return mixed
      */
-    public function delete(User $user, Album $album)
+    public function delete(User $user, Story $story)
     {
         return true;
     }

@@ -14,7 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         \App\Patient::class => \App\Policies\PatientPolicy::class,
-        \App\Album::class => \App\Policies\AlbumPolicy::class
+        \App\Album::class => \App\Policies\AlbumPolicy::class,
+        \App\Story::class => \App\Policies\Story::class
     ];
 
     /**
