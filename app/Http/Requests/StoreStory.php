@@ -4,18 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreStory extends FormRequest
+class StoreStory extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,10 +18,5 @@ class StoreStory extends FormRequest
             'creatorId' => 'required',
             'albumId' => 'required'
         ];
-    }
-
-    public function response(array $errors)
-    {
-        return response()->exception($errors, 400);
     }
 }

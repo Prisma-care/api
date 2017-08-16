@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAlbum extends StoreAlbum
+class UpdateAlbum extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.

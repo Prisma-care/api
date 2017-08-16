@@ -5,18 +5,8 @@ namespace App\Http\Requests;
 use App\Patient;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePatient extends FormRequest
+class StorePatient extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,10 +18,5 @@ class StorePatient extends FormRequest
             'firstName' => 'required',
             'lastName' => 'required'
         ];
-    }
-
-    public function response(array $errors)
-    {
-        return response()->exception($errors, 400);
     }
 }

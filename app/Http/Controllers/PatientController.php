@@ -64,7 +64,7 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($patientId);
         $user = JWTAuth::parseToken()->authenticate();
         if ($user->cant('view', $patient)) {
-            return response()->exception('Nu-uh', 403);
+            return response()->exception('Not Found', 404);
         }
 
         $gotPatient = [
