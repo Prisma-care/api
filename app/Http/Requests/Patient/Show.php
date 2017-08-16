@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Patient;
 
-use JWTAuth;
 use App\Patient;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 
-class ShowPatient extends BaseRequest
+class Show extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +14,7 @@ class ShowPatient extends BaseRequest
      */
     public function authorize()
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        $user = $this->getUser();
         $patient = $this->route('patient');
         return $user->can('view', $patient);
     }
