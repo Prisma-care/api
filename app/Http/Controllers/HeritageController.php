@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Heritage;
 
 class HeritageController extends Controller
 {
+
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Heritage $heritage
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(heritage $heritage)
+    public function show(Heritage $heritage)
     {
         $heritage = Heritage::firstOrFail($heritage);
         $responseCode = 200;
