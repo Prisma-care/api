@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Heritage;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Heritage;
@@ -36,7 +36,7 @@ class HeritageController extends Controller
      */
     public function show($heritageId)
     {
-        $heritage = Heritage::firstOrFail($heritageId);
+        $heritage = Heritage::findOrFail($heritageId);
         $gotHeritage = [
             'id' => $heritage->id,
             'filename' => $heritage->filename,
