@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Heritage;
+use App\Http\Requests\Heritage as HeritageRequest;
 
 class HeritageController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Heritage\Index  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(HeritageRequest\Index $request)
     {
         //
     }
@@ -20,10 +21,10 @@ class HeritageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Heritage\Store  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HeritageRequest\Store $request)
     {
         //
     }
@@ -31,10 +32,11 @@ class HeritageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Http\Requests\Heritage\Show $request
+     * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
-    public function show($heritageId)
+    public function show(HeritageRequest\Show $reqeust, $heritageId)
     {
         $heritage = Heritage::findOrFail($heritageId);
         $gotHeritage = [
@@ -51,11 +53,11 @@ class HeritageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Heritage\Update $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(HeritageRequest\Update $request, $id)
     {
         //
     }
@@ -63,10 +65,11 @@ class HeritageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Http\Requests\Heritage\Destroy $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(HeritageRequest\Destroy $request, $id)
     {
         //
     }

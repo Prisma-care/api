@@ -18,7 +18,7 @@ class HeritagePolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -42,6 +42,6 @@ class HeritagePolicy
      */
     public function delete(User $user, Heritage $heritage)
     {
-        //
+        return true;
     }
 }

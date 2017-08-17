@@ -42,7 +42,7 @@ Route::group(['prefix' => 'v1'], function () {
     ]);
 
     Route::resource('heritage', 'HeritageController', [
-       'only' => ['index', 'show', 'store']
+       'except' => ['edit', 'create']
     ]);
 
     Route::match(['link'], 'patient/{patientId}/connection', 'ConnectionController@connect');
