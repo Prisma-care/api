@@ -7,7 +7,6 @@ use App\Mail\Invitation;
 use App\Patient;
 use App\User;
 use Hash;
-use Illuminate\Http\Request;
 use Mail;
 use Validator;
 
