@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Story;
-use App\Patient;
 use App\Http\Requests\Story as StoryRequest;
 
 class StoryController extends Controller
