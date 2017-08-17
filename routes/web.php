@@ -35,23 +35,5 @@ Route::get('/goto-download', [
     'as' => 'goto.download', 'uses' => 'Auth\InviteSetPasswordController@goToDownload'
 ]);
 
-Route::get('/login', [
-    'as' => 'login', 'uses' => 'Admin\LoginController@showLoginForm'
-]);
-
-Route::post('/login', [
-    'uses' => 'Admin\LoginController@login'
-]);
-
-Route::get('/register', [
-    'as' => 'register', 'uses' => 'Auth\RegisterController@showRegistrationForm'
-]);
-
-Route::post('/register', [
-     'uses' => 'Auth\RegisterController@register'
-]);
-
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
