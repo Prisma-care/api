@@ -21,11 +21,11 @@ class StoryController extends Controller
         $this->middleware('jwt.auth');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoryRequest\Store $request
+     * @param $patientId
+     * @return mixed
      */
     public function store(StoryRequest\Store $request, $patientId)
     {
@@ -76,13 +76,7 @@ class StoryController extends Controller
         return response()->success($gotStory, 200, 'OK');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Story  $story
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(StoryRequest\Update $request, $patientId, Story $story)
     {
         if (!$request->isMethod('PATCH')) {
