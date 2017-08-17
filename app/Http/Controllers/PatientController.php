@@ -12,11 +12,10 @@ class PatientController extends Controller
         $this->middleware('jwt.auth');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PatientRequest\Store $request
+     * @return mixed
      */
     public function store(PatientRequest\Store $request)
     {
