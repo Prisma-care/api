@@ -19,11 +19,11 @@ class AlbumController extends Controller
         'description' => 'description'
     );
 
+
     /**
-     * Display a listing of the resource.
-     *
-     * @param  int $patiendId
-     * @return \Illuminate\Http\Response
+     * @param AlbumRequest\Index $request
+     * @param $patientId
+     * @return mixed
      */
     public function index(AlbumRequest\Index $request, $patientId)
     {
