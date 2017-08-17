@@ -15,7 +15,7 @@ class HeritageController extends Controller
      */
     public function index(HeritageRequest\Index $request)
     {
-        //
+        return response()->success(Heritage::all(), 200, 'OK');
     }
 
     /**
