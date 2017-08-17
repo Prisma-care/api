@@ -12,13 +12,12 @@ use Validator;
 
 class UserController extends Controller
 {
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUserConnection $request
+     * @return mixed
      */
-    public function store(Request $request)
+    public function store(StoreUserConnection $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users',
