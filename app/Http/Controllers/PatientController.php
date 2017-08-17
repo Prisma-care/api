@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Patient;
 use App\Http\Requests\Patient as PatientRequest;
 
