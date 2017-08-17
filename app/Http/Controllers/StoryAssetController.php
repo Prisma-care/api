@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Image;
+use File;
 use App\Story;
-use App\Patient;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoryAsset as StoryAssetRequest;
 
 class StoryAssetController extends Controller
