@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\User;
 use App\Http\Requests\StoreUser;
 use Illuminate\Support\Facades\Hash;
