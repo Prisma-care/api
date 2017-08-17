@@ -51,11 +51,11 @@ class AlbumController extends Controller
         return response()->success($allAlbums, 200, 'OK');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param AlbumRequest\Store $request
+     * @param $patientId
+     * @return mixed
      */
     public function store(AlbumRequest\Store $request, $patientId)
     {
@@ -76,11 +76,12 @@ class AlbumController extends Controller
         return response()->success($createdAlbum, 201, 'Created', $location);
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Album  $album
-     * @return \Illuminate\Http\Response
+     * @param AlbumRequest\Show $request
+     * @param $patientId
+     * @param $albumId
+     * @return mixed
      */
     public function show(AlbumRequest\Show $request, $patientId, $albumId)
     {
@@ -104,12 +105,12 @@ class AlbumController extends Controller
         return response()->success($thisAlbum, 200, 'OK');
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Album  $album
-     * @return \Illuminate\Http\Response
+     * @param AlbumRequest\Update $request
+     * @param $patientId
+     * @param $albumId
+     * @return mixed
      */
     public function update(AlbumRequest\Update $request, $patientId, $albumId)
     {
@@ -134,11 +135,12 @@ class AlbumController extends Controller
         return response()->success([], 200, 'OK');
     }
 
+
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Album  $album
-     * @return \Illuminate\Http\Response
+     * @param AlbumRequest\Destroy $request
+     * @param $patienId
+     * @param $albumId
+     * @return mixed
      */
     public function destroy(AlbumRequest\Destroy $request, $patienId, $albumId)
     {
