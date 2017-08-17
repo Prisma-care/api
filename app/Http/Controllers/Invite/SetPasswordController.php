@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Invite;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\InviteSetPassword;
+use App\Http\Requests\SetPassword;
 use View;
 use Hash;
 use App\User;
@@ -28,7 +28,7 @@ class SetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function setPassword(InviteSetPassword $request)
+    public function setPassword(SetPassword $request)
     {
 
     }
