@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\User;
 use App\Http\Requests\StoreUser;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUser $request
+     * @return mixed
      */
     public function store(StoreUser $request)
     {
