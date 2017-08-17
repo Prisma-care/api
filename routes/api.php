@@ -41,10 +41,14 @@ Route::group(['prefix' => 'v1'], function () {
        'only' => ['store', 'show', 'update']
     ]);
 
+    Route::resource('heritage', 'HeritageController', [
+       'only' => ['index', 'show', 'store']
+    ]);
+
     Route::match(['link'], 'patient/{patientId}/connection', 'ConnectionController@connect');
     Route::match(['unlink'], 'patient/{patientId}/connection', 'ConnectionController@disconnect');
 
-    Route::post('invite', function(){
+    Route::post('invite', function () {
         return response([], 204);
     });
 });
