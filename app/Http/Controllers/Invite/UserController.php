@@ -19,17 +19,6 @@ class UserController extends Controller
      */
     public function store(StoreUserConnection $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users',
-            'firstName' => 'required|string',
-            'lastName' => 'required|string',
-            'patientID' => 'required|integer',
-            'inviterID' => 'required|integer'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->exception($validator->errors(), 400);
-        }
 
         $user_data = [
             'email' => $request->input('email'),
