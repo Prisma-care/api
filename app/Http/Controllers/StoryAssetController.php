@@ -16,9 +16,10 @@ class StoryAssetController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoryAssetRequest\Store $request
+     * @param $patientId
+     * @param $storyId
+     * @return mixed
      */
     public function store(StoryAssetRequest\Store $request, $patientId, $storyId)
     {
@@ -48,11 +49,13 @@ class StoryAssetController extends Controller
         return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param StoryAssetRequest\Show $request
+     * @param $patientId
+     * @param $storyId
+     * @param $asset
+     * @return mixed
      */
     public function show(StoryAssetRequest\Show $request, $patientId, $storyId, $asset)
     {
@@ -70,6 +73,12 @@ class StoryAssetController extends Controller
         return response($file, 200)->header("Content-Type", $mimeType);
     }
 
+    /**
+     * @param $image
+     * @param $path
+     * @param $assetName
+     * @param $extension
+     */
     private function saveThumbs($image, $path, $assetName, $extension)
     {
         $assetName = $assetName . '_thumbs.' . $extension;
