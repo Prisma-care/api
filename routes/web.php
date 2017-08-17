@@ -32,7 +32,7 @@ Route::post('password/reset', [
 ]);
 // TO DO : guard this in auth middleware later
 Route::get('/goto-download', [
-    'as' => 'goto.download', 'uses' => 'Auth\InviteSetPasswordController@goToDownload'
+    'as' => 'goto.download', 'uses' => 'Invite\SetPasswordController@goToDownload'
 ]);
 
 
