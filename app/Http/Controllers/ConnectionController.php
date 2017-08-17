@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use JWTAuth;
 use App\Patient;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ConnectionController extends Controller
 {
