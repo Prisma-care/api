@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Image;
 use App\Story;
 use App\Patient;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\StoryAsset as StoryAssetRequest;
 
 class StoryAssetController extends Controller
 {
@@ -23,17 +22,9 @@ class StoryAssetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $patientId, $storyId)
+    public function store(StoryAssetRequest\Store $request, $patientId, $storyId)
     {
-        try {
-            Patient::findOrFail($patientId);
-            Story::findOrFail($storyId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $story = Story::find($storyId);
+        $story = Story::findOrFail($storyId);
 
         if (!$request->hasFile('asset')) {
             return response()->exception('No asset was provided or the form-data request was malformed', 400);
@@ -65,15 +56,9 @@ class StoryAssetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($patientId, $storyId, $asset)
+    public function show(StoryAssetRequest\Show $request, $patientId, $storyId, $asset)
     {
-        try {
-            Patient::findOrFail($patientId);
-            Story::findOrFail($storyId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
+        Story::findOrFail($storyId);
 
         $storagePath = storage_path("app/stories/$patientId/$storyId/$asset");
 

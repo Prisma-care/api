@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Story;
 use App\Patient;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\Story as StoryRequest;
 
 class StoryController extends Controller
 {
@@ -30,24 +29,8 @@ class StoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $patientId)
+    public function store(StoryRequest\Store $request, $patientId)
     {
-        try {
-            Patient::findOrFail($patientId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'description' => 'required',
-            'creatorId' => 'required',
-            'albumId' => 'required'
-        ]);
-        if ($validator->fails()) {
-            return response()->exception($validator->errors(), 400);
-        }
-
         $story = new Story([
             'description' => $request->input('description'),
             'happened_at' => $request->input('happenedAt'),
@@ -80,17 +63,8 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function show($patientId, $storyId)
+    public function show(StoryRequest\Show $request, $patientId, Story $story)
     {
-        try {
-            Patient::findOrFail($patientId);
-            Story::findOrFail($storyId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $story = Story::find($storyId);
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
@@ -111,21 +85,12 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $patientId, $storyId)
+    public function update(StoryRequest\Update $request, $patientId, Story $story)
     {
         if (!$request->isMethod('PATCH')) {
             return response()->exception("Method not allowed", 405);
         }
 
-        try {
-            Patient::findOrFail($patientId);
-            Story::findOrFail($storyId);
-        } catch (ModelNotFoundException $e) {
-            $failingResource = class_basename($e->getModel());
-            return response()->exception("There is no $failingResource resource with the provided id.", 400);
-        }
-
-        $story = Story::find($storyId);
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
@@ -148,9 +113,9 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function destroy($patientId, $storyId)
+    public function destroy(StoryRequest\Destroy $request, $patientId, Story $story)
     {
-        if (Story::destroy($storyId)) {
+        if ($story->delete()) {
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception("The story could not be deleted", 500);

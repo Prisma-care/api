@@ -67,7 +67,7 @@ class PatientTest extends TestCase
              ])
             ->assertStatus(201)
             ->getData();
-        $this->testGetPatient($response->meta->location);
+        $patient = \App\Patient::findOrFail($response->response->id);
     }
 
     public function testCreatePatientWithoutRequiredFields()
