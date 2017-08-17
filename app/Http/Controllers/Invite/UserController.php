@@ -8,7 +8,6 @@ use App\Patient;
 use App\User;
 use Hash;
 use Mail;
-use Validator;
 
 class UserController extends Controller
 {
