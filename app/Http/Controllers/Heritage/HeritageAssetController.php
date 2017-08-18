@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Heritage;
+use App\Http\Requests\HeritageAsset as HeritageAssetRequest;
 
 class HeritageAssetController extends Controller
 {
@@ -15,22 +15,23 @@ class HeritageAssetController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\HeritageAsset\Show $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HeritageAssetRequest\Store $request)
     {
-        //
+        return response()->success([], 204, 'No Content');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Http\Requests\HeritageAsset\Show $request
+     * @param  int  $assetId
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(HeritageAssetRequest\Show $request, $assetId)
     {
-        //
+        return response()->success([], 204, 'No Content');
     }
 }
