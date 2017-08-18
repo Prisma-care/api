@@ -63,7 +63,7 @@ class HeritageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\Heritage\Update $request
-     * @param  int  $id
+     * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
     public function update(HeritageRequest\Update $request, $heritageId)
@@ -86,11 +86,16 @@ class HeritageController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Http\Requests\Heritage\Destroy $request
-     * @param  int  $id
+     * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(HeritageRequest\Destroy $request, $id)
+    public function destroy(HeritageRequest\Destroy $request, $heritageId)
     {
-        //
+        $heritage = Heritage::findOrFail($heritageId);
+        if ($heritage->delete()) {
+            return response()->success([], 200, 'OK');
+        } else {
+            return response()->exception("The heritage could not be deleted", 500);
+        }
     }
 }

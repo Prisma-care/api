@@ -42,6 +42,6 @@ class HeritagePolicy
      */
     public function delete(User $user, Heritage $heritage)
     {
-        return true;
+        return $user->isSuperAdmin();
     }
 }
