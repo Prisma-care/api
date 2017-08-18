@@ -12,4 +12,16 @@ class Store extends BaseRequest
         $user = $this->getUser();
         return $user->can('create', Heritage::class);
     }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'description' => 'required'
+        ];
+    }
 }

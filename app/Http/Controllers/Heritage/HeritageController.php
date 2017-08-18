@@ -26,7 +26,16 @@ class HeritageController extends Controller
      */
     public function store(HeritageRequest\Store $request)
     {
-        //
+        $heritage = new Heritage([
+            'description' => $request->input('description'),
+            'happened_at' => $request->input('happenedAt')
+        ]);
+        if (!$heritage->save()) {
+            return response()->exception('The heritage could not be created', 500);
+        }
+
+        $location = $request->url() . '/' . $heritage->id;
+        return response()->success($heritage, 201, 'Created', $location);
     }
 
     /**
