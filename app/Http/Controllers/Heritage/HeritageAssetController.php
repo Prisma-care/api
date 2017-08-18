@@ -60,7 +60,7 @@ class HeritageAssetController extends Controller
     {
         Heritage::findOrFail($heritageId);
 
-        $storagePath = storage_path("app/heritage/$heritageId/$asset");
+        $storagePath = storage_path("app/heritage/$heritageId/$assetId");
 
         if (!File::exists($storagePath)) {
             return response()->exception('This asset does not exist.', 404);
