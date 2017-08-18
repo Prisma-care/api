@@ -30,7 +30,7 @@ class HeritagePolicy
      */
     public function update(User $user, Heritage $heritage)
     {
-        return true;
+        return $user->isSuperAdmin();
     }
 
     /**
