@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Heritage;
+use App\Utils\ImageUtility;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\HeritageAsset as HeritageAssetRequest;
 
 class HeritageAssetController extends Controller
@@ -16,11 +19,33 @@ class HeritageAssetController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\HeritageAsset\Show $request
+     * @param  int $heritageId
      * @return \Illuminate\Http\Response
      */
-    public function store(HeritageAssetRequest\Store $request)
+    public function store(HeritageAssetRequest\Store $request, $heritageId)
     {
-        return response()->success([], 204, 'No Content');
+        $heritage = Heritage::findOrFail($heritageId);
+
+        if (!$request->hasFile('asset')) {
+            return response()->exception('No asset was provided or the form-data request was malformed', 400);
+        } elseif (!$request->file('asset')->isValid()) {
+            return response()->exception('Asset upload failed, please try again later.', 500);
+        }
+
+        $asset = $request->file('asset');
+        $extension = ($asset->extension()) ? ($asset->extension()) : pathinfo($asset, PATHINFO_EXTENSION);
+
+        $assetName = $heritageId;
+        $fullAssetName = "$assetName.$extension";
+        $storagePath = "heritage/$heritageId";
+        $asset->storeAs($storagePath, $fullAssetName);
+        ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
+
+        $heritage->asset_name = $fullAssetName;
+        $heritage->save();
+
+        $location = $request->url() . '/' . $fullAssetName;
+        return response()->success(['id'=> $heritage->id], 201, 'Created', $location);
     }
 
     /**
@@ -45,6 +70,5 @@ class HeritageAssetController extends Controller
         $mimeType = File::mimeType($storagePath);
 
         return response($file, 200)->header("Content-Type", $mimeType);
-        return response()->success([], 204, 'No Content');
     }
 }
