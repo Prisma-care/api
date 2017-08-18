@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Patient;
 use App\Http\Requests\Patient as PatientRequest;
 
@@ -13,11 +12,10 @@ class PatientController extends Controller
         $this->middleware('jwt.auth');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PatientRequest\Store $request
+     * @return mixed
      */
     public function store(PatientRequest\Store $request)
     {

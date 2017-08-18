@@ -6,6 +6,12 @@ use Image;
 
 class ImageUtility
 {
+    /**
+     * @param $image
+     * @param $path
+     * @param $assetName
+     * @param $extension
+     */
     public static function saveThumbs($image, $path, $assetName, $extension)
     {
         $assetName = $assetName . '_thumbs.' . $extension;
