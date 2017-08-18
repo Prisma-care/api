@@ -7,6 +7,11 @@ use App\Http\Requests\Heritage as HeritageRequest;
 
 class HeritageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
