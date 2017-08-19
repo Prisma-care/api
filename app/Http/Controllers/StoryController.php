@@ -79,10 +79,6 @@ class StoryController extends Controller
 
     public function update(StoryRequest\Update $request, $patientId, Story $story)
     {
-        if (!$request->isMethod('PATCH')) {
-            return response()->exception("Method not allowed", 405);
-        }
-
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))

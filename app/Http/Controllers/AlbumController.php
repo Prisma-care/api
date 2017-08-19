@@ -114,10 +114,6 @@ class AlbumController extends Controller
      */
     public function update(AlbumRequest\Update $request, $patientId, $albumId)
     {
-        if (!$request->isMethod('PATCH')) {
-            return response()->exception('Method not allowed', 405);
-        }
-
         $album = Album::findOrFail($albumId);
         $values = $request->all();
         foreach (array_keys($values) as $key) {
