@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $resources = ['patient', 'user', 'album', 'story'];
+        $resources = ['patient', 'user', 'album', 'story', 'heritage'];
         foreach ($resources as $resource) {
             Route::pattern($resource, '[0-9]+');
         }
