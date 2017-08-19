@@ -73,10 +73,6 @@ class HeritageController extends Controller
      */
     public function update(HeritageRequest\Update $request, $heritageId)
     {
-        if (!$request->isMethod('PATCH')) {
-            return response()->exception("Method not allowed", 405);
-        }
-
         $heritage = Heritage::findOrFail($heritageId);
         $heritage->description = $request->input('description') ?: $heritage->description;
         $heritage->happened_at = $request->input('happened_at') ?: $heritage->happenedAt;
