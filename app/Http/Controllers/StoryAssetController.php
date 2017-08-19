@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Image;
-use File;
 use App\Story;
+use App\Patient;
+use App\Utils\ImageUtility;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoryAsset as StoryAssetRequest;
 
 class StoryAssetController extends Controller
@@ -40,7 +43,7 @@ class StoryAssetController extends Controller
         $fullAssetName = "$assetName.$extension";
         $storagePath = "stories/$patientId/$storyId";
         $asset->storeAs($storagePath, $fullAssetName);
-        $this->saveThumbs($asset, $storagePath, $assetName, $extension);
+        ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
 
         $story->asset_name = $request->url() . '/' . $fullAssetName;
         $story->save();
@@ -48,7 +51,6 @@ class StoryAssetController extends Controller
         $location = $story->asset_name;
         return response()->success(['id'=> $story->id], 201, 'Created', $location);
     }
-
 
     /**
      * @param StoryAssetRequest\Show $request
@@ -71,19 +73,5 @@ class StoryAssetController extends Controller
         $mimeType = File::mimeType($storagePath);
 
         return response($file, 200)->header("Content-Type", $mimeType);
-    }
-
-    /**
-     * @param $image
-     * @param $path
-     * @param $assetName
-     * @param $extension
-     */
-    private function saveThumbs($image, $path, $assetName, $extension)
-    {
-        $assetName = $assetName . '_thumbs.' . $extension;
-        $thumbs = Image::make($image->getRealPath());
-        $thumbs->fit(500, 500);
-        $thumbs->save(base_path() . "/storage/app/$path/$assetName");
     }
 }
