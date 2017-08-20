@@ -32,4 +32,12 @@ class SetPasswordController extends Controller
     {
 
     }
+    /**
+     * Delete the token used for this reset
+     * @param $token
+     */
+    public function destroyToken($token)
+    {
+        Invite::where('token', $token)->delete();
+    }
 }
