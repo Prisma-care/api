@@ -72,7 +72,7 @@ class DefaultAlbumController extends Controller
             return response()->exception("The album could not be updated", 500);
         }
 
-        return response()->success($album, 200, 'OK');
+        return response()->success([], 200, 'OK');
     }
 
     /**

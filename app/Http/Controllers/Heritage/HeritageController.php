@@ -80,7 +80,7 @@ class HeritageController extends Controller
             return response()->exception("The story could not be updated", 500);
         }
 
-        return response()->success($heritage, 200, 'OK');
+        return response()->success([], 200, 'OK');
     }
 
     /**
