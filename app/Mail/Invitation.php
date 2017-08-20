@@ -2,25 +2,27 @@
 
 namespace App\Mail;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+
 class Invitation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($data)
     {
-        $this->user = $user;
+        $this->data = $data;
     }
 
     /**
@@ -30,8 +32,10 @@ class Invitation extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invite')
-            ->from('info@prisma.care')
-            ->subject('{{ $inviter }} nodigde je uit voor Prisma');
+        $data = $this->data;
+        return $this->from('info@prisma.care')
+            ->subject($data['inviter']. ' nodigde je uit voor Prisma')
+            ->with($data)
+            ->markdown('emails.invite');
     }
 }
