@@ -81,8 +81,17 @@ class DefaultAlbumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($albumId)
     {
-        //
+        $album = Album::findOrFail($albumId);
+        if (!$album->is_default) {
+            return response()->exception("The album you're trying to update is not a default album", 400);
+        }
+
+        if ($album->delete()) {
+            return response()->success([], 200, 'OK');
+        } else {
+            return response()->exception('The album could not be deleted', 500);
+        }
     }
 }
