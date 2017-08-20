@@ -15,14 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/download', function () {
-    return view('download');
-});
-
-Route::post('/invite', [
-    'uses' => 'Invite\UserController@store'
-]);
-
 Route::get('/password/set/{token}', [
     'as' => 'password.set', 'uses' => 'Invite\SetPasswordController@checkToken'
 ]);
@@ -30,10 +22,3 @@ Route::get('/password/set/{token}', [
 Route::post('password/set', [
     'as' => 'password.save', 'uses' => 'Invite\SetPasswordController@set'
 ]);
-// TO DO : guard this in auth middleware later
-Route::get('/goto-download', [
-    'as' => 'goto.download', 'uses' => 'Invite\SetPasswordController@goToDownload'
-]);
-
-
-Route::get('/home', 'HomeController@index')->name('home');
