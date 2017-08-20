@@ -15,7 +15,6 @@ class SetPasswordController extends Controller
 {
 
     /**
-     * Where to redirect users after setting their password.
      *
      * @var string
      */
@@ -32,7 +31,24 @@ class SetPasswordController extends Controller
     }
 
     public function setPassword(SetPassword $request)
+    /**
+     * check for a valid token and show the update password form
+     *
+     * @param string $token
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function checkToken(string $token)
     {
+        $invite = Invite::where('token', $token)->first();
+
+        $data = [
+            'invite_id' => $invite->id,
+            'user_id' => $invite->user_id,
+            'email' => $invite->email,
+            'token' => $invite->token
+        ];
+
+        return View::make('invites.set', $data);
 
     }
     /**
