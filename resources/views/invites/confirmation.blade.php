@@ -16,7 +16,7 @@
 
                         <p>Je hebt nu een account voor de Prisma app.</p>
 
-                        <a href="#" class="btn btn-primary">Installeer de app</a> en meldt je aan.
+                        <p><a href="#" class="btn btn-primary">Installeer de app</a> en meldt je aan.</p>
 
                         <p>Na het installeren en openen van de app dien je je e-mail adres en wachtwoord nog in te
                             geven. Hou deze goed bij.</p>
