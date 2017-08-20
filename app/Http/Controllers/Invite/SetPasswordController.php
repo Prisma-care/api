@@ -44,6 +44,41 @@ class SetPasswordController extends Controller
         return View::make('invites.set', $data);
 
     }
+
+
+    /**
+     * set the new password
+     *
+     * @param SetPassword $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function set(SetPassword $request)
+    {
+        $user_id = $request->input('user_id');
+        $email = $request->input('email');
+
+        $user = User::where('id', $user_id)
+            ->where('email', $email)
+            ->first();
+
+        $new_password = $request->input('password');
+
+        $user->password = Hash::make($new_password);
+        $user->save();
+
+        $this->destroyToken($request->input('token'));
+
+        $data = [
+            'user_name' => $user->first_name,
+            'password' => $new_password
+        ];
+
+        Mail::to($user)->send(new SendPassword($data));
+
+        return view('invites.confirmation');
+
+    }
+
     /**
      * Delete the token used for this reset
      * @param $token
