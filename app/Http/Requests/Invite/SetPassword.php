@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Invite;
 
 use App\Http\Requests\BaseRequest;
 
@@ -19,8 +19,10 @@ class SetPassword extends BaseRequest
     public function rules()
     {
         return [
-            'email' => 'email|max:255',
+            'email' => 'required|email|max:255',
             'password' => 'required|max:255',
+            'user_id' => 'required|integer',
+            'token' => 'required|string'
         ];
     }
 }
