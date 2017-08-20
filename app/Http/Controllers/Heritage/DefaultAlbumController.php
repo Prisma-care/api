@@ -60,9 +60,19 @@ class DefaultAlbumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DefaultAlbumRequest\Update $request, $albumId)
     {
-        //
+        $album = Album::findOrFail($albumId);
+        if (!$album->is_default) {
+            return response()->exception("The album you're trying to update is not a default album", 400);
+        }
+
+        $album->description = $request->input('title') ?: $album->title;
+        if (!$album->update()) {
+            return response()->exception("The album could not be updated", 500);
+        }
+
+        return response()->success($album, 200, 'OK');
     }
 
     /**
