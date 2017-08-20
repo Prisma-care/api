@@ -7,7 +7,7 @@ body, body *:not(html):not(style):not(br):not(tr):not(code) {
 
 body {
     background-color: #f5f8fa;
-    color: #74787E;
+    color: #222;
     height: 100%;
     hyphens: auto;
     line-height: 1.4;
@@ -40,7 +40,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #2F3133;
+    color: #222;
     font-size: 19px;
     font-weight: bold;
     margin-top: 0;
@@ -48,7 +48,7 @@ h1 {
 }
 
 h2 {
-    color: #2F3133;
+    color: #222;
     font-size: 16px;
     font-weight: bold;
     margin-top: 0;
@@ -56,7 +56,7 @@ h2 {
 }
 
 h3 {
-    color: #2F3133;
+    color: #222;
     font-size: 14px;
     font-weight: bold;
     margin-top: 0;
@@ -64,7 +64,7 @@ h3 {
 }
 
 p {
-    color: #74787E;
+    color: #222;
     font-size: 16px;
     line-height: 1.5em;
     margin-top: 0;
@@ -164,7 +164,7 @@ img {
 }
 
 .footer p {
-    color: #AEAEAE;
+    color: #222;
     font-size: 12px;
     text-align: center;
 }
@@ -217,11 +217,11 @@ img {
 }
 
 .button-blue {
-    background-color: #3097D1;
-    border-top: 10px solid #3097D1;
-    border-right: 18px solid #3097D1;
-    border-bottom: 10px solid #3097D1;
-    border-left: 18px solid #3097D1;
+    background-color: #637dc8;
+    border-top: 10px solid #637dc8;
+    border-right: 18px solid #637dc8;
+    border-bottom: 10px solid #637dc8;
+    border-left: 18px solid #637dc8;
 }
 
 .button-green {
