@@ -48,6 +48,10 @@ Route::group(['prefix' => 'v1'], function () {
     ]);
     Route::patch('heritage/{heritage}', 'HeritageController@update');
 
+    Route::resource('album', 'DefaultAlbumController', [
+        'only' => ['store', 'show']
+    ]);
+
     Route::resource('heritage.asset', 'HeritageAssetController', [
        'only' => ['store', 'show']
     ]);
