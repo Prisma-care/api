@@ -24,11 +24,11 @@ Route::post('/invite', [
 ]);
 
 Route::get('/password/set/{token}', [
-    'as' => 'password.set', 'uses' => 'Invite\SetPasswordController@showResetForm'
+    'as' => 'password.set', 'uses' => 'Invite\SetPasswordController@checkToken'
 ]);
 
-Route::post('password/reset', [
-    'as' => 'password.request', 'uses' => 'Auth\ResetPasswordController@reset'
+Route::post('password/set', [
+    'as' => 'password.save', 'uses' => 'Invite\SetPasswordController@set'
 ]);
 // TO DO : guard this in auth middleware later
 Route::get('/goto-download', [
