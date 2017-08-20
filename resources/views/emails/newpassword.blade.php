@@ -1,4 +1,4 @@
 @component('mail::message')
-<p>Dear {{ $user_name }}</p>
-<p>Thank you for joining Prisma. Your password is {{ $password }}</p>
+<p>Beste {{ $user_name }}</p>
+<p>Bedankt om deel uit te maken van Prisma. Uw wachtwoord is {{ $password }}</p>
 @endcomponent
