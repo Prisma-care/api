@@ -15,12 +15,6 @@ class SetPasswordController extends Controller
 {
 
     /**
-     *
-     * @var string
-     */
-    protected $redirectTo = '/accepted';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -30,7 +24,6 @@ class SetPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function setPassword(SetPassword $request)
     /**
      * check for a valid token and show the update password form
      *
