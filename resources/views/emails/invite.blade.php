@@ -1,20 +1,9 @@
 @component('mail::message')
-
     @component('mail::panel')
-
-        Geef mee kleur aan de herinneringen van Marie-Josée met de Prisma app voor Android smartphones en tablets.
-
-        @component('mail::button', ['url' => $url, 'color' => 'blue'])
-            Bevestig je e-mail adres via deze link
-        @endcomponent
-
-        en kies daarna een wachtwoord.
-
-        Werkt de link niet? Plak deze link in je internet browser: $url
-
-        Meer weten over Prisma?
-        www.prisma.care
-
+<p>Geef mee kleur aan de herinneringen van {{ $patient }} met de Prisma app voor Android smartphones en tablets.</p>
+<p><a href="{{ route('password.set',['token'=>$token]) }}" class="button button-blue" target="_blank">Bevestig je e-mail adres via deze link</a> en kies daarna een wachtwoord.</p>
+<p>Werkt de link niet? Plak deze link in je internet browser: {{ route('password.set',['token'=>$token]) }}</p>
+<p>Meer weten over Prisma?<br>
+    www.prisma.care</p>
     @endcomponent
-
 @endcomponent
