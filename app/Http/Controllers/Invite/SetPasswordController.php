@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Invite;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SetPassword;
-use View;
-use Hash;
+use App\Http\Requests\Invite\SetPassword;
+use App\Mail\SendPassword;
+use App\Invite;
 use App\User;
+use Hash;
+use Mail;
+use View;
 
 class SetPasswordController extends Controller
 {
