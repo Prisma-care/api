@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Heritage;
+namespace App\Http\Controllers;
 
+use App\Heritage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,16 +14,6 @@ class DefaultAlbumController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -45,17 +36,6 @@ class DefaultAlbumController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }

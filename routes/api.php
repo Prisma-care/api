@@ -49,7 +49,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::patch('heritage/{heritage}', 'HeritageController@update');
 
     Route::resource('album', 'DefaultAlbumController', [
-        'only' => ['store', 'show']
+        'except' => ['edit', 'create']
     ]);
 
     Route::resource('heritage.asset', 'HeritageAssetController', [
