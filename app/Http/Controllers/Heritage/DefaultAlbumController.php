@@ -15,9 +15,10 @@ class DefaultAlbumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(DefaultAlbumRequest\Index $request)
     {
-        //
+        $albums = Album::with('heritage')->get()->where('is_default', '=', true)->values()->all();
+        return response()->success($albums, 200, 'OK');
     }
 
     /**
