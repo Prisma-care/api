@@ -15,7 +15,7 @@ class Heritage extends Model
      * @var array
      */
     protected $fillable = [
-        'asset_name','asset_type', 'description', 'happened_at'
+        'asset_name','asset_type', 'description', 'happened_at', 'album_id'
     ];
 
     public function categories()

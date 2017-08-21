@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Album;
 use App\Heritage;
 use App\Http\Requests\Heritage as HeritageRequest;
 
@@ -16,24 +17,33 @@ class HeritageController extends Controller
      * Display a listing of the resource.
      *
      * @param  \App\Http\Requests\Heritage\Index  $request
+     * @param  int $albumId
      * @return \Illuminate\Http\Response
      */
-    public function index(HeritageRequest\Index $request)
+    public function index(HeritageRequest\Index $request, $albumId)
     {
-        return response()->success(Heritage::all(), 200, 'OK');
+        $album = Album::findOrFail($albumId);
+        $heritage = $album->heritage;
+        return response()->success($heritage, 200, 'OK');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\Heritage\Store  $request
+     * @param  int $albumId
      * @return \Illuminate\Http\Response
      */
-    public function store(HeritageRequest\Store $request)
+    public function store(HeritageRequest\Store $request, $albumId)
     {
+        $album = Album::findOrFail($albumId);
+        if (!$album->is_default) {
+            return response()->exception('You can only store new heritage in a default album', 400);
+        }
         $heritage = new Heritage([
             'description' => $request->input('description'),
-            'happened_at' => $request->input('happenedAt')
+            'happened_at' => $request->input('happenedAt'),
+            'album_id' => $albumId
         ]);
         if (!$heritage->save()) {
             return response()->exception('The heritage could not be created', 500);

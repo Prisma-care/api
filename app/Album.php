@@ -27,7 +27,7 @@ class Album extends Model
         return $this->hasMany('App\Story');
     }
 
-    public function albums()
+    public function heritage()
     {
         return $this->hasMany('App\Heritage');
     }

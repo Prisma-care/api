@@ -43,14 +43,15 @@ Route::group(['prefix' => 'v1'], function () {
        'only' => ['store', 'show', 'update']
     ]);
 
-    Route::resource('heritage', 'HeritageController', [
+    Route::resource('album', 'DefaultAlbumController', [
+        'except' => ['edit', 'create', 'show', 'update']
+    ]);
+    Route::patch('album/{album}', 'DefaultAlbumController@update');
+
+    Route::resource('album.heritage', 'HeritageController', [
        'except' => ['edit', 'create', 'update']
     ]);
-    Route::patch('heritage/{heritage}', 'HeritageController@update');
-
-    Route::resource('album', 'DefaultAlbumController', [
-        'except' => ['edit', 'create', 'show']
-    ]);
+    Route::patch('album/{album}/heritage/{heritage}', 'HeritageController@update');
 
     Route::resource('heritage.asset', 'HeritageAssetController', [
        'only' => ['store', 'show']
