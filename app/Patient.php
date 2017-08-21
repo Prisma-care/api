@@ -82,4 +82,9 @@ class Patient extends Model
             ]);
         }
     }
+    
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . " " .  ucfirst($this->last_name);
+    }
 }

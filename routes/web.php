@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/password/set/{token}', [
+    'as' => 'password.set', 'uses' => 'Invite\SetPasswordController@checkToken'
+]);
+
+Route::post('password/set', [
+    'as' => 'password.save', 'uses' => 'Invite\SetPasswordController@set'
+]);

@@ -22,4 +22,9 @@ class Heritage extends Model
     {
         return $this->belongsToMany('App\Category')->withTimestamps();
     }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\Album');
+    }
 }
