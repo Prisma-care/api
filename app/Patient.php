@@ -39,50 +39,33 @@ class Patient extends Model
     }
 
     /**
-     * Premake albums specified in $categories, fill them up with heritage data.
-     * Ties into the FTUE, a patient should never have an empty story.
+     * Copy albums with the is_default flag for every new patient
+     * As part of the FTUE, we want every new patient to have heritage content that they can edit to their liking
      *
      * @return void
      */
     public function prepopulate()
     {
-        $categories = ['Sport', 'Voeding', 'Roeselare'];
-        $ids = [];
-        foreach ($categories as $category) {
-            $category = Category::where('name', '=', $category)->first();
-            $album = Album::create([
-                'title' => $category->name,
-                'patient_id' => $this->id
-            ]);
-            $heritage = $category->heritage;
-            $this->createStoriesFromHeritage($heritage, $album->id);
-        }
-        $empties = [
-            'Kindertijd', 'Opleiding en werk', 'De liefde',
-            'Familie en vrienden', 'Vrije tijd', 'Vakanties'
-        ];
-        foreach ($empties as $emptyAlbum) {
-            $album = Album::create([
-                'title' => $emptyAlbum,
-                'patient_id' => $this->id
-            ]);
+        $albums = Album::with('heritage')->get()->where('is_default', '=', true)->values()->all();
+        foreach ($albums as $album) {
+            $newAlbum = $album->replicate();
+            $newAlbum->patient_id = $this->id;
+            $newAlbum->is_default = false;
+            foreach ($album->heritage as $heritage) {
+                Story::create([
+                    'description' => $heritage->description,
+                    'asset_name' => $heritage->asset_name ? env('APP_URL') . '/storage/heritage/' . $heritage->asset_name : null,
+                    'asset_type' => $heritage->asset_type ?: null,
+                    'user_id' => 1,
+                    'album_id' => $album->id,
+                    'happened_at' => $heritage->happened_at,
+                    'is_heritage' => true
+                ]);
+            }
+            $newAlbum->save();
         }
     }
 
-    private function createStoriesFromHeritage(Collection $heritageData, int $albumId)
-    {
-        foreach ($heritageData as $heritage) {
-            $story = Story::create([
-                'description' => ($heritage->description) ?: "",
-                'asset_name' => env('APP_URL') . '/storage/heritage/' . $heritage->asset_name,
-                'asset_type' => $heritage->asset_type,
-                'is_heritage' => true,
-                'user_id' => 1,
-                'album_id' => $albumId
-            ]);
-        }
-    }
-    
     public function getFullNameAttribute()
     {
         return ucfirst($this->first_name) . " " .  ucfirst($this->last_name);
