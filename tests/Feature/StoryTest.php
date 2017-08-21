@@ -60,7 +60,7 @@ class StoryTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testGetAlbumWithInvalidStoryId()
+    public function testGetStoryWithInvalidStoryId()
     {
         $endpoint = $this->endpoint . '/0';
         $response = $this->getJson($endpoint, $this->headers)
@@ -92,7 +92,7 @@ class StoryTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testCreatePatientWithoutRequiredFields()
+    public function testCreateStoryWithoutRequiredFields()
     {
         $requiredKeys = [ 'description', 'albumId', 'creatorId' ];
         foreach ($requiredKeys as $key) {

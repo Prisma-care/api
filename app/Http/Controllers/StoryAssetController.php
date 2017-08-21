@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Image;
 use App\Story;
 use App\Patient;
-use Illuminate\Http\Request;
+use App\Utils\ImageUtility;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\StoryAsset as StoryAssetRequest;
 
 class StoryAssetController extends Controller
 {
@@ -19,13 +19,13 @@ class StoryAssetController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoryAssetRequest\Store $request
+     * @param $patientId
+     * @param $storyId
+     * @return mixed
      */
-    public function store(Request $request, $patientId, $storyId)
+    public function store(StoryAssetRequest\Store $request, $patientId, $storyId)
     {
-        Patient::findOrFail($patientId);
         $story = Story::findOrFail($storyId);
 
         if (!$request->hasFile('asset')) {
@@ -43,7 +43,7 @@ class StoryAssetController extends Controller
         $fullAssetName = "$assetName.$extension";
         $storagePath = "stories/$patientId/$storyId";
         $asset->storeAs($storagePath, $fullAssetName);
-        $this->saveThumbs($asset, $storagePath, $assetName, $extension);
+        ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
 
         $story->asset_name = $request->url() . '/' . $fullAssetName;
         $story->save();
@@ -53,14 +53,14 @@ class StoryAssetController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param StoryAssetRequest\Show $request
+     * @param $patientId
+     * @param $storyId
+     * @param $asset
+     * @return mixed
      */
-    public function show($patientId, $storyId, $asset)
+    public function show(StoryAssetRequest\Show $request, $patientId, $storyId, $asset)
     {
-        Patient::findOrFail($patientId);
         Story::findOrFail($storyId);
 
         $storagePath = storage_path("app/stories/$patientId/$storyId/$asset");
@@ -73,13 +73,5 @@ class StoryAssetController extends Controller
         $mimeType = File::mimeType($storagePath);
 
         return response($file, 200)->header("Content-Type", $mimeType);
-    }
-
-    private function saveThumbs($image, $path, $assetName, $extension)
-    {
-        $assetName = $assetName . '_thumbs.' . $extension;
-        $thumbs = Image::make($image->getRealPath());
-        $thumbs->fit(500, 500);
-        $thumbs->save(base_path() . "/storage/app/$path/$assetName");
     }
 }

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Patient;
-use App\Http\Requests\StorePatient;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\Patient as PatientRequest;
 
 class PatientController extends Controller
 {
@@ -14,13 +12,12 @@ class PatientController extends Controller
         $this->middleware('jwt.auth');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PatientRequest\Store $request
+     * @return mixed
      */
-    public function store(StorePatient $request)
+    public function store(PatientRequest\Store $request)
     {
         $patient = new Patient([
             'first_name' => $request->input('firstName'),
@@ -58,9 +55,8 @@ class PatientController extends Controller
      * @param  \App\patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function show($patientId)
+    public function show(PatientRequest\Show $request, Patient $patient)
     {
-        $patient = Patient::findOrFail($patientId);
         $gotPatient = [
             'id' => $patient->id,
             'firstName' => $patient->first_name,

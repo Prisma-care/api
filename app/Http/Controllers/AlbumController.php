@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Album;
 use App\Patient;
-use App\Http\Requests\StoreAlbum;
-use App\Http\Requests\UpdateAlbum;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\Album as AlbumRequest;
 
 class AlbumController extends Controller
 {
@@ -22,15 +19,15 @@ class AlbumController extends Controller
         'description' => 'description'
     );
 
+
     /**
-     * Display a listing of the resource.
-     *
-     * @param  int $patiendId
-     * @return \Illuminate\Http\Response
+     * @param AlbumRequest\Index $request
+     * @param $patientId
+     * @return mixed
      */
-    public function index($patientId)
+    public function index(AlbumRequest\Index $request, $patientId)
     {
-        $albums = Patient::findOrFail($patientId)->albums;
+        $albums = Patient::find($patientId)->albums;
         $allAlbums = [];
         foreach ($albums as $album) {
             $thisAlbum = [
@@ -54,16 +51,14 @@ class AlbumController extends Controller
         return response()->success($allAlbums, 200, 'OK');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreAlbum $request, $patientId)
-    {
-        Patient::findOrFail($patientId);
 
+    /**
+     * @param AlbumRequest\Store $request
+     * @param $patientId
+     * @return mixed
+     */
+    public function store(AlbumRequest\Store $request, $patientId)
+    {
         $album = new Album([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -81,15 +76,15 @@ class AlbumController extends Controller
         return response()->success($createdAlbum, 201, 'Created', $location);
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Album  $album
-     * @return \Illuminate\Http\Response
+     * @param AlbumRequest\Show $request
+     * @param $patientId
+     * @param $albumId
+     * @return mixed
      */
-    public function show($patientId, $albumId)
+    public function show(AlbumRequest\Show $request, $patientId, $albumId)
     {
-        Patient::findOrFail($patientId);
         $album = Album::findOrFail($albumId);
         $thisAlbum = [
            'id' => $album->id,
@@ -110,19 +105,15 @@ class AlbumController extends Controller
         return response()->success($thisAlbum, 200, 'OK');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Album  $album
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateAlbum $request, $patientId, $albumId)
-    {
-        if (!$request->isMethod('PATCH')) {
-            return response()->exception('Method not allowed', 405);
-        }
 
+    /**
+     * @param AlbumRequest\Update $request
+     * @param $patientId
+     * @param $albumId
+     * @return mixed
+     */
+    public function update(AlbumRequest\Update $request, $patientId, $albumId)
+    {
         $album = Album::findOrFail($albumId);
         $values = $request->all();
         foreach (array_keys($values) as $key) {
@@ -140,13 +131,14 @@ class AlbumController extends Controller
         return response()->success([], 200, 'OK');
     }
 
+
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Album  $album
-     * @return \Illuminate\Http\Response
+     * @param AlbumRequest\Destroy $request
+     * @param $patienId
+     * @param $albumId
+     * @return mixed
      */
-    public function destroy($patienId, $albumId)
+    public function destroy(AlbumRequest\Destroy $request, $patienId, $albumId)
     {
         $album = Album::findOrFail($albumId);
         if ($album->delete()) {

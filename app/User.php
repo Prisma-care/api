@@ -36,4 +36,19 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Relation');
     }
+
+    public function isAdmin()
+    {
+        return $this->user_type === 'admin' || $this->isSuperAdmin();
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->user_type === 'superadmin';
+    }
+
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . " " .  ucfirst($this->last_name);
+    }
 }

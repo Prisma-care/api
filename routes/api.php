@@ -30,21 +30,32 @@ Route::group(['prefix' => 'v1'], function () {
     ]);
 
     Route::resource('patient.album', 'AlbumController', [
-        'except' => ['edit', 'create']
+        'except' => ['edit', 'create', 'update']
     ]);
+    Route::patch('patient/{patient}/album/{album}', 'AlbumController@update');
 
     Route::resource('patient.story', 'StoryController', [
-        'except' => ['index', 'edit', 'create']
+        'only' => ['store', 'show', 'destroy']
     ]);
+    Route::patch('patient/{patient}/story/{story}', 'StoryController@update');
 
     Route::resource('patient.story.asset', 'StoryAssetController', [
        'only' => ['store', 'show', 'update']
     ]);
 
+    Route::resource('heritage', 'HeritageController', [
+       'except' => ['edit', 'create', 'update']
+    ]);
+    Route::patch('heritage/{heritage}', 'HeritageController@update');
+
+    Route::resource('heritage.asset', 'HeritageAssetController', [
+       'only' => ['store', 'show']
+    ]);
+
     Route::match(['link'], 'patient/{patientId}/connection', 'ConnectionController@connect');
     Route::match(['unlink'], 'patient/{patientId}/connection', 'ConnectionController@disconnect');
 
-    Route::post('invite', function(){
-        return response([], 204);
-    });
+    Route::post('/invite', [
+        'uses' => 'Invite\UserController@store'
+    ]);
 });

@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Story;
-use App\Patient;
-use Illuminate\Http\Request;
-use App\Http\Requests\StoreStory;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\Story as StoryRequest;
 
 class StoryController extends Controller
 {
@@ -25,15 +21,14 @@ class StoryController extends Controller
         $this->middleware('jwt.auth');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoryRequest\Store $request
+     * @param $patientId
+     * @return mixed
      */
-    public function store(StoreStory $request, $patientId)
+    public function store(StoryRequest\Store $request, $patientId)
     {
-        Patient::findOrFail($patientId);
         $story = new Story([
             'description' => $request->input('description'),
             'happened_at' => $request->input('happenedAt'),
@@ -66,10 +61,8 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function show($patientId, $storyId)
+    public function show(StoryRequest\Show $request, $patientId, Story $story)
     {
-        Patient::findOrFail($patientId);
-        $story = Story::findOrFail($storyId);
         $gotStory = [
             'id' => $story->id,
             'description' => $story->description,
@@ -83,22 +76,9 @@ class StoryController extends Controller
         return response()->success($gotStory, 200, 'OK');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Story  $story
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $patientId, $storyId)
+
+    public function update(StoryRequest\Update $request, $patientId, Story $story)
     {
-        if (!$request->isMethod('PATCH')) {
-            return response()->exception("Method not allowed", 405);
-        }
-
-        Patient::findOrFail($patientId);
-        $story = Story::findOrFail($storyId);
-
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
@@ -121,9 +101,8 @@ class StoryController extends Controller
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
      */
-    public function destroy($patientId, $storyId)
+    public function destroy(StoryRequest\Destroy $request, $patientId, Story $story)
     {
-        $story = Story::findOrFail($storyId);
         if ($story->delete()) {
             return response()->success([], 200, 'OK');
         } else {
