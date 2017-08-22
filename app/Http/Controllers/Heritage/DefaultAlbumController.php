@@ -31,8 +31,6 @@ class DefaultAlbumController extends Controller
     {
         $album = new Album([
             'title' => $request->input('title'),
-            // TODO this should be nullable
-            'patient_id' => 1,
             'is_default' => true
         ]);
         if (!$album->save()) {

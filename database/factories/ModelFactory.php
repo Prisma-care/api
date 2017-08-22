@@ -26,9 +26,7 @@ $factory->define(App\Album::class, function ($faker) {
 
 $factory->state(App\Album::class, 'default', function ($faker) {
     return [
-        'is_default' => true,
-        // TODO remove when patient_id is nullable
-        'patient_id' =>  1
+        'is_default' => true
     ];
 });
 
@@ -36,6 +34,7 @@ $factory->define(App\Heritage::class, function () {
     static $albumId;
 
     return [
+        'album_id' => $albumId,
         'description' => str_random(30)
     ];
 });
