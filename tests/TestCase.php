@@ -6,6 +6,7 @@ use JWTAuth;
 use App\User;
 use App\Patient;
 use App\Album;
+use App\Heritage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -45,6 +46,7 @@ abstract class TestCase extends BaseTestCase
 
     public function seedDatabase()
     {
+        $this->seedHeritage();
         $this->seedDefaults();
         $this->seedUsers();
         $this->seedPatients();
@@ -78,6 +80,14 @@ abstract class TestCase extends BaseTestCase
         $patients = factory(Patient::class, $amount)->create();
         foreach ($patients as $patient) {
             $patient->prepopulate();
+        }
+    }
+
+    public function seedHeritage()
+    {
+        $defaultAlbums = factory(Album::class, 5)->states('default')->create();
+        foreach ($defaultAlbums as $album) {
+            factory(Heritage::class, 3)->create(['album_id' => $album->id]);
         }
     }
 

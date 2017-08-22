@@ -18,8 +18,24 @@ $factory->define(App\Patient::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Album::class, function (Faker\Generator $faker) {
+$factory->define(App\Album::class, function ($faker) {
     return [
         'title' => str_random(20)
+    ];
+});
+
+$factory->state(App\Album::class, 'default', function ($faker) {
+    return [
+        'is_default' => true,
+        // TODO remove when patient_id is nullable
+        'patient_id' =>  1
+    ];
+});
+
+$factory->define(App\Heritage::class, function () {
+    static $albumId;
+
+    return [
+        'description' => str_random(30)
     ];
 });
