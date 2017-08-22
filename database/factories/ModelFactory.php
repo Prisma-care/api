@@ -24,12 +24,6 @@ $factory->define(App\Album::class, function ($faker) {
     ];
 });
 
-$factory->state(App\Album::class, 'default', function ($faker) {
-    return [
-        'is_default' => true
-    ];
-});
-
 $factory->define(App\Heritage::class, function () {
     static $albumId;
 

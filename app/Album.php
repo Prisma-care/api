@@ -22,6 +22,11 @@ class Album extends Model
         'is_default' => 'boolean'
     ];
 
+    public function isDefault()
+    {
+        return $this->patient_id === null;
+    }
+
     public function stories()
     {
         return $this->hasMany('App\Story');

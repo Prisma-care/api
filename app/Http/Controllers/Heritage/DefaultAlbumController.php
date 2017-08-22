@@ -17,7 +17,7 @@ class DefaultAlbumController extends Controller
      */
     public function index(DefaultAlbumRequest\Index $request)
     {
-        $albums = Album::with('heritage')->get()->where('is_default', '=', true)->values()->all();
+        $albums = Album::with('heritage')->get()->where('patient_id', '=', null)->values()->all();
         return response()->success($albums, 200, 'OK');
     }
 
@@ -30,8 +30,7 @@ class DefaultAlbumController extends Controller
     public function store(DefaultAlbumRequest\Store $request)
     {
         $album = new Album([
-            'title' => $request->input('title'),
-            'is_default' => true
+            'title' => $request->input('title')
         ]);
         if (!$album->save()) {
             return response()->exception('The default album could not be created', 500);
@@ -51,7 +50,7 @@ class DefaultAlbumController extends Controller
     public function update(DefaultAlbumRequest\Update $request, $albumId)
     {
         $album = Album::findOrFail($albumId);
-        if (!$album->is_default) {
+        if (!$album->isDefault()) {
             return response()->exception("The album you're trying to update is not a default album", 400);
         }
 
@@ -72,7 +71,7 @@ class DefaultAlbumController extends Controller
     public function destroy($albumId)
     {
         $album = Album::findOrFail($albumId);
-        if (!$album->is_default) {
+        if (!$album->isDefault()) {
             return response()->exception("The album you're trying to update is not a default album", 400);
         }
 

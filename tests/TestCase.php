@@ -85,7 +85,7 @@ abstract class TestCase extends BaseTestCase
 
     public function seedHeritage()
     {
-        $defaultAlbums = factory(Album::class, 5)->states('default')->create();
+        $defaultAlbums = factory(Album::class, 5)->create();
         foreach ($defaultAlbums as $album) {
             factory(Heritage::class, 3)->create(['album_id' => $album->id]);
         }

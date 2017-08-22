@@ -37,7 +37,7 @@ class HeritageController extends Controller
     public function store(HeritageRequest\Store $request, $albumId)
     {
         $album = Album::findOrFail($albumId);
-        if (!$album->is_default) {
+        if (!$album->isDefault()) {
             return response()->exception('You can only store new heritage in a default album', 400);
         }
         $heritage = new Heritage([

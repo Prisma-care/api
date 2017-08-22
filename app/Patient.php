@@ -46,11 +46,10 @@ class Patient extends Model
      */
     public function prepopulate()
     {
-        $albums = Album::with('heritage')->get()->where('is_default', '=', true)->values()->all();
+        $albums = Album::with('heritage')->get()->where('patient_id', '=', null)->values()->all();
         foreach ($albums as $album) {
             $newAlbum = $album->replicate();
             $newAlbum->patient_id = $this->id;
-            $newAlbum->is_default = false;
             foreach ($album->heritage as $heritage) {
                 Story::create([
                     'description' => $heritage->description,
@@ -58,7 +57,6 @@ class Patient extends Model
                     'asset_type' => $heritage->asset_type ?: null,
                     'user_id' => 1,
                     'album_id' => $album->id,
-                    'happened_at' => $heritage->happened_at,
                     'is_heritage' => true
                 ]);
             }
