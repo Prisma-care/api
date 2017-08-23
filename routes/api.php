@@ -14,9 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::resource('user', 'UserController', [
-        'only' => ['store', 'show', 'update']
-    ]);
+    Route::get('user', 'UserController@show');
+    Route::post('user', 'UserController@store');
 
     Route::post('user/signin', [
        'as' => 'signin', 'uses' => 'Auth\LoginController@signin'
