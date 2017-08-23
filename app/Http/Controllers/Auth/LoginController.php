@@ -23,7 +23,9 @@ class LoginController extends Controller
                 return response()->success([
                     'id' => $userId,
                     'token' => $token
-                ], 200, 'OK')->header('Authorization', "Bearer $token");
+                ], 200, 'OK')
+                ->header('Authorization', "Bearer $token")
+                ->header('Access-Control-Expose-Headers', 'Authorization');
             }
         } catch (JWTException $e) {
             return response()->exception($e->getMessage(), 500);
