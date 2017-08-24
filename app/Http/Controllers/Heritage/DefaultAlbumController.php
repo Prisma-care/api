@@ -58,8 +58,7 @@ class DefaultAlbumController extends Controller
         if (!$album->isDefault()) {
             return response()->exception("The album you're trying to update is not a default album", 400);
         }
-
-        $album->description = $request->input('title') ?: $album->title;
+        $album->title = $request->input('title') ?: $album->title;
         if (!$album->update()) {
             return response()->exception("The album could not be updated", 500);
         }
