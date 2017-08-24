@@ -41,10 +41,9 @@ class HeritageAssetController extends Controller
         $asset->storeAs($storagePath, $fullAssetName);
         ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
 
-        $heritage->asset_name = $fullAssetName;
-        $heritage->save();
-
         $location = $request->url() . '/' . $fullAssetName;
+        $heritage->asset_name = $location;
+        $heritage->save();
         return response()->success(['id'=> $heritage->id], 201, 'Created', $location);
     }
 
