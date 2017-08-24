@@ -60,7 +60,7 @@ class HeritageController extends Controller
      * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
-    public function show(HeritageRequest\Show $reqeust, $heritageId)
+    public function show(HeritageRequest\Show $reqeust, $albumId, $heritageId)
     {
         $heritage = Heritage::findOrFail($heritageId);
         $gotHeritage = [
@@ -81,7 +81,7 @@ class HeritageController extends Controller
      * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
-    public function update(HeritageRequest\Update $request, $heritageId)
+    public function update(HeritageRequest\Update $request, $albumId, $heritageId)
     {
         $heritage = Heritage::findOrFail($heritageId);
         $heritage->description = $request->input('description') ?: $heritage->description;
@@ -100,7 +100,7 @@ class HeritageController extends Controller
      * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(HeritageRequest\Destroy $request, $heritageId)
+    public function destroy(HeritageRequest\Destroy $request, $albumId, $heritageId)
     {
         $heritage = Heritage::findOrFail($heritageId);
         if ($heritage->delete()) {

@@ -22,7 +22,7 @@ class HeritageAssetController extends Controller
      * @param  int $heritageId
      * @return \Illuminate\Http\Response
      */
-    public function store(HeritageAssetRequest\Store $request, $heritageId)
+    public function store(HeritageAssetRequest\Store $request, $albumId, $heritageId)
     {
         $heritage = Heritage::findOrFail($heritageId);
 
@@ -56,7 +56,7 @@ class HeritageAssetController extends Controller
      * @param  int  $assetId
      * @return \Illuminate\Http\Response
      */
-    public function show(HeritageAssetRequest\Show $request, $heritageId, $assetId)
+    public function show(HeritageAssetRequest\Show $request, $albumId, $heritageId, $assetId)
     {
         Heritage::findOrFail($heritageId);
 
