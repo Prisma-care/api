@@ -52,7 +52,7 @@ Route::group(['prefix' => 'v1'], function () {
     ]);
     Route::patch('album/{album}/heritage/{heritage}', 'HeritageController@update');
 
-    Route::resource('heritage.asset', 'HeritageAssetController', [
+    Route::resource('album.heritage.asset', 'HeritageAssetController', [
        'only' => ['store', 'show']
     ]);
 

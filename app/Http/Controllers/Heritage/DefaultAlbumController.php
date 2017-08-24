@@ -10,6 +10,11 @@ use App\Http\Controllers\Controller;
 
 class DefaultAlbumController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
