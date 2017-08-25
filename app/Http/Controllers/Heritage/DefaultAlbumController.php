@@ -38,7 +38,7 @@ class DefaultAlbumController extends Controller
         $album = Album::with('heritage')->get()
                                         ->where('patient_id', '=', null)
                                         ->where('id', '=', $albumId)
-                                        ->values()->all();
+                                        ->first();
         return response()->success($album, 200, 'OK');
     }
 
