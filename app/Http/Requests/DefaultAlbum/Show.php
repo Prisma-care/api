@@ -4,7 +4,7 @@ namespace App\Http\Requests\DefaultAlbum;
 
 use App\Http\Requests\BaseRequest;
 
-class Index extends BaseRequest
+class Show extends BaseRequest
 {
     public function authorize()
     {

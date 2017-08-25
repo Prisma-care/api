@@ -43,7 +43,7 @@ Route::group(['prefix' => 'v1'], function () {
     ]);
 
     Route::resource('album', 'DefaultAlbumController', [
-        'except' => ['edit', 'create', 'show', 'update']
+        'except' => ['edit', 'create', 'update']
     ]);
     Route::patch('album/{album}', 'DefaultAlbumController@update');
 
