@@ -28,7 +28,7 @@ class HeritagePolicy
      * @param  \App\Heritage  $heritage
      * @return mixed
      */
-    public function update(User $user, Heritage $heritage)
+    public function update(User $user, Heritage $heritage = null)
     {
         return $user->isSuperAdmin();
     }
@@ -40,7 +40,7 @@ class HeritagePolicy
      * @param  \App\Heritage  $heritage
      * @return mixed
      */
-    public function delete(User $user, Heritage $heritage)
+    public function delete(User $user, Heritage $heritage = null)
     {
         return $user->isSuperAdmin();
     }
