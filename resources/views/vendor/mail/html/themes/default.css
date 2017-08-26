@@ -6,7 +6,7 @@ body, body *:not(html):not(style):not(br):not(tr):not(code) {
 }
 
 body {
-    background-color: #f5f8fa;
+    background-color: #FFF;
     color: #222;
     height: 100%;
     hyphens: auto;
@@ -30,7 +30,7 @@ blockquote {
 }
 
 a {
-    color: #3869D4;
+    color: #637dc8;
 }
 
 a img {
@@ -82,7 +82,7 @@ img {
 /* Layout */
 
 .wrapper {
-    background-color: #f5f8fa;
+    background-color: #FFF;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -119,8 +119,10 @@ img {
 
 .body {
     background-color: #FFFFFF;
+    /*
     border-bottom: 1px solid #EDEFF2;
     border-top: 1px solid #EDEFF2;
+    */
     margin: 0;
     padding: 0;
     width: 100%;
@@ -247,7 +249,7 @@ img {
 }
 
 .panel-content {
-    background-color: #EDEFF2;
+    background-color: #FFF;
     padding: 16px;
 }
 

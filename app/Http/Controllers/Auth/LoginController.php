@@ -23,11 +23,12 @@ class LoginController extends Controller
                 return response()->success([
                     'id' => $userId,
                     'token' => $token
-                ], 200, 'OK');
+                ], 200, 'OK')
+                ->header('Authorization', "Bearer $token")
+                ->header('Access-Control-Expose-Headers', 'Authorization');
             }
         } catch (JWTException $e) {
             return response()->exception($e->getMessage(), 500);
-            return response()->exception('Unexpected error while logging in the user', 500);
         }
 
         return $response;

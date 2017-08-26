@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 
-class StoreUser extends BaseRequest
+class Store extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.

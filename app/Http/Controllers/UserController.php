@@ -4,17 +4,39 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\User;
-use App\Http\Requests\StoreUser;
+use JWTAuth;
+use App\Http\Requests\User as UserRequest;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __contruct()
+    {
+        $this->middleware('jwt.auth', ['except' => 'store']);
+    }
 
     /**
-     * @param StoreUser $request
+     * @param UserRequest\Show $request
+     * @param int $userId
      * @return mixed
      */
-    public function store(StoreUser $request)
+    public function show(UserRequest\Show $request)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+        $transformed = [
+            'id' => $user->id,
+            'email' => $user->email,
+            'firstName' => $user->first_name,
+            'lastName' => $user->last_name
+        ];
+        return response()->success($transformed, 200, 'OK');
+    }
+
+    /**
+     * @param UserRequest\Store $request
+     * @return mixed
+     */
+    public function store(UserRequest\Store $request)
     {
         $user = new User([
             'email' => $request->input('email'),

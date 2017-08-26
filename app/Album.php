@@ -15,15 +15,24 @@ class Album extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'patient_id',
+        'title', 'description', 'patient_id', 'is_default'
     ];
+
+    protected $casts = [
+        'is_default' => 'boolean'
+    ];
+
+    public function isDefault()
+    {
+        return $this->patient_id === null;
+    }
 
     public function stories()
     {
         return $this->hasMany('App\Story');
     }
 
-    public function albums()
+    public function heritage()
     {
         return $this->hasMany('App\Heritage');
     }
