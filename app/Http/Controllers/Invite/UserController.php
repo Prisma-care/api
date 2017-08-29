@@ -9,6 +9,8 @@ use App\Patient;
 use App\User;
 use Mail;
 
+use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
+
 class UserController extends Controller
 {
     /**
