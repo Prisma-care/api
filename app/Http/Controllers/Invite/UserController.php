@@ -8,6 +8,9 @@ use App\Mail\Invitation;
 use App\Patient;
 use App\User;
 use Mail;
+use Hash;
+
+use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
 
 use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
 

@@ -17,8 +17,8 @@ class StoreUserConnection extends BaseRequest
             'email' => 'required|email|unique:users',
             'firstName' => 'required|string',
             'lastName' => 'required|string',
-            'patientID' => 'required|integer',
-            'inviterID' => 'required|integer'
+            'patientId' => 'required|integer',
+            'inviterId' => 'required|integer'
         ];
     }
 }
