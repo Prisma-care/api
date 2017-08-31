@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Story;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\Story as StoryRequest;
 
 class StoryController extends Controller
@@ -104,6 +105,8 @@ class StoryController extends Controller
     public function destroy(StoryRequest\Destroy $request, $patientId, Story $story)
     {
         if ($story->delete()) {
+            $directory = storage_path("app/stories/$patientId/$story->id");
+            File::deleteDirectory($directory);
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception("The story could not be deleted", 500);
