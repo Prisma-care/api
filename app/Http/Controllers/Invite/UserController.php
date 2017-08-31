@@ -19,6 +19,7 @@ class UserController extends Controller
      */
     public function store(StoreUserConnection $request)
     {
+        $email = $request->input('email');
 
         $user_data = [
             'email' => $request->input('email'),
