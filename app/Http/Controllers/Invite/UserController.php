@@ -12,8 +12,6 @@ use Hash;
 
 use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
 
-use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
-
 class UserController extends Controller
 {
     /**
