@@ -27,7 +27,8 @@ class LoginController extends Controller
 
                 return response()->success([
                     'id' => $userId,
-                    'token' => $token
+                    'token' => $token,
+                    'patients' => $patients
                 ], 200, 'OK')
                 ->header('Authorization', "Bearer $token")
                 ->header('Access-Control-Expose-Headers', 'Authorization');
