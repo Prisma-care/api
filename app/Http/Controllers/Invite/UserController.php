@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Invite;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
 use App\Invite;
 use App\Mail\Invitation;
 use App\Patient;
 use App\User;
-use Mail;
 use Hash;
-
-use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
+use Mail;
 
 class UserController extends Controller
 {
@@ -20,9 +19,9 @@ class UserController extends Controller
      */
     public function store(StoreUserConnection $request)
     {
+        $email = $request->input('email');
 
         $user_data = [
-            'email' => $request->input('email'),
             'password' => Hash::make(str_random(40)),
             'first_name' => $request->input('firstName'),
             'last_name' => $request->input('lastName')
@@ -31,7 +30,7 @@ class UserController extends Controller
         $patientId = $request->input('patientId');
         $inviterId = $request->input('inviterId');
 
-        $user = User::create($user_data);
+        $user = User::firstOrCreate(['email' => $email], $user_data);
 
         if (!$user->save()) {
             return response()->exception('Unexpected error while creating the user', 500);
@@ -63,6 +62,6 @@ class UserController extends Controller
 
         Mail::to($user)->send(new Invitation($data));
 
-        return response()->success('Invitation email sent', 204);
+        return response()->success('Invitation email sent', 204);   
     }
 }
