@@ -26,6 +26,9 @@ abstract class TestCase extends BaseTestCase
         'HTTP_Authorization' => 'Bearer <token>'
     ];
 
+    public $numberOfUsers = 5;
+    public $numberOfPatients = 5;
+
     public function setUp()
     {
         parent::setUp();
@@ -50,6 +53,7 @@ abstract class TestCase extends BaseTestCase
         $this->seedDefaults();
         $this->seedUsers();
         $this->seedPatients();
+        $this->seedPatientUsers();
     }
 
     private function seedDefaults()
@@ -70,17 +74,26 @@ abstract class TestCase extends BaseTestCase
         ]);
     }
 
-    public function seedUsers($amount = 5)
+    public function seedUsers($numberOfUsers = 5)
     {
-        factory(User::class, $amount)->create();
+        factory(User::class, $numberOfUsers)->create();
     }
 
-    public function seedPatients($amount = 5)
+    public function seedPatients($numberOfPatients = 5)
     {
-        $patients = factory(Patient::class, $amount)->create();
+        $patients = factory(Patient::class, $numberOfPatients)->create();
         foreach ($patients as $patient) {
             $patient->prepopulate();
         }
+    }
+
+    public function seedPatientUsers()
+    {
+        $testUserId = 2;
+        $patient = Patient::find(2);
+        $patient->users()->attach($testUserId);
+        $patient = Patient::find(5);
+        $patient->users()->attach($testUserId);
     }
 
     public function seedHeritage()
