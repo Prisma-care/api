@@ -74,14 +74,14 @@ abstract class TestCase extends BaseTestCase
         ]);
     }
 
-    public function seedUsers($amount = 5)
+    public function seedUsers($numberOfUsers = 5)
     {
-        factory(User::class, $amount)->create();
+        factory(User::class, $numberOfUsers)->create();
     }
 
-    public function seedPatients($amount = 5)
+    public function seedPatients($numberOfPatients = 5)
     {
-        $patients = factory(Patient::class, $amount)->create();
+        $patients = factory(Patient::class, $numberOfPatients)->create();
         foreach ($patients as $patient) {
             $patient->prepopulate();
         }
