@@ -26,6 +26,9 @@ abstract class TestCase extends BaseTestCase
         'HTTP_Authorization' => 'Bearer <token>'
     ];
 
+    public $numberOfUsers = 5;
+    public $numberOfPatients = 5;
+
     public function setUp()
     {
         parent::setUp();
