@@ -23,7 +23,7 @@ class SigninTest extends TestCase
         $response = $this->postJson($this->endpoint, $this->baseRequest)
             ->assertJsonStructure([
                 'meta' => [ 'code', 'message' ],
-                'response' => [ 'id', 'token' ]
+                'response' => [ 'id', 'token', 'patients' ]
             ])
             ->assertStatus(200)
             ->getData();

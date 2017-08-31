@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use JWTAuth;
-use Validator;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Signin;
+use App\User;
+use Auth;
+use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends Controller
@@ -16,16 +16,22 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
         try {
-            if (! $token = JWTAuth::attempt($credentials)) {
+            if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->exception('Invalid credentials', 401);
             } else {
                 $userId = Auth::user()->id;
+                $user = User::find($userId);
+                $patients = $user->patients()
+                    ->select(['patient_id','first_name','last_name'])
+                    ->get()->toJSON();
+
                 return response()->success([
                     'id' => $userId,
-                    'token' => $token
+                    'token' => $token,
+                    'patients' => $patients
                 ], 200, 'OK')
-                ->header('Authorization', "Bearer $token")
-                ->header('Access-Control-Expose-Headers', 'Authorization');
+                    ->header('Authorization', "Bearer $token")
+                    ->header('Access-Control-Expose-Headers', 'Authorization');
             }
         } catch (JWTException $e) {
             return response()->exception($e->getMessage(), 500);
