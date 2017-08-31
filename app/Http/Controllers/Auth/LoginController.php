@@ -20,6 +20,11 @@ class LoginController extends Controller
                 return response()->exception('Invalid credentials', 401);
             } else {
                 $userId = Auth::user()->id;
+                $user = User::find($userId);
+                $patients = $user->patients()
+                    ->select(['patient_id','first_name','last_name'])
+                    ->get()->toArray();
+
                 return response()->success([
                     'id' => $userId,
                     'token' => $token
