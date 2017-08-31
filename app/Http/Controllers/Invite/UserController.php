@@ -37,7 +37,7 @@ class UserController extends Controller
             return response()->exception('Unexpected error while creating the user', 500);
         }
 
-        $inviter = User::find($inviterID)->full_name;
+        $inviter = User::find($inviterId)->full_name;
 
         $patient = Patient::findOrFail($patientId);
         $patient->users()->attach($user->id);
