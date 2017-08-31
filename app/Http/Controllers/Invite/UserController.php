@@ -30,7 +30,7 @@ class UserController extends Controller
         $patientId = $request->input('patientId');
         $inviterId = $request->input('inviterId');
 
-        $user = User::create($user_data);
+        $user = User::firstOrCreate(['email' => $email], $user_data);
 
         if (!$user->save()) {
             return response()->exception('Unexpected error while creating the user', 500);
