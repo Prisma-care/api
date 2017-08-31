@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use JWTAuth;
-use Validator;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Signin;
+use App\User;
+use Auth;
+use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends Controller
