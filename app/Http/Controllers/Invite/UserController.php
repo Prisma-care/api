@@ -22,7 +22,6 @@ class UserController extends Controller
         $email = $request->input('email');
 
         $user_data = [
-            'email' => $request->input('email'),
             'password' => Hash::make(str_random(40)),
             'first_name' => $request->input('firstName'),
             'last_name' => $request->input('lastName')
