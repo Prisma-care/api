@@ -23,7 +23,7 @@ class LoginController extends Controller
                 $user = User::find($userId);
                 $patients = $user->patients()
                     ->select(['patient_id','first_name','last_name'])
-                    ->get()->toJSON();
+                    ->get()->values()->all();
 
                 return response()->success([
                     'id' => $userId,
