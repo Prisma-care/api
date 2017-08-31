@@ -23,6 +23,8 @@ class Patient extends Model
         'first_name', 'last_name', 'date_of_birth', 'birth_place', 'location', 'care_home'
     ];
 
+    protected $hidden = ['pivot'];
+
     public function albums()
     {
         return $this->hasMany('App\Album');
