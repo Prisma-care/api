@@ -53,6 +53,7 @@ abstract class TestCase extends BaseTestCase
         $this->seedDefaults();
         $this->seedUsers();
         $this->seedPatients();
+        $this->seedPatientUsers();
     }
 
     private function seedDefaults()
