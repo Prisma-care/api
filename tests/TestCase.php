@@ -87,6 +87,15 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
+    public function seedPatientUsers()
+    {
+        $testUserId = 2;
+        $patient = Patient::find(2);
+        $patient->users()->attach($testUserId);
+        $patient = Patient::find(5);
+        $patient->users()->attach($testUserId);
+    }
+
     public function seedHeritage()
     {
         $defaultAlbums = factory(Album::class, 5)->create();
