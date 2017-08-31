@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Invite;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
 use App\Invite;
 use App\Mail\Invitation;
 use App\Patient;
 use App\User;
-use Mail;
 use Hash;
-
-use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
+use Mail;
 
 class UserController extends Controller
 {
