@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Album;
 use App\Heritage;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\Heritage as HeritageRequest;
 
 class HeritageController extends Controller
@@ -104,6 +105,8 @@ class HeritageController extends Controller
     {
         $heritage = Heritage::findOrFail($heritageId);
         if ($heritage->delete()) {
+            $directory = storage_path("app/heritage/$heritageId");
+            File::deleteDirectory($directory);
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception("The heritage could not be deleted", 500);
