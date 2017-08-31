@@ -30,8 +30,8 @@ class LoginController extends Controller
                     'token' => $token,
                     'patients' => $patients
                 ], 200, 'OK')
-                ->header('Authorization', "Bearer $token")
-                ->header('Access-Control-Expose-Headers', 'Authorization');
+                    ->header('Authorization', "Bearer $token")
+                    ->header('Access-Control-Expose-Headers', 'Authorization');
             }
         } catch (JWTException $e) {
             return response()->exception($e->getMessage(), 500);
