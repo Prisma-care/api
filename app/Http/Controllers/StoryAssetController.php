@@ -30,6 +30,7 @@ class StoryAssetController extends Controller
         $asset->storeAs($storagePath, $fullAssetName);
         ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
 
+        $story->asset_type = 'image';
         $story->asset_name = $request->url() . '/' . $fullAssetName;
         $story->save();
     }
@@ -53,12 +54,15 @@ class StoryAssetController extends Controller
             }
 
             $this->attachImageAsset($request, $story, $patientId);
-            $story->asset_type = 'image';
             $location = $story->asset_name;
             return response()->success(['id'=> $story->id], 201, 'Created', $location);
         } elseif ($assetType === 'youtube') {
-            return response()->success([], 204, 'No Content');
+            $story->asset_name = $request->input('asset');
             $story->asset_type = 'youtube';
+            $story->save();
+
+            $location = $request->url() . '/' . $story->id;
+            return response()->success(['id'=> $story->id], 201, 'Created', $location);
         }
     }
 
