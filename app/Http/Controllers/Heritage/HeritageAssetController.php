@@ -57,8 +57,14 @@ class HeritageAssetController extends Controller
      */
     public function show(HeritageAssetRequest\Show $request, $albumId, $heritageId, $assetId)
     {
-        Heritage::findOrFail($heritageId);
-
+        $heritage = Heritage::findOrFail($heritageId);
+        if ($heritage->asset_type === 'youtube') {
+            return response()->success([
+                'id' => $heritage->id,
+                'source' => $heritage->asset_name,
+                'type' => 'youtube'
+            ], 200, 'OK');
+        }
         $storagePath = storage_path("app/heritage/$heritageId/$assetId");
 
         if (!File::exists($storagePath)) {
