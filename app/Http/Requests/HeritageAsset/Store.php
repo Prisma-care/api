@@ -13,4 +13,20 @@ class Store extends BaseRequest
         $heritage = Heritage::findOrFail($this->route('heritage'));
         return $user->can('create', $heritage) && $user->can('update', $heritage);
     }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        if (request('assetType') === 'youtube') {
+            return [
+                'asset' => 'required|url'
+            ];
+        }
+
+        return [];
+    }
 }
