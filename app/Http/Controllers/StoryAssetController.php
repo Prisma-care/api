@@ -75,8 +75,14 @@ class StoryAssetController extends Controller
      */
     public function show(StoryAssetRequest\Show $request, $patientId, $storyId, $asset)
     {
-        Story::findOrFail($storyId);
-
+        $story = Story::findOrFail($storyId);
+        if ($story->asset_type === 'youtube') {
+            return response()->success([
+                'id' => $story->id,
+                'source' => $story->asset_name,
+                'type' => 'youtube'
+            ], 200, 'OK');
+        }
         $storagePath = storage_path("app/stories/$patientId/$storyId/$asset");
 
         if (!File::exists($storagePath)) {
