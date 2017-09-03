@@ -59,7 +59,11 @@ class HeritageAssetController extends Controller
             $heritage->save();
 
             $location = $request->url() . '/' . $heritage->id;
-            return response()->success(['id'=> $heritage->id], 201, 'Created', $location);
+            return response()->success([
+              'id'=> $heritage->id,
+              'source' => $heritage->asset_name,
+              'type' => 'youtube'
+            ], 201, 'Created', $location);
         }
     }
 
