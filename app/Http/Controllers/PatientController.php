@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use JWTAuth;
 use App\Patient;
 use App\Http\Requests\Patient as PatientRequest;
 
@@ -44,6 +45,9 @@ class PatientController extends Controller
             'birthPlace' => $patient->birth_place,
             'location' => $patient->location
         ];
+
+        $user = JWTAuth::parseToken()->authenticate();
+        $patient->users()->attach($user->id);
 
         $location = $request->url() . '/' . $patient->id;
         return response()->success($createdPatient, 201, 'Created', $location);
