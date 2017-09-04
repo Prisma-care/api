@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Heritage;
 
 use App\Heritage;
+use App\Http\Controllers\Controller;
 use App\Utils\ImageUtility;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
