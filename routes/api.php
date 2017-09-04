@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'v1'], function () {
+
     Route::get('user', 'UserController@show');
     Route::post('user', 'UserController@store');
 
@@ -42,17 +43,17 @@ Route::group(['prefix' => 'v1'], function () {
        'only' => ['store', 'show', 'update']
     ]);
 
-    Route::resource('album', 'DefaultAlbumController', [
+    Route::resource('album', 'Heritage\DefaultAlbumController', [
         'except' => ['edit', 'create', 'update']
     ]);
-    Route::patch('album/{album}', 'DefaultAlbumController@update');
+    Route::patch('album/{album}', 'Heritage\DefaultAlbumController@update');
 
-    Route::resource('album.heritage', 'HeritageController', [
+    Route::resource('album.heritage', 'Heritage\HeritageController', [
        'except' => ['edit', 'create', 'update']
     ]);
-    Route::patch('album/{album}/heritage/{heritage}', 'HeritageController@update');
+    Route::patch('album/{album}/heritage/{heritage}', 'Heritage\HeritageController@update');
 
-    Route::resource('album.heritage.asset', 'HeritageAssetController', [
+    Route::resource('album.heritage.asset', 'Heritage\HeritageAssetController', [
        'only' => ['store', 'show']
     ]);
 
