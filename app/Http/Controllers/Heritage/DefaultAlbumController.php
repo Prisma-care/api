@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Heritage;
 
 use App\Album;
 use App\Heritage;
