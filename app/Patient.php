@@ -52,17 +52,17 @@ class Patient extends Model
         foreach ($albums as $album) {
             $newAlbum = $album->replicate();
             $newAlbum->patient_id = $this->id;
+            $newAlbum->save();
             foreach ($album->heritage as $heritage) {
                 Story::create([
                     'description' => $heritage->description,
                     'asset_name' => $heritage->asset_name ? env('APP_URL') . '/storage/heritage/' . $heritage->asset_name : null,
                     'asset_type' => $heritage->asset_type ?: null,
                     'user_id' => 1,
-                    'album_id' => $album->id,
+                    'album_id' => $newAlbum->id,
                     'is_heritage' => true
                 ]);
             }
-            $newAlbum->save();
         }
     }
 
