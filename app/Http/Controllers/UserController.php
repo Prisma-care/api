@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\User;
 use JWTAuth;
 use App\Http\Requests\User as UserRequest;
-use Illuminate\Support\Facades\Hash;
+use Hash;
+
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ * @resource User
+ *
+ * Users are family members of a Patient
+ * A User can be attached to multiple Patients
+ * A User can create new Albums and Story content
+ * A User can also invite other Users and connect them with a Patient
+ */
 
 class UserController extends Controller
 {
@@ -16,6 +26,8 @@ class UserController extends Controller
     }
 
     /**
+     * Return a User
+     *
      * @param UserRequest\Show $request
      * @return mixed
      */
@@ -32,6 +44,8 @@ class UserController extends Controller
     }
 
     /**
+     * Persist a New User
+     *
      * @param UserRequest\Store $request
      * @return mixed
      */

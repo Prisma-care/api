@@ -48,9 +48,543 @@
 <p>Welcome to the generated API reference.
 <a href="https://prisma.care/docs/collection.json">Get Postman Collection</a></p>
 <!-- END_INFO -->
-<h1>general</h1>
+<h1>Album</h1>
+<p>Controller used return, persist and remove Album data for particular Patients
+Albums are collections of visual content used to stimulate discussions between families and their loved ones</p>
+<!-- START_ad4f8ad1e8c8c629d786a7a966f19150 -->
+<h2>Returns an array of Albums belonging to a particular Patient</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}/album" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/album",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET v1/patient/{patient}/album</code></p>
+<p><code>HEAD v1/patient/{patient}/album</code></p>
+<!-- END_ad4f8ad1e8c8c629d786a7a966f19150 -->
+<!-- START_ea3628896d64fa0092c39d47efbd8819 -->
+<h2>Persists an Album to storage for a particular Patient</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "https://prisma.care/v1/patient/{patient}/album" \
+-H "Accept: application/json" \
+    -d "title"="dignissimos" \
+</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/album",
+    "method": "POST",
+    "data": {
+        "title": "dignissimos"
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST v1/patient/{patient}/album</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>required</td>
+</tr>
+</tbody>
+</table>
+<!-- END_ea3628896d64fa0092c39d47efbd8819 -->
+<!-- START_b62bc4e248cfb6855fec92ae6d2e0505 -->
+<h2>Returns an Album belonging to a particular Patient</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}/album/{album}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/album/{album}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET v1/patient/{patient}/album/{album}</code></p>
+<p><code>HEAD v1/patient/{patient}/album/{album}</code></p>
+<!-- END_b62bc4e248cfb6855fec92ae6d2e0505 -->
+<!-- START_cf9f628c9a3fd54de20c9285bb7b1103 -->
+<h2>Removes an Album from storage</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "https://prisma.care/v1/patient/{patient}/album/{album}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/album/{album}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE v1/patient/{patient}/album/{album}</code></p>
+<!-- END_cf9f628c9a3fd54de20c9285bb7b1103 -->
+<!-- START_a8b1413ec25df7d870d7078a4e438ab6 -->
+<h2>Updates an Album belonging to particular Patient</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH "https://prisma.care/v1/patient/{patient}/album/{album}" \
+-H "Accept: application/json" \
+    -d "title"="quia" \
+</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/album/{album}",
+    "method": "PATCH",
+    "data": {
+        "title": "quia"
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH v1/patient/{patient}/album/{album}</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>optional</td>
+</tr>
+</tbody>
+</table>
+<!-- END_a8b1413ec25df7d870d7078a4e438ab6 -->
+<h1>Connection</h1>
+<p>Controller used to connect Users to Patients</p>
+<!-- START_6e256bae3fca78799fe77d79ab63c8fc -->
+<h2>Connect a user with a patient.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X LINK "https://prisma.care/v1/patient/{patientId}/connection" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patientId}/connection",
+    "method": "LINK",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>LINK v1/patient/{patientId}/connection</code></p>
+<!-- END_6e256bae3fca78799fe77d79ab63c8fc -->
+<!-- START_a4405aee6b8c2ed72752c3b501e8f3ec -->
+<h2>Disconnect a user from a patient.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X UNLINK "https://prisma.care/v1/patient/{patientId}/connection" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patientId}/connection",
+    "method": "UNLINK",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>UNLINK v1/patient/{patientId}/connection</code></p>
+<!-- END_a4405aee6b8c2ed72752c3b501e8f3ec -->
+<h1>Patient</h1>
+<p>A Patient is a person who has dementia and receives nursing care.
+Patients are the loved ones of family members (Users)</p>
+<p>This Controller allows new Patients to be created and a Patient request returned for a particular Patient</p>
+<!-- START_066cb05849e8763b019064a0e07d9e18 -->
+<h2>Persist a new Patient to storage</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "https://prisma.care/v1/patient" \
+-H "Accept: application/json" \
+    -d "firstName"="inventore" \
+    -d "lastName"="inventore" \
+</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient",
+    "method": "POST",
+    "data": {
+        "firstName": "inventore",
+        "lastName": "inventore"
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST v1/patient</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>firstName</td>
+<td>string</td>
+<td>required</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>string</td>
+<td>required</td>
+</tr>
+</tbody>
+</table>
+<!-- END_066cb05849e8763b019064a0e07d9e18 -->
+<!-- START_b038860a6de892bd1762c093acde583f -->
+<h2>Return the specified Patient if permitted by the Form Request</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET v1/patient/{patient}</code></p>
+<p><code>HEAD v1/patient/{patient}</code></p>
+<!-- END_b038860a6de892bd1762c093acde583f -->
+<h1>Story</h1>
+<p>Stories are made up of a photo or video and a short text.
+They are used to stimulate discussion between the User and Patient
+Stories are collected in Albums and a number of Heritage items are supplied by default
+when a new User registers a Patient</p>
+<!-- START_866bab64d6ed2769ed40d8b7d855c47d -->
+<h2>Persist a new Story</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "https://prisma.care/v1/patient/{patient}/story" \
+-H "Accept: application/json" \
+    -d "description"="nisi" \
+    -d "creatorId"="nisi" \
+    -d "albumId"="nisi" \
+</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/story",
+    "method": "POST",
+    "data": {
+        "description": "nisi",
+        "creatorId": "nisi",
+        "albumId": "nisi"
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST v1/patient/{patient}/story</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>required</td>
+</tr>
+<tr>
+<td>creatorId</td>
+<td>string</td>
+<td>required</td>
+</tr>
+<tr>
+<td>albumId</td>
+<td>string</td>
+<td>required</td>
+</tr>
+</tbody>
+</table>
+<!-- END_866bab64d6ed2769ed40d8b7d855c47d -->
+<!-- START_5d7f9cc97a3424083f960a55c685e013 -->
+<h2>Fetch a Story</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}/story/{story}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/story/{story}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET v1/patient/{patient}/story/{story}</code></p>
+<p><code>HEAD v1/patient/{patient}/story/{story}</code></p>
+<!-- END_5d7f9cc97a3424083f960a55c685e013 -->
+<!-- START_7ffef2ec1e02c593ac29771e7fa25016 -->
+<h2>Remove a story from storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "https://prisma.care/v1/patient/{patient}/story/{story}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/story/{story}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE v1/patient/{patient}/story/{story}</code></p>
+<!-- END_7ffef2ec1e02c593ac29771e7fa25016 -->
+<!-- START_dff8513cd59cd1fac508561d65f1b98d -->
+<h2>Update a Story</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH "https://prisma.care/v1/patient/{patient}/story/{story}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/story/{story}",
+    "method": "PATCH",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH v1/patient/{patient}/story/{story}</code></p>
+<!-- END_dff8513cd59cd1fac508561d65f1b98d -->
+<h1>StoryAsset</h1>
+<p>StoryAssets are photographic and video materials used to stimulate discussion between the User and Patient</p>
+<!-- START_2d406804fd9d330a3eba6fed7ee3993c -->
+<h2>Store a new StoryAsset and attach it to a Story</h2>
+<p>StoryAssets can be photos or URLs to videos on external services such as YouTube or Vimeo</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "https://prisma.care/v1/patient/{patient}/story/{story}/asset" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/story/{story}/asset",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST v1/patient/{patient}/story/{story}/asset</code></p>
+<!-- END_2d406804fd9d330a3eba6fed7ee3993c -->
+<!-- START_9250fae4bf8496feab6a061b1818ebaf -->
+<h2>Fetch a particular StoryAsset</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}/story/{story}/asset/{asset}" \
+-H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/patient/{patient}/story/{story}/asset/{asset}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET v1/patient/{patient}/story/{story}/asset/{asset}</code></p>
+<p><code>HEAD v1/patient/{patient}/story/{story}/asset/{asset}</code></p>
+<!-- END_9250fae4bf8496feab6a061b1818ebaf -->
+<h1>User</h1>
+<p>Users are family members of a Patient
+A User can be attached to multiple Patients
+A User can create new Albums and Story content
+A User can also invite other Users and connect them with a Patient</p>
 <!-- START_7bd54b11841f8fc6b89028e1879145bc -->
-<h2>v1/user</h2>
+<h2>Return a User</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -78,7 +612,7 @@ $.ajax(settings).done(function (response) {
 <p><code>HEAD v1/user</code></p>
 <!-- END_7bd54b11841f8fc6b89028e1879145bc -->
 <!-- START_7b31d0c9ab1ff57a8c35ae26a90a16d3 -->
-<h2>v1/user</h2>
+<h2>Persist a New User</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -144,6 +678,7 @@ $.ajax(settings).done(function (response) {
 </tbody>
 </table>
 <!-- END_7b31d0c9ab1ff57a8c35ae26a90a16d3 -->
+<h1>general</h1>
 <!-- START_b4c02be43324d119a1f41245b90fb886 -->
 <h2>v1/user/signin</h2>
 <blockquote>
@@ -220,473 +755,6 @@ $.ajax(settings).done(function (response) {
 <h3>HTTP Request</h3>
 <p><code>POST v1/user/signout</code></p>
 <!-- END_c888faa7c251178b85f34a01da2c642d -->
-<!-- START_066cb05849e8763b019064a0e07d9e18 -->
-<h2>v1/patient</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "https://prisma.care/v1/patient" \
--H "Accept: application/json" \
-    -d "firstName"="inventore" \
-    -d "lastName"="inventore" \
-</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient",
-    "method": "POST",
-    "data": {
-        "firstName": "inventore",
-        "lastName": "inventore"
-},
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST v1/patient</code></p>
-<h4>Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>firstName</td>
-<td>string</td>
-<td>required</td>
-</tr>
-<tr>
-<td>lastName</td>
-<td>string</td>
-<td>required</td>
-</tr>
-</tbody>
-</table>
-<!-- END_066cb05849e8763b019064a0e07d9e18 -->
-<!-- START_b038860a6de892bd1762c093acde583f -->
-<h2>v1/patient/{patient}</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<blockquote>
-<p>Example response:</p>
-</blockquote>
-<pre><code class="language-json">{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET v1/patient/{patient}</code></p>
-<p><code>HEAD v1/patient/{patient}</code></p>
-<!-- END_b038860a6de892bd1762c093acde583f -->
-<!-- START_ad4f8ad1e8c8c629d786a7a966f19150 -->
-<h2>v1/patient/{patient}/album</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}/album" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/album",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<blockquote>
-<p>Example response:</p>
-</blockquote>
-<pre><code class="language-json">{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET v1/patient/{patient}/album</code></p>
-<p><code>HEAD v1/patient/{patient}/album</code></p>
-<!-- END_ad4f8ad1e8c8c629d786a7a966f19150 -->
-<!-- START_ea3628896d64fa0092c39d47efbd8819 -->
-<h2>v1/patient/{patient}/album</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "https://prisma.care/v1/patient/{patient}/album" \
--H "Accept: application/json" \
-    -d "title"="dignissimos" \
-</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/album",
-    "method": "POST",
-    "data": {
-        "title": "dignissimos"
-},
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST v1/patient/{patient}/album</code></p>
-<h4>Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>required</td>
-</tr>
-</tbody>
-</table>
-<!-- END_ea3628896d64fa0092c39d47efbd8819 -->
-<!-- START_b62bc4e248cfb6855fec92ae6d2e0505 -->
-<h2>v1/patient/{patient}/album/{album}</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}/album/{album}" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/album/{album}",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<blockquote>
-<p>Example response:</p>
-</blockquote>
-<pre><code class="language-json">{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET v1/patient/{patient}/album/{album}</code></p>
-<p><code>HEAD v1/patient/{patient}/album/{album}</code></p>
-<!-- END_b62bc4e248cfb6855fec92ae6d2e0505 -->
-<!-- START_cf9f628c9a3fd54de20c9285bb7b1103 -->
-<h2>v1/patient/{patient}/album/{album}</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X DELETE "https://prisma.care/v1/patient/{patient}/album/{album}" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/album/{album}",
-    "method": "DELETE",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>DELETE v1/patient/{patient}/album/{album}</code></p>
-<!-- END_cf9f628c9a3fd54de20c9285bb7b1103 -->
-<!-- START_a8b1413ec25df7d870d7078a4e438ab6 -->
-<h2>v1/patient/{patient}/album/{album}</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X PATCH "https://prisma.care/v1/patient/{patient}/album/{album}" \
--H "Accept: application/json" \
-    -d "title"="quia" \
-</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/album/{album}",
-    "method": "PATCH",
-    "data": {
-        "title": "quia"
-},
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>PATCH v1/patient/{patient}/album/{album}</code></p>
-<h4>Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>title</td>
-<td>string</td>
-<td>optional</td>
-</tr>
-</tbody>
-</table>
-<!-- END_a8b1413ec25df7d870d7078a4e438ab6 -->
-<!-- START_866bab64d6ed2769ed40d8b7d855c47d -->
-<h2>v1/patient/{patient}/story</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "https://prisma.care/v1/patient/{patient}/story" \
--H "Accept: application/json" \
-    -d "description"="nisi" \
-    -d "creatorId"="nisi" \
-    -d "albumId"="nisi" \
-</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/story",
-    "method": "POST",
-    "data": {
-        "description": "nisi",
-        "creatorId": "nisi",
-        "albumId": "nisi"
-},
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST v1/patient/{patient}/story</code></p>
-<h4>Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>description</td>
-<td>string</td>
-<td>required</td>
-</tr>
-<tr>
-<td>creatorId</td>
-<td>string</td>
-<td>required</td>
-</tr>
-<tr>
-<td>albumId</td>
-<td>string</td>
-<td>required</td>
-</tr>
-</tbody>
-</table>
-<!-- END_866bab64d6ed2769ed40d8b7d855c47d -->
-<!-- START_5d7f9cc97a3424083f960a55c685e013 -->
-<h2>v1/patient/{patient}/story/{story}</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}/story/{story}" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/story/{story}",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<blockquote>
-<p>Example response:</p>
-</blockquote>
-<pre><code class="language-json">{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET v1/patient/{patient}/story/{story}</code></p>
-<p><code>HEAD v1/patient/{patient}/story/{story}</code></p>
-<!-- END_5d7f9cc97a3424083f960a55c685e013 -->
-<!-- START_7ffef2ec1e02c593ac29771e7fa25016 -->
-<h2>Remove the specified resource from storage.</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X DELETE "https://prisma.care/v1/patient/{patient}/story/{story}" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/story/{story}",
-    "method": "DELETE",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>DELETE v1/patient/{patient}/story/{story}</code></p>
-<!-- END_7ffef2ec1e02c593ac29771e7fa25016 -->
-<!-- START_dff8513cd59cd1fac508561d65f1b98d -->
-<h2>v1/patient/{patient}/story/{story}</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X PATCH "https://prisma.care/v1/patient/{patient}/story/{story}" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/story/{story}",
-    "method": "PATCH",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>PATCH v1/patient/{patient}/story/{story}</code></p>
-<!-- END_dff8513cd59cd1fac508561d65f1b98d -->
-<!-- START_2d406804fd9d330a3eba6fed7ee3993c -->
-<h2>Store a newly created resource in storage.</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X POST "https://prisma.care/v1/patient/{patient}/story/{story}/asset" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/story/{story}/asset",
-    "method": "POST",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>POST v1/patient/{patient}/story/{story}/asset</code></p>
-<!-- END_2d406804fd9d330a3eba6fed7ee3993c -->
-<!-- START_9250fae4bf8496feab6a061b1818ebaf -->
-<h2>v1/patient/{patient}/story/{story}/asset/{asset}</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET "https://prisma.care/v1/patient/{patient}/story/{story}/asset/{asset}" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patient}/story/{story}/asset/{asset}",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<blockquote>
-<p>Example response:</p>
-</blockquote>
-<pre><code class="language-json">{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET v1/patient/{patient}/story/{story}/asset/{asset}</code></p>
-<p><code>HEAD v1/patient/{patient}/story/{story}/asset/{asset}</code></p>
-<!-- END_9250fae4bf8496feab6a061b1818ebaf -->
 <!-- START_5f9ea1380d5ddf373f9a97d44e4b44ad -->
 <h2>v1/album</h2>
 <blockquote>
@@ -1041,52 +1109,6 @@ $.ajax(settings).done(function (response) {
 <p><code>GET v1/album/{album}/heritage/{heritage}/asset/{asset}</code></p>
 <p><code>HEAD v1/album/{album}/heritage/{heritage}/asset/{asset}</code></p>
 <!-- END_d3f782ccc657995e6624c7cb86d81fa5 -->
-<!-- START_6e256bae3fca78799fe77d79ab63c8fc -->
-<h2>Connect a user with a patient.</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X LINK "https://prisma.care/v1/patient/{patientId}/connection" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patientId}/connection",
-    "method": "LINK",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>LINK v1/patient/{patientId}/connection</code></p>
-<!-- END_6e256bae3fca78799fe77d79ab63c8fc -->
-<!-- START_a4405aee6b8c2ed72752c3b501e8f3ec -->
-<h2>Disconnect a user from a patient.</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X UNLINK "https://prisma.care/v1/patient/{patientId}/connection" \
--H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/patient/{patientId}/connection",
-    "method": "UNLINK",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});</code></pre>
-<h3>HTTP Request</h3>
-<p><code>UNLINK v1/patient/{patientId}/connection</code></p>
-<!-- END_a4405aee6b8c2ed72752c3b501e8f3ec -->
 <!-- START_88c0a7ad77d75f98eed8c7a8e1280339 -->
 <h2>v1/invite</h2>
 <blockquote>

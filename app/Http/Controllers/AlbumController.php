@@ -6,6 +6,14 @@ use App\Album;
 use App\Patient;
 use App\Http\Requests\Album as AlbumRequest;
 
+/**
+ * Class AlbumController
+ * @package App\Http\Controllers
+ * @resource Album
+ *
+ * Controller used return, persist and remove Album data for particular Patients
+ * Albums are collections of visual content used to stimulate discussions between families and their loved ones
+ */
 class AlbumController extends Controller
 {
     public function __construct()
@@ -21,6 +29,8 @@ class AlbumController extends Controller
 
 
     /**
+     * Returns an array of Albums belonging to a particular Patient
+     *
      * @param AlbumRequest\Index $request
      * @param $patientId
      * @return mixed
@@ -53,6 +63,8 @@ class AlbumController extends Controller
 
 
     /**
+     *  Persists an Album to storage for a particular Patient
+     *
      * @param AlbumRequest\Store $request
      * @param $patientId
      * @return mixed
@@ -78,6 +90,8 @@ class AlbumController extends Controller
 
 
     /**
+     *  Returns an Album belonging to a particular Patient
+     *
      * @param AlbumRequest\Show $request
      * @param $patientId
      * @param $albumId
@@ -107,6 +121,8 @@ class AlbumController extends Controller
 
 
     /**
+     *  Updates an Album belonging to particular Patient
+     *
      * @param AlbumRequest\Update $request
      * @param $patientId
      * @param $albumId
@@ -133,12 +149,14 @@ class AlbumController extends Controller
 
 
     /**
+     *  Removes an Album from storage
+     *
      * @param AlbumRequest\Destroy $request
      * @param $patienId
      * @param $albumId
      * @return mixed
      */
-    public function destroy(AlbumRequest\Destroy $request, $patienId, $albumId)
+    public function destroy(AlbumRequest\Destroy $request, $patientId, $albumId)
     {
         $album = Album::findOrFail($albumId);
         if ($album->delete()) {
