@@ -11,6 +11,18 @@ use Hash;
 use Mail;
 use View;
 
+/**
+ * Class SetPasswordController
+ * @package App\Http\Controllers\Invite
+ * @resource Invite\SetPassword
+ *
+ * When a User invites another user to connect to a Patient,
+ * a temporary user is created if the User does not already exist.
+ *
+ * In this case an email invite is sent to the new User with a tokenized URL
+ * They can use this to access a password (re)set page and accep their membership of Prisma
+ */
+
 class SetPasswordController extends Controller
 {
 
@@ -25,7 +37,9 @@ class SetPasswordController extends Controller
     }
 
     /**
-     * check for a valid token and show the update password form
+     * Check invite token
+     *
+     * Check for a valid token and show the update password form if valid
      *
      * @param string $token
      * @return \Illuminate\Contracts\View\View
@@ -49,7 +63,7 @@ class SetPasswordController extends Controller
 
 
     /**
-     * set the new password
+     * Set new password
      *
      * @param SetPassword $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -82,10 +96,12 @@ class SetPasswordController extends Controller
     }
 
     /**
+     * Destroy Invite Token
+     *
      * Delete the token used for this reset
      * @param $token
      */
-    public function destroyToken($token)
+    private function destroyToken($token)
     {
         Invite::where('token', $token)->delete();
     }
