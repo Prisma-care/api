@@ -56,7 +56,7 @@ class Patient extends Model
             foreach ($album->heritage as $heritage) {
                 Story::create([
                     'description' => $heritage->description,
-                    'asset_name' => $heritage->asset_name ? env('APP_URL') . '/storage/heritage/' . $heritage->asset_name : null,
+                    'asset_name' => $heritage->asset_name ?: null,
                     'asset_type' => $heritage->asset_type ?: null,
                     'user_id' => 1,
                     'album_id' => $newAlbum->id,
