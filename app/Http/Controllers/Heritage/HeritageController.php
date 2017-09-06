@@ -13,6 +13,8 @@ use App\Http\Requests\Heritage as HeritageRequest;
  * @package App\Http\Controllers\Heritage
  * @resource Heritage\Heritage
  *
+ * A Heritage is a Story supplied by default to all Users
+ * and usually supplied by a Heritage organisation
  */
 
 class HeritageController extends Controller
@@ -23,7 +25,7 @@ class HeritageController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Fetch all Heritages for an Album
      *
      * @param  \App\Http\Requests\Heritage\Index  $request
      * @param  int $albumId
@@ -37,7 +39,7 @@ class HeritageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Persist a new Heritage in an Album
      *
      * @param  \App\Http\Requests\Heritage\Store  $request
      * @param  int $albumId
@@ -64,6 +66,8 @@ class HeritageController extends Controller
 
 
     /**
+     * Fetch a specific Heritage
+     *
      * @param HeritageRequest\Show $reqeust
      * @param $albumId
      * @param $heritageId
@@ -84,7 +88,7 @@ class HeritageController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a specific Heritage
      *
      * @param  \App\Http\Requests\Heritage\Update $request
      * @param  int  $heritageId
@@ -103,7 +107,7 @@ class HeritageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified heritage
      *
      * @param  \App\Http\Requests\Heritage\Destroy $request
      * @param  int  $heritageId
