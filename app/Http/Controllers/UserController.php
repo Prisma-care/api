@@ -17,7 +17,6 @@ class UserController extends Controller
 
     /**
      * @param UserRequest\Show $request
-     * @param int $userId
      * @return mixed
      */
     public function show(UserRequest\Show $request)
