@@ -3,10 +3,18 @@
 namespace App\Http\Controllers\Heritage;
 
 use App\Album;
-use App\Heritage;
-use Illuminate\Http\Request;
 use App\Http\Requests\DefaultAlbum as DefaultAlbumRequest;
 use App\Http\Controllers\Controller;
+
+/**
+ * Class DefaultAlbumController
+ * @package App\Http\Controllers\Heritage
+ * @resource Heritage\DefaultAlbum
+ *
+ * When a Patient is created, a default set of Heritage Albums are generated and assigned to that Patient
+ * This ensures that there is content available for the new User/Patient
+ * Because the generated Heritage Albums are assigned to the Patient the can also be deleted
+ */
 
 class DefaultAlbumController extends Controller
 {
@@ -17,17 +25,22 @@ class DefaultAlbumController extends Controller
 
 
     /**
+     * Fetch Heritage Albums
      * @param DefaultAlbumRequest\Index $request
      * @return mixed
      */
     public function index(DefaultAlbumRequest\Index $request)
     {
-        $albums = Album::with('heritage')->get()->where('patient_id', '=', null)->values()->all();
+        $albums = Album::with('heritage')->get()
+                                        ->where('patient_id', '=', null)
+                                        ->values()
+                                        ->all();
+
         return response()->success($albums, 200, 'OK');
     }
 
     /**
-     * Display the specified resource.
+     * Fetch a single Heritage Album
      *
      * @param  \App\Http\Requests\DefaultAlbum\Show $request
      * @param  int  $albumId
@@ -39,11 +52,14 @@ class DefaultAlbumController extends Controller
                                         ->where('patient_id', '=', null)
                                         ->where('id', '=', $albumId)
                                         ->first();
+
         return response()->success($album, 200, 'OK');
     }
 
 
     /**
+     * Persist a new Heritage Album
+     *
      * @param DefaultAlbumRequest\Store $request
      * @return mixed
      */
@@ -62,6 +78,8 @@ class DefaultAlbumController extends Controller
 
 
     /**
+     * Update a specific DefaultAlbum
+     *
      * @param DefaultAlbumRequest\Update $request
      * @param $albumId
      * @return mixed
@@ -82,6 +100,7 @@ class DefaultAlbumController extends Controller
 
 
     /**
+     * Remove a specific DefaultAlbum
      * @param $albumId
      * @return mixed
      */

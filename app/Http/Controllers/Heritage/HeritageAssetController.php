@@ -8,6 +8,15 @@ use App\Utils\ImageUtility;
 use File;
 use App\Http\Requests\HeritageAsset as HeritageAssetRequest;
 
+/**
+ * Class HeritageAssetController
+ * @package App\Http\Controllers\Heritage
+ * @resource Heritage\HeritageAsset
+ *
+ * HeritageAssets are photographic and video materials used to stimulate discussion between the User and Patient
+ * HeritageAssets are supplied by local heritage organisations rather than from the Users
+ */
+
 class HeritageAssetController extends Controller
 {
     public function __construct()
@@ -38,6 +47,10 @@ class HeritageAssetController extends Controller
 
 
     /**
+     * Store a new HeritageAsset and attach it to a Heritage
+     *
+     * HeritageAssets can be photos or URLs to videos on external services such as YouTube or Vimeo
+     *
      * @param HeritageAssetRequest\Store $request
      * @param $albumId
      * @param $heritageId
@@ -73,6 +86,8 @@ class HeritageAssetController extends Controller
 
 
     /**
+     * Fetch a particular HeritageAsset
+     *
      * @param HeritageAssetRequest\Show $request
      * @param $albumId
      * @param $heritageId
