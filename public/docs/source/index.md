@@ -303,6 +303,71 @@ $.ajax(settings).done(function (response) {
 
 <!-- END_a4405aee6b8c2ed72752c3b501e8f3ec -->
 
+#Invite\User
+
+When a User invites another user to connect to a Patient,
+a temporary user is created if the User does not already exist.
+
+In this case an email invite is sent to the new User with a tokenized URL
+They can use this to access a password (re)set page and accep their membership of Prisma
+<!-- START_88c0a7ad77d75f98eed8c7a8e1280339 -->
+## Persist New Invited User
+
+Checks for the existence of an invited User
+Creates then if they don't already exist and then generates a token and sends an email invite
+
+> Example request:
+
+```bash
+curl -X POST "https://prisma.care/v1/invite" \
+-H "Accept: application/json" \
+    -d "email"="graham.stacy@example.com" \
+    -d "firstName"="et" \
+    -d "lastName"="et" \
+    -d "patientId"="286" \
+    -d "inviterId"="286" \
+
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/invite",
+    "method": "POST",
+    "data": {
+        "email": "graham.stacy@example.com",
+        "firstName": "et",
+        "lastName": "et",
+        "patientId": 286,
+        "inviterId": 286
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST v1/invite`
+
+#### Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    email | email |  required  | 
+    firstName | string |  required  | 
+    lastName | string |  required  | 
+    patientId | integer |  required  | 
+    inviterId | integer |  required  | 
+
+<!-- END_88c0a7ad77d75f98eed8c7a8e1280339 -->
+
 #Patient
 
 A Patient is a person who has dementia and receives nursing care.
@@ -1300,59 +1365,4 @@ $.ajax(settings).done(function (response) {
 
 
 <!-- END_d3f782ccc657995e6624c7cb86d81fa5 -->
-
-<!-- START_88c0a7ad77d75f98eed8c7a8e1280339 -->
-## v1/invite
-
-> Example request:
-
-```bash
-curl -X POST "https://prisma.care/v1/invite" \
--H "Accept: application/json" \
-    -d "email"="graham.stacy@example.com" \
-    -d "firstName"="et" \
-    -d "lastName"="et" \
-    -d "patientId"="286" \
-    -d "inviterId"="286" \
-
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/invite",
-    "method": "POST",
-    "data": {
-        "email": "graham.stacy@example.com",
-        "firstName": "et",
-        "lastName": "et",
-        "patientId": 286,
-        "inviterId": 286
-},
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`POST v1/invite`
-
-#### Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    email | email |  required  | 
-    firstName | string |  required  | 
-    lastName | string |  required  | 
-    patientId | integer |  required  | 
-    inviterId | integer |  required  | 
-
-<!-- END_88c0a7ad77d75f98eed8c7a8e1280339 -->
 
