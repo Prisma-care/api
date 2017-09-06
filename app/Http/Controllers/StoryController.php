@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Story;
-use Illuminate\Support\Facades\File;
+use File;
 use App\Http\Requests\Story as StoryRequest;
 
 class StoryController extends Controller
