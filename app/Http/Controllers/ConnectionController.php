@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use JWTAuth;
 use App\Patient;
 
+/**
+ * Class ConnectionController
+ * @package App\Http\Controllers
+ * @resource Connection
+ *
+ * Controller used to connect Users to Patients
+ */
+
 class ConnectionController extends Controller
 {
     public function __construct()
