@@ -11,9 +11,26 @@ use App\User;
 use Hash;
 use Mail;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers\Invite
+ * @resource Invite\User
+ *
+ * When a User invites another user to connect to a Patient,
+ * a temporary user is created if the User does not already exist.
+ *
+ * In this case an email invite is sent to the new User with a tokenized URL
+ * They can use this to access a password (re)set page and accep their membership of Prisma
+ */
+
 class UserController extends Controller
 {
     /**
+     * Persist New Invited User
+     *
+     * Checks for the existence of an invited User
+     * Creates then if they don't already exist and then generates a token and sends an email invite
+     *
      * @param StoreUserConnection $request
      * @return mixed
      */
