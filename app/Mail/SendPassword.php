@@ -13,10 +13,10 @@ class SendPassword extends Mailable
 
     public $data;
 
+
     /**
-     * Create a new message instance.
-     *
-     * @return void
+     * SendPassword constructor.
+     * @param $data
      */
     public function __construct($data)
     {

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Image;
-use App\Story;
-use App\Patient;
-use App\Utils\ImageUtility;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoryAsset as StoryAssetRequest;
+use App\Story;
+use App\Utils\ImageUtility;
+use File;
 
 class StoryAssetController extends Controller
 {
@@ -55,14 +52,14 @@ class StoryAssetController extends Controller
 
             $this->attachImageAsset($request, $story, $patientId);
             $location = $story->asset_name;
-            return response()->success(['id'=> $story->id], 201, 'Created', $location);
+            return response()->success(['id' => $story->id], 201, 'Created', $location);
         } elseif ($assetType === 'youtube') {
             $story->asset_name = $request->input('asset');
             $story->asset_type = 'youtube';
             $story->save();
 
             $location = $request->url() . '/' . $story->id;
-            return response()->success(['id'=> $story->id], 201, 'Created', $location);
+            return response()->success(['id' => $story->id], 201, 'Created', $location);
         }
     }
 
