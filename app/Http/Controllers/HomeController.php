@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * HomeController constructor.
+     * No explicit return
      */
     public function __construct()
     {

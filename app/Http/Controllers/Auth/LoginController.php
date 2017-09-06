@@ -12,6 +12,10 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class LoginController extends Controller
 {
 
+    /**
+     * @param Signin $request
+     * @return mixed
+     */
     public function signin(Signin $request)
     {
         $credentials = $request->only('email', 'password');
@@ -22,7 +26,7 @@ class LoginController extends Controller
                 $userId = Auth::user()->id;
                 $user = User::find($userId);
                 $patients = $user->patients()
-                    ->select(['patient_id','first_name','last_name'])
+                    ->select(['patient_id', 'first_name', 'last_name'])
                     ->get()->values()->all();
 
                 return response()->success([
