@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Heritage;
 
 use App\Album;
-use App\Heritage;
-use Illuminate\Http\Request;
 use App\Http\Requests\DefaultAlbum as DefaultAlbumRequest;
 use App\Http\Controllers\Controller;
+
+/**
+ * Class DefaultAlbumController
+ * @package App\Http\Controllers\Heritage
+ * @resource Heritage\DefaultAlbum
+ *
+ */
 
 class DefaultAlbumController extends Controller
 {
@@ -22,7 +27,11 @@ class DefaultAlbumController extends Controller
      */
     public function index(DefaultAlbumRequest\Index $request)
     {
-        $albums = Album::with('heritage')->get()->where('patient_id', '=', null)->values()->all();
+        $albums = Album::with('heritage')->get()
+                                        ->where('patient_id', '=', null)
+                                        ->values()
+                                        ->all();
+
         return response()->success($albums, 200, 'OK');
     }
 
@@ -39,6 +48,7 @@ class DefaultAlbumController extends Controller
                                         ->where('patient_id', '=', null)
                                         ->where('id', '=', $albumId)
                                         ->first();
+
         return response()->success($album, 200, 'OK');
     }
 
