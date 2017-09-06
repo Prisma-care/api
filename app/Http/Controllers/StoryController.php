@@ -78,6 +78,12 @@ class StoryController extends Controller
     }
 
 
+    /**
+     * @param StoryRequest\Update $request
+     * @param $patientId
+     * @param Story $story
+     * @return mixed
+     */
     public function update(StoryRequest\Update $request, $patientId, Story $story)
     {
         $values = $request->all();
