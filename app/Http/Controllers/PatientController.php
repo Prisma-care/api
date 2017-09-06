@@ -53,11 +53,11 @@ class PatientController extends Controller
         return response()->success($createdPatient, 201, 'Created', $location);
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\patient  $patient
-     * @return \Illuminate\Http\Response
+     * @param PatientRequest\Show $request
+     * @param Patient $patient
+     * @return mixed
      */
     public function show(PatientRequest\Show $request, Patient $patient)
     {
