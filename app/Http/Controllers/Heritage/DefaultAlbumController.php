@@ -15,10 +15,10 @@ class DefaultAlbumController extends Controller
         $this->middleware('jwt.auth');
     }
 
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param DefaultAlbumRequest\Index $request
+     * @return mixed
      */
     public function index(DefaultAlbumRequest\Index $request)
     {
@@ -42,11 +42,10 @@ class DefaultAlbumController extends Controller
         return response()->success($album, 200, 'OK');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param DefaultAlbumRequest\Store $request
+     * @return mixed
      */
     public function store(DefaultAlbumRequest\Store $request)
     {
@@ -61,12 +60,11 @@ class DefaultAlbumController extends Controller
         return response()->success($album, 201, 'Created', $location);
     }
 
+
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param DefaultAlbumRequest\Update $request
+     * @param $albumId
+     * @return mixed
      */
     public function update(DefaultAlbumRequest\Update $request, $albumId)
     {
@@ -82,11 +80,10 @@ class DefaultAlbumController extends Controller
         return response()->success([], 200, 'OK');
     }
 
+
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $albumId
+     * @return mixed
      */
     public function destroy($albumId)
     {
