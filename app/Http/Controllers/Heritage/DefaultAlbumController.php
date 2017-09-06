@@ -11,6 +11,9 @@ use App\Http\Controllers\Controller;
  * @package App\Http\Controllers\Heritage
  * @resource Heritage\DefaultAlbum
  *
+ * When a Patient is created, a default set of Heritage Albums are generated and assigned to that Patient
+ * This ensures that there is content available for the new User/Patient
+ * Because the generated Heritage Albums are assigned to the Patient the can also be deleted
  */
 
 class DefaultAlbumController extends Controller
@@ -22,6 +25,7 @@ class DefaultAlbumController extends Controller
 
 
     /**
+     * Fetch Heritage Albums
      * @param DefaultAlbumRequest\Index $request
      * @return mixed
      */
@@ -36,7 +40,7 @@ class DefaultAlbumController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Fetch a single Heritage Album
      *
      * @param  \App\Http\Requests\DefaultAlbum\Show $request
      * @param  int  $albumId
@@ -54,6 +58,8 @@ class DefaultAlbumController extends Controller
 
 
     /**
+     * Persist a new Heritage Album
+     *
      * @param DefaultAlbumRequest\Store $request
      * @return mixed
      */
@@ -72,6 +78,8 @@ class DefaultAlbumController extends Controller
 
 
     /**
+     * Update a specific DefaultAlbum
+     *
      * @param DefaultAlbumRequest\Update $request
      * @param $albumId
      * @return mixed
@@ -92,6 +100,7 @@ class DefaultAlbumController extends Controller
 
 
     /**
+     * Remove a specific DefaultAlbum
      * @param $albumId
      * @return mixed
      */
