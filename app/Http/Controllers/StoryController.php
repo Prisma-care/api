@@ -6,6 +6,17 @@ use App\Story;
 use File;
 use App\Http\Requests\Story as StoryRequest;
 
+/**
+ * Class StoryController
+ * @package App\Http\Controllers
+ * @resource Story
+ *
+ * Stories are made up of a photo or video and a short text.
+ * They are used to stimulate discussion between the User and Patient
+ * Stories are collected in Albums and a number of Heritage items are supplied by default
+ * when a new User registers a Patient
+ */
+
 class StoryController extends Controller
 {
     private $keyTranslations = array(
@@ -24,6 +35,8 @@ class StoryController extends Controller
 
 
     /**
+     * Persist a new Story
+     *
      * @param StoryRequest\Store $request
      * @param $patientId
      * @return mixed
@@ -58,6 +71,8 @@ class StoryController extends Controller
 
 
     /**
+     * Fetch a Story
+     *
      * @param StoryRequest\Show $request
      * @param $patientId
      * @param Story $story
@@ -80,6 +95,8 @@ class StoryController extends Controller
 
 
     /**
+     * Update a Story
+     *
      * @param StoryRequest\Update $request
      * @param $patientId
      * @param Story $story
@@ -104,7 +121,7 @@ class StoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove a story from storage.
      *
      * @param  \App\Story  $story
      * @return \Illuminate\Http\Response
