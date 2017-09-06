@@ -38,7 +38,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::patch('patient/{patient}/story/{story}', 'StoryController@update');
 
     Route::resource('patient.story.asset', 'StoryAssetController', [
-       'only' => ['store', 'show', 'update']
+       'only' => ['store', 'show']
     ]);
 
     Route::resource('album', 'Heritage\DefaultAlbumController', [
