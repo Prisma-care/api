@@ -304,8 +304,12 @@ $.ajax(settings).done(function (response) {
 <!-- END_a4405aee6b8c2ed72752c3b501e8f3ec -->
 
 #Heritage\DefaultAlbum
+
+When a Patient is created, a default set of Heritage Albums are generated and assigned to that Patient
+This ensures that there is content available for the new User/Patient
+Because the generated Heritage Albums are assigned to the Patient the can also be deleted
 <!-- START_5f9ea1380d5ddf373f9a97d44e4b44ad -->
-## v1/album
+## Fetch Heritage Albums
 
 > Example request:
 
@@ -351,7 +355,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_5f9ea1380d5ddf373f9a97d44e4b44ad -->
 
 <!-- START_f75eb541a44d3e3ef0ac50630a10161d -->
-## v1/album
+## Persist a new Heritage Album
 
 > Example request:
 
@@ -384,7 +388,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_f75eb541a44d3e3ef0ac50630a10161d -->
 
 <!-- START_f835437eacfa197096feeee8fc97b8ae -->
-## Display the specified resource.
+## Fetch a single Heritage Album
 
 > Example request:
 
@@ -430,7 +434,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_f835437eacfa197096feeee8fc97b8ae -->
 
 <!-- START_155124900ddc87064befc8014e974b66 -->
-## v1/album/{album}
+## Remove a specific DefaultAlbum
 
 > Example request:
 
@@ -463,7 +467,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_155124900ddc87064befc8014e974b66 -->
 
 <!-- START_fd29650ce9bc620f6991745a7b9528ce -->
-## v1/album/{album}
+## Update a specific DefaultAlbum
 
 > Example request:
 
@@ -496,8 +500,11 @@ $.ajax(settings).done(function (response) {
 <!-- END_fd29650ce9bc620f6991745a7b9528ce -->
 
 #Heritage\Heritage
+
+A Heritage is a Story supplied by default to all Users
+and usually supplied by a Heritage organisation
 <!-- START_ec5c25310511311fdd00db15636bc28e -->
-## Display a listing of the resource.
+## Fetch all Heritages for an Album
 
 > Example request:
 
@@ -543,7 +550,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_ec5c25310511311fdd00db15636bc28e -->
 
 <!-- START_dc56bc78f254d14fa22600cf20d3cf5b -->
-## Store a newly created resource in storage.
+## Persist a new Heritage in an Album
 
 > Example request:
 
@@ -586,7 +593,7 @@ Parameter | Type | Status | Description
 <!-- END_dc56bc78f254d14fa22600cf20d3cf5b -->
 
 <!-- START_d31f1a81cf2488f528918ccede73b714 -->
-## v1/album/{album}/heritage/{heritage}
+## Fetch a specific Heritage
 
 > Example request:
 
@@ -632,7 +639,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_d31f1a81cf2488f528918ccede73b714 -->
 
 <!-- START_44f76c2d1f206a43db362787659192df -->
-## Remove the specified resource from storage.
+## Remove the specified heritage
 
 > Example request:
 
@@ -665,7 +672,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_44f76c2d1f206a43db362787659192df -->
 
 <!-- START_24bcf6aa284f5c965666ef2ad9f0b8c7 -->
-## Update the specified resource in storage.
+## Update a specific Heritage
 
 > Example request:
 
@@ -698,8 +705,13 @@ $.ajax(settings).done(function (response) {
 <!-- END_24bcf6aa284f5c965666ef2ad9f0b8c7 -->
 
 #Heritage\HeritageAsset
+
+HeritageAssets are photographic and video materials used to stimulate discussion between the User and Patient
+HeritageAssets are supplied by local heritage organisations rather than from the Users
 <!-- START_550d34127fc25491d03f7a3280ffdfe2 -->
-## v1/album/{album}/heritage/{heritage}/asset
+## Store a new HeritageAsset and attach it to a Heritage
+
+HeritageAssets can be photos or URLs to videos on external services such as YouTube or Vimeo
 
 > Example request:
 
@@ -732,7 +744,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_550d34127fc25491d03f7a3280ffdfe2 -->
 
 <!-- START_d3f782ccc657995e6624c7cb86d81fa5 -->
-## v1/album/{album}/heritage/{heritage}/asset/{asset}
+## Fetch a particular HeritageAsset
 
 > Example request:
 

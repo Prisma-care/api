@@ -283,8 +283,11 @@ $.ajax(settings).done(function (response) {
 <p><code>UNLINK v1/patient/{patientId}/connection</code></p>
 <!-- END_a4405aee6b8c2ed72752c3b501e8f3ec -->
 <h1>Heritage\DefaultAlbum</h1>
+<p>When a Patient is created, a default set of Heritage Albums are generated and assigned to that Patient
+This ensures that there is content available for the new User/Patient
+Because the generated Heritage Albums are assigned to the Patient the can also be deleted</p>
 <!-- START_5f9ea1380d5ddf373f9a97d44e4b44ad -->
-<h2>v1/album</h2>
+<h2>Fetch Heritage Albums</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -318,7 +321,7 @@ $.ajax(settings).done(function (response) {
 <p><code>HEAD v1/album</code></p>
 <!-- END_5f9ea1380d5ddf373f9a97d44e4b44ad -->
 <!-- START_f75eb541a44d3e3ef0ac50630a10161d -->
-<h2>v1/album</h2>
+<h2>Persist a new Heritage Album</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -341,7 +344,7 @@ $.ajax(settings).done(function (response) {
 <p><code>POST v1/album</code></p>
 <!-- END_f75eb541a44d3e3ef0ac50630a10161d -->
 <!-- START_f835437eacfa197096feeee8fc97b8ae -->
-<h2>Display the specified resource.</h2>
+<h2>Fetch a single Heritage Album</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -375,7 +378,7 @@ $.ajax(settings).done(function (response) {
 <p><code>HEAD v1/album/{album}</code></p>
 <!-- END_f835437eacfa197096feeee8fc97b8ae -->
 <!-- START_155124900ddc87064befc8014e974b66 -->
-<h2>v1/album/{album}</h2>
+<h2>Remove a specific DefaultAlbum</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -398,7 +401,7 @@ $.ajax(settings).done(function (response) {
 <p><code>DELETE v1/album/{album}</code></p>
 <!-- END_155124900ddc87064befc8014e974b66 -->
 <!-- START_fd29650ce9bc620f6991745a7b9528ce -->
-<h2>v1/album/{album}</h2>
+<h2>Update a specific DefaultAlbum</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -421,8 +424,10 @@ $.ajax(settings).done(function (response) {
 <p><code>PATCH v1/album/{album}</code></p>
 <!-- END_fd29650ce9bc620f6991745a7b9528ce -->
 <h1>Heritage\Heritage</h1>
+<p>A Heritage is a Story supplied by default to all Users
+and usually supplied by a Heritage organisation</p>
 <!-- START_ec5c25310511311fdd00db15636bc28e -->
-<h2>Display a listing of the resource.</h2>
+<h2>Fetch all Heritages for an Album</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -456,7 +461,7 @@ $.ajax(settings).done(function (response) {
 <p><code>HEAD v1/album/{album}/heritage</code></p>
 <!-- END_ec5c25310511311fdd00db15636bc28e -->
 <!-- START_dc56bc78f254d14fa22600cf20d3cf5b -->
-<h2>Store a newly created resource in storage.</h2>
+<h2>Persist a new Heritage in an Album</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -502,7 +507,7 @@ $.ajax(settings).done(function (response) {
 </table>
 <!-- END_dc56bc78f254d14fa22600cf20d3cf5b -->
 <!-- START_d31f1a81cf2488f528918ccede73b714 -->
-<h2>v1/album/{album}/heritage/{heritage}</h2>
+<h2>Fetch a specific Heritage</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -536,7 +541,7 @@ $.ajax(settings).done(function (response) {
 <p><code>HEAD v1/album/{album}/heritage/{heritage}</code></p>
 <!-- END_d31f1a81cf2488f528918ccede73b714 -->
 <!-- START_44f76c2d1f206a43db362787659192df -->
-<h2>Remove the specified resource from storage.</h2>
+<h2>Remove the specified heritage</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -559,7 +564,7 @@ $.ajax(settings).done(function (response) {
 <p><code>DELETE v1/album/{album}/heritage/{heritage}</code></p>
 <!-- END_44f76c2d1f206a43db362787659192df -->
 <!-- START_24bcf6aa284f5c965666ef2ad9f0b8c7 -->
-<h2>Update the specified resource in storage.</h2>
+<h2>Update a specific Heritage</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -582,8 +587,11 @@ $.ajax(settings).done(function (response) {
 <p><code>PATCH v1/album/{album}/heritage/{heritage}</code></p>
 <!-- END_24bcf6aa284f5c965666ef2ad9f0b8c7 -->
 <h1>Heritage\HeritageAsset</h1>
+<p>HeritageAssets are photographic and video materials used to stimulate discussion between the User and Patient
+HeritageAssets are supplied by local heritage organisations rather than from the Users</p>
 <!-- START_550d34127fc25491d03f7a3280ffdfe2 -->
-<h2>v1/album/{album}/heritage/{heritage}/asset</h2>
+<h2>Store a new HeritageAsset and attach it to a Heritage</h2>
+<p>HeritageAssets can be photos or URLs to videos on external services such as YouTube or Vimeo</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -606,7 +614,7 @@ $.ajax(settings).done(function (response) {
 <p><code>POST v1/album/{album}/heritage/{heritage}/asset</code></p>
 <!-- END_550d34127fc25491d03f7a3280ffdfe2 -->
 <!-- START_d3f782ccc657995e6624c7cb86d81fa5 -->
-<h2>v1/album/{album}/heritage/{heritage}/asset/{asset}</h2>
+<h2>Fetch a particular HeritageAsset</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
