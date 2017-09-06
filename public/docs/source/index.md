@@ -303,6 +303,480 @@ $.ajax(settings).done(function (response) {
 
 <!-- END_a4405aee6b8c2ed72752c3b501e8f3ec -->
 
+#Heritage\DefaultAlbum
+<!-- START_5f9ea1380d5ddf373f9a97d44e4b44ad -->
+## v1/album
+
+> Example request:
+
+```bash
+curl -X GET "https://prisma.care/v1/album" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}
+```
+
+### HTTP Request
+`GET v1/album`
+
+`HEAD v1/album`
+
+
+<!-- END_5f9ea1380d5ddf373f9a97d44e4b44ad -->
+
+<!-- START_f75eb541a44d3e3ef0ac50630a10161d -->
+## v1/album
+
+> Example request:
+
+```bash
+curl -X POST "https://prisma.care/v1/album" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST v1/album`
+
+
+<!-- END_f75eb541a44d3e3ef0ac50630a10161d -->
+
+<!-- START_f835437eacfa197096feeee8fc97b8ae -->
+## Display the specified resource.
+
+> Example request:
+
+```bash
+curl -X GET "https://prisma.care/v1/album/{album}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}
+```
+
+### HTTP Request
+`GET v1/album/{album}`
+
+`HEAD v1/album/{album}`
+
+
+<!-- END_f835437eacfa197096feeee8fc97b8ae -->
+
+<!-- START_155124900ddc87064befc8014e974b66 -->
+## v1/album/{album}
+
+> Example request:
+
+```bash
+curl -X DELETE "https://prisma.care/v1/album/{album}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`DELETE v1/album/{album}`
+
+
+<!-- END_155124900ddc87064befc8014e974b66 -->
+
+<!-- START_fd29650ce9bc620f6991745a7b9528ce -->
+## v1/album/{album}
+
+> Example request:
+
+```bash
+curl -X PATCH "https://prisma.care/v1/album/{album}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}",
+    "method": "PATCH",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`PATCH v1/album/{album}`
+
+
+<!-- END_fd29650ce9bc620f6991745a7b9528ce -->
+
+#Heritage\Heritage
+<!-- START_ec5c25310511311fdd00db15636bc28e -->
+## Display a listing of the resource.
+
+> Example request:
+
+```bash
+curl -X GET "https://prisma.care/v1/album/{album}/heritage" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}/heritage",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}
+```
+
+### HTTP Request
+`GET v1/album/{album}/heritage`
+
+`HEAD v1/album/{album}/heritage`
+
+
+<!-- END_ec5c25310511311fdd00db15636bc28e -->
+
+<!-- START_dc56bc78f254d14fa22600cf20d3cf5b -->
+## Store a newly created resource in storage.
+
+> Example request:
+
+```bash
+curl -X POST "https://prisma.care/v1/album/{album}/heritage" \
+-H "Accept: application/json" \
+    -d "description"="asperiores" \
+
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}/heritage",
+    "method": "POST",
+    "data": {
+        "description": "asperiores"
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST v1/album/{album}/heritage`
+
+#### Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    description | string |  required  | 
+
+<!-- END_dc56bc78f254d14fa22600cf20d3cf5b -->
+
+<!-- START_d31f1a81cf2488f528918ccede73b714 -->
+## v1/album/{album}/heritage/{heritage}
+
+> Example request:
+
+```bash
+curl -X GET "https://prisma.care/v1/album/{album}/heritage/{heritage}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}
+```
+
+### HTTP Request
+`GET v1/album/{album}/heritage/{heritage}`
+
+`HEAD v1/album/{album}/heritage/{heritage}`
+
+
+<!-- END_d31f1a81cf2488f528918ccede73b714 -->
+
+<!-- START_44f76c2d1f206a43db362787659192df -->
+## Remove the specified resource from storage.
+
+> Example request:
+
+```bash
+curl -X DELETE "https://prisma.care/v1/album/{album}/heritage/{heritage}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`DELETE v1/album/{album}/heritage/{heritage}`
+
+
+<!-- END_44f76c2d1f206a43db362787659192df -->
+
+<!-- START_24bcf6aa284f5c965666ef2ad9f0b8c7 -->
+## Update the specified resource in storage.
+
+> Example request:
+
+```bash
+curl -X PATCH "https://prisma.care/v1/album/{album}/heritage/{heritage}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}",
+    "method": "PATCH",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`PATCH v1/album/{album}/heritage/{heritage}`
+
+
+<!-- END_24bcf6aa284f5c965666ef2ad9f0b8c7 -->
+
+#Heritage\HeritageAsset
+<!-- START_550d34127fc25491d03f7a3280ffdfe2 -->
+## v1/album/{album}/heritage/{heritage}/asset
+
+> Example request:
+
+```bash
+curl -X POST "https://prisma.care/v1/album/{album}/heritage/{heritage}/asset" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}/asset",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST v1/album/{album}/heritage/{heritage}/asset`
+
+
+<!-- END_550d34127fc25491d03f7a3280ffdfe2 -->
+
+<!-- START_d3f782ccc657995e6624c7cb86d81fa5 -->
+## v1/album/{album}/heritage/{heritage}/asset/{asset}
+
+> Example request:
+
+```bash
+curl -X GET "https://prisma.care/v1/album/{album}/heritage/{heritage}/asset/{asset}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}/asset/{asset}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "meta": {
+        "code": 401,
+        "message": "No authorization token provided"
+    },
+    "response": []
+}
+```
+
+### HTTP Request
+`GET v1/album/{album}/heritage/{heritage}/asset/{asset}`
+
+`HEAD v1/album/{album}/heritage/{heritage}/asset/{asset}`
+
+
+<!-- END_d3f782ccc657995e6624c7cb86d81fa5 -->
+
 #Invite\User
 
 When a User invites another user to connect to a Patient,
@@ -894,475 +1368,4 @@ $.ajax(settings).done(function (response) {
 
 
 <!-- END_c888faa7c251178b85f34a01da2c642d -->
-
-<!-- START_5f9ea1380d5ddf373f9a97d44e4b44ad -->
-## v1/album
-
-> Example request:
-
-```bash
-curl -X GET "https://prisma.care/v1/album" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-> Example response:
-
-```json
-{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}
-```
-
-### HTTP Request
-`GET v1/album`
-
-`HEAD v1/album`
-
-
-<!-- END_5f9ea1380d5ddf373f9a97d44e4b44ad -->
-
-<!-- START_f75eb541a44d3e3ef0ac50630a10161d -->
-## v1/album
-
-> Example request:
-
-```bash
-curl -X POST "https://prisma.care/v1/album" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album",
-    "method": "POST",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`POST v1/album`
-
-
-<!-- END_f75eb541a44d3e3ef0ac50630a10161d -->
-
-<!-- START_f835437eacfa197096feeee8fc97b8ae -->
-## Display the specified resource.
-
-> Example request:
-
-```bash
-curl -X GET "https://prisma.care/v1/album/{album}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-> Example response:
-
-```json
-{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}
-```
-
-### HTTP Request
-`GET v1/album/{album}`
-
-`HEAD v1/album/{album}`
-
-
-<!-- END_f835437eacfa197096feeee8fc97b8ae -->
-
-<!-- START_155124900ddc87064befc8014e974b66 -->
-## v1/album/{album}
-
-> Example request:
-
-```bash
-curl -X DELETE "https://prisma.care/v1/album/{album}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}",
-    "method": "DELETE",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`DELETE v1/album/{album}`
-
-
-<!-- END_155124900ddc87064befc8014e974b66 -->
-
-<!-- START_fd29650ce9bc620f6991745a7b9528ce -->
-## v1/album/{album}
-
-> Example request:
-
-```bash
-curl -X PATCH "https://prisma.care/v1/album/{album}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}",
-    "method": "PATCH",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`PATCH v1/album/{album}`
-
-
-<!-- END_fd29650ce9bc620f6991745a7b9528ce -->
-
-<!-- START_ec5c25310511311fdd00db15636bc28e -->
-## Display a listing of the resource.
-
-> Example request:
-
-```bash
-curl -X GET "https://prisma.care/v1/album/{album}/heritage" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}/heritage",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-> Example response:
-
-```json
-{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}
-```
-
-### HTTP Request
-`GET v1/album/{album}/heritage`
-
-`HEAD v1/album/{album}/heritage`
-
-
-<!-- END_ec5c25310511311fdd00db15636bc28e -->
-
-<!-- START_dc56bc78f254d14fa22600cf20d3cf5b -->
-## Store a newly created resource in storage.
-
-> Example request:
-
-```bash
-curl -X POST "https://prisma.care/v1/album/{album}/heritage" \
--H "Accept: application/json" \
-    -d "description"="asperiores" \
-
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}/heritage",
-    "method": "POST",
-    "data": {
-        "description": "asperiores"
-},
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`POST v1/album/{album}/heritage`
-
-#### Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    description | string |  required  | 
-
-<!-- END_dc56bc78f254d14fa22600cf20d3cf5b -->
-
-<!-- START_d31f1a81cf2488f528918ccede73b714 -->
-## v1/album/{album}/heritage/{heritage}
-
-> Example request:
-
-```bash
-curl -X GET "https://prisma.care/v1/album/{album}/heritage/{heritage}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-> Example response:
-
-```json
-{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}
-```
-
-### HTTP Request
-`GET v1/album/{album}/heritage/{heritage}`
-
-`HEAD v1/album/{album}/heritage/{heritage}`
-
-
-<!-- END_d31f1a81cf2488f528918ccede73b714 -->
-
-<!-- START_44f76c2d1f206a43db362787659192df -->
-## Remove the specified resource from storage.
-
-> Example request:
-
-```bash
-curl -X DELETE "https://prisma.care/v1/album/{album}/heritage/{heritage}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}",
-    "method": "DELETE",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`DELETE v1/album/{album}/heritage/{heritage}`
-
-
-<!-- END_44f76c2d1f206a43db362787659192df -->
-
-<!-- START_24bcf6aa284f5c965666ef2ad9f0b8c7 -->
-## Update the specified resource in storage.
-
-> Example request:
-
-```bash
-curl -X PATCH "https://prisma.care/v1/album/{album}/heritage/{heritage}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}",
-    "method": "PATCH",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`PATCH v1/album/{album}/heritage/{heritage}`
-
-
-<!-- END_24bcf6aa284f5c965666ef2ad9f0b8c7 -->
-
-<!-- START_550d34127fc25491d03f7a3280ffdfe2 -->
-## v1/album/{album}/heritage/{heritage}/asset
-
-> Example request:
-
-```bash
-curl -X POST "https://prisma.care/v1/album/{album}/heritage/{heritage}/asset" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}/asset",
-    "method": "POST",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`POST v1/album/{album}/heritage/{heritage}/asset`
-
-
-<!-- END_550d34127fc25491d03f7a3280ffdfe2 -->
-
-<!-- START_d3f782ccc657995e6624c7cb86d81fa5 -->
-## v1/album/{album}/heritage/{heritage}/asset/{asset}
-
-> Example request:
-
-```bash
-curl -X GET "https://prisma.care/v1/album/{album}/heritage/{heritage}/asset/{asset}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://prisma.care/v1/album/{album}/heritage/{heritage}/asset/{asset}",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-> Example response:
-
-```json
-{
-    "meta": {
-        "code": 401,
-        "message": "No authorization token provided"
-    },
-    "response": []
-}
-```
-
-### HTTP Request
-`GET v1/album/{album}/heritage/{heritage}/asset/{asset}`
-
-`HEAD v1/album/{album}/heritage/{heritage}/asset/{asset}`
-
-
-<!-- END_d3f782ccc657995e6624c7cb86d81fa5 -->
 
