@@ -7,6 +7,14 @@ use App\Story;
 use App\Utils\ImageUtility;
 use File;
 
+/**
+ * Class StoryAssetController
+ * @package App\Http\Controllers
+ * @resource StoryAsset
+ *
+ * StoryAssets are photographic and video materials used to stimulate discussion between the User and Patient
+ */
+
 class StoryAssetController extends Controller
 {
     public function __construct()
@@ -33,7 +41,10 @@ class StoryAssetController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new StoryAsset and attach it to a Story
+     *
+     * StoryAssets can be photos or URLs to videos on external services such as YouTube or Vimeo
+     *
      * @param StoryAssetRequest\Store $request
      * @param $patientId
      * @param $storyId
@@ -64,6 +75,8 @@ class StoryAssetController extends Controller
     }
 
     /**
+     * Fetch a particular StoryAsset
+     *
      * @param StoryAssetRequest\Show $request
      * @param $patientId
      * @param $storyId
