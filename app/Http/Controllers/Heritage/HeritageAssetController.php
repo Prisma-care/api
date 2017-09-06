@@ -8,6 +8,13 @@ use App\Utils\ImageUtility;
 use File;
 use App\Http\Requests\HeritageAsset as HeritageAssetRequest;
 
+/**
+ * Class HeritageAssetController
+ * @package App\Http\Controllers\Heritage
+ * @resource Heritage\HeritageAsset
+ *
+ */
+
 class HeritageAssetController extends Controller
 {
     public function __construct()
