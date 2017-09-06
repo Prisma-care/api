@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Story;
-use Illuminate\Support\Facades\File;
+use File;
 use App\Http\Requests\Story as StoryRequest;
 
 class StoryController extends Controller
@@ -56,11 +56,12 @@ class StoryController extends Controller
         return response()->success($createdStory, 201, 'Created', $location);
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Story  $story
-     * @return \Illuminate\Http\Response
+     * @param StoryRequest\Show $request
+     * @param $patientId
+     * @param Story $story
+     * @return mixed
      */
     public function show(StoryRequest\Show $request, $patientId, Story $story)
     {
@@ -78,6 +79,12 @@ class StoryController extends Controller
     }
 
 
+    /**
+     * @param StoryRequest\Update $request
+     * @param $patientId
+     * @param Story $story
+     * @return mixed
+     */
     public function update(StoryRequest\Update $request, $patientId, Story $story)
     {
         $values = $request->all();
