@@ -55,12 +55,12 @@ class HeritageController extends Controller
         return response()->success($heritage, 201, 'Created', $location);
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Http\Requests\Heritage\Show $request
-     * @param  int  $heritageId
-     * @return \Illuminate\Http\Response
+     * @param HeritageRequest\Show $reqeust
+     * @param $albumId
+     * @param $heritageId
+     * @return mixed
      */
     public function show(HeritageRequest\Show $reqeust, $albumId, $heritageId)
     {
