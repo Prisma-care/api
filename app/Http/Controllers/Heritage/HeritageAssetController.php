@@ -15,6 +15,10 @@ class HeritageAssetController extends Controller
         $this->middleware('jwt.auth');
     }
 
+    /**
+     * @param $request
+     * @param $heritage
+     */
     private function attachImageAsset($request, $heritage)
     {
         $asset = $request->file('asset');
@@ -32,12 +36,12 @@ class HeritageAssetController extends Controller
         $heritage->save();
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\HeritageAsset\Show $request
-     * @param  int $heritageId
-     * @return \Illuminate\Http\Response
+     * @param HeritageAssetRequest\Store $request
+     * @param $albumId
+     * @param $heritageId
+     * @return mixed
      */
     public function store(HeritageAssetRequest\Store $request, $albumId, $heritageId)
     {
@@ -67,13 +71,13 @@ class HeritageAssetController extends Controller
         }
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Http\Requests\HeritageAsset\Show $request
-     * @param  int  $heritageId
-     * @param  int  $assetId
-     * @return \Illuminate\Http\Response
+     * @param HeritageAssetRequest\Show $request
+     * @param $albumId
+     * @param $heritageId
+     * @param $assetId
+     * @return mixed
      */
     public function show(HeritageAssetRequest\Show $request, $albumId, $heritageId, $assetId)
     {
