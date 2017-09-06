@@ -6,6 +6,17 @@ use JWTAuth;
 use App\Patient;
 use App\Http\Requests\Patient as PatientRequest;
 
+/**
+ * Class PatientController
+ * @package App\Http\Controllers
+ * @resource Patient
+ *
+ * A Patient is a person who has dementia and receives nursing care.
+ * Patients are the loved ones of family members (Users)
+ *
+ * This Controller allows new Patients to be created and a Patient request returned for a particular Patient
+ */
+
 class PatientController extends Controller
 {
     public function __construct()
@@ -15,6 +26,7 @@ class PatientController extends Controller
 
 
     /**
+     * Persist a new Patient to storage
      * @param PatientRequest\Store $request
      * @return mixed
      */
@@ -55,6 +67,7 @@ class PatientController extends Controller
 
 
     /**
+     * Return the specified Patient if permitted by the Form Request
      * @param PatientRequest\Show $request
      * @param Patient $patient
      * @return mixed
