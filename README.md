@@ -57,3 +57,8 @@ Run API tests:
 ./vendor/bin/phpunit --testsuite Feature
 ```  
 This uses the `testing` environment, so make sure you have a `.env.testing` file for all configuration specific to running the tests (such as a separate database).
+
+API Docs can be found at ([api.prisma.care/docs](https://api.prisma.care/docs))
+
+To generate API docs locally, run the following artisan command ```php artisan api:generate --routePrefix="v1/*"```
+
