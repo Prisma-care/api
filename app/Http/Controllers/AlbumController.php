@@ -14,6 +14,7 @@ use App\Http\Requests\Album as AlbumRequest;
  * Controller used return, persist and remove Album data for particular Patients
  * Albums are collections of visual content used to stimulate discussions between families and their loved ones
  */
+
 class AlbumController extends Controller
 {
     public function __construct()
