@@ -9,10 +9,18 @@ use Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
+/**
+ * Class LoginController
+ * @package App\Http\Controllers
+ * @resource Auth
+ */
+
 class LoginController extends Controller
 {
 
     /**
+     * Authenticate a User
+     *
      * @param Signin $request
      * @return mixed
      */
