@@ -79,6 +79,16 @@ class PatientTest extends TestCase
         $this->testGetPatient($response->meta->location);
     }
 
+    public function testUserIsConnectedByDefault()
+    {
+        $body = $this->baseObject;
+        unset($body['id']);
+        $response = $this->postJson($this->endpoint, $body, $this->headers)->getData();
+        $patient = Patient::find($response->response->id);
+        $isConnected = $patient->users()->exists($this->testUserId);
+        $this->assertTrue($isConnected);
+    }
+
     public function testCreatePatientWithoutRequiredFields()
     {
         $requiredKeys = [ 'firstName', 'lastName' ];
