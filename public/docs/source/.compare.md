@@ -550,7 +550,7 @@ $.ajax(settings).done(function (response) {
 <!-- END_ec5c25310511311fdd00db15636bc28e -->
 
 <!-- START_dc56bc78f254d14fa22600cf20d3cf5b -->
-## Persist a new Heritage in an Album
+## Persist a new Heritage and assign it to an Album
 
 > Example request:
 
@@ -594,6 +594,8 @@ Parameter | Type | Status | Description
 
 <!-- START_d31f1a81cf2488f528918ccede73b714 -->
 ## Fetch a specific Heritage
+
+These are attached to Albums and therefore are User specific
 
 > Example request:
 
