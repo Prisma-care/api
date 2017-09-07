@@ -29,6 +29,8 @@ abstract class TestCase extends BaseTestCase
     public $numberOfUsers = 5;
     public $numberOfPatients = 5;
 
+    protected $testUserId = 2;
+
     public function setUp()
     {
         parent::setUp();
@@ -89,11 +91,10 @@ abstract class TestCase extends BaseTestCase
 
     public function seedPatientUsers()
     {
-        $testUserId = 2;
         $patient = Patient::find(2);
-        $patient->users()->attach($testUserId);
+        $patient->users()->attach($this->testUserId);
         $patient = Patient::find(5);
-        $patient->users()->attach($testUserId);
+        $patient->users()->attach($this->testUserId);
     }
 
     public function seedHeritage()

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Patient;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -33,6 +34,14 @@ class PatientTest extends TestCase
         unset($headers['HTTP_Authorization']);
         $response = $this->getJson($this->endpoint . '/1', $headers)
             ->assertStatus(401);
+    }
+
+    public function testResourceIsRestricted()
+    {
+        $patient = Patient::find(1);
+        $patient->users()->detach($this->testUserId);
+        $response = $this->getJson($this->endpoint . '/1', $this->headers)
+            ->assertStatus(403);
     }
 
     public function testGetPatient($location = null)
