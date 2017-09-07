@@ -39,7 +39,8 @@ class HeritageController extends Controller
     }
 
     /**
-     * Persist a new Heritage in an Album
+
+     * Persist a new Heritage and assign it to an Album
      *
      * @param  \App\Http\Requests\Heritage\Store  $request
      * @param  int $albumId
@@ -68,6 +69,7 @@ class HeritageController extends Controller
     /**
      * Fetch a specific Heritage
      *
+     * These are attached to Albums and therefore are User specific
      * @param HeritageRequest\Show $reqeust
      * @param $albumId
      * @param $heritageId
