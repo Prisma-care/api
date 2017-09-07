@@ -6,6 +6,13 @@ use JWTAuth;
 use Auth;
 use App\Http\Controllers\Controller;
 
+/**
+ * Class LogoutController
+ * @package App\Http\Controllers
+ * @resource Auth
+ */
+
+
 class LogoutController extends Controller
 {
     public function __construct()
@@ -13,6 +20,11 @@ class LogoutController extends Controller
         $this->middleware('jwt.auth');
     }
 
+    /**
+     * Log out a User
+     *
+     * @return mixed
+     */
     public function signout()
     {
         $token = JWTAuth::getToken();
