@@ -163,7 +163,7 @@ class AlbumTest extends TestCase
                 'response' => []
             ])
             ->assertStatus(200);
-        $album = \App\Album::find($album->id);
+        $album = Album::find($album->id);
         $this->assertEquals($album->title, $newTitle);
     }
 
