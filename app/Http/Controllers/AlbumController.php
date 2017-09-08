@@ -51,7 +51,7 @@ class AlbumController extends Controller
                 $thisAlbum['stories'][] = [
                     'id' => $story->id,
                     'description' => $story->description,
-                    'type' => '',
+                    'type' => $story->asset_type,
                     'favorited' => $story->favorited,
                     'source' => $story->asset_name
                 ];
