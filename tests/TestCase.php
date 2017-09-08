@@ -29,6 +29,7 @@ abstract class TestCase extends BaseTestCase
     public $numberOfUsers = 5;
     public $numberOfPatients = 5;
 
+    protected $testPatientId = 2;
     protected $testUserId = 2;
 
     public function setUp()
@@ -42,7 +43,7 @@ abstract class TestCase extends BaseTestCase
     protected function authenticate($user = null)
     {
         if (!$user) {
-            $user = User::first();
+            $user = User::find($this->testUserId);
         }
         $token = JWTAuth::fromUser($user);
         $this->headers['HTTP_Authorization'] = 'Bearer ' . $token;
@@ -87,7 +88,7 @@ abstract class TestCase extends BaseTestCase
 
     public function seedPatientUsers()
     {
-        $patient = Patient::find(2);
+        $patient = Patient::find($this->testPatientId);
         $patient->users()->attach($this->testUserId);
         $patient = Patient::find(5);
         $patient->users()->attach($this->testUserId);
