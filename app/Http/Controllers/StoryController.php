@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Story;
 use File;
+use App\Story;
+use App\Album;
 use App\Http\Requests\Story as StoryRequest;
 
 /**
@@ -43,6 +44,8 @@ class StoryController extends Controller
      */
     public function store(StoryRequest\Store $request, $patientId)
     {
+        Album::findOrFail($request->input('albumId'));
+
         $story = new Story([
             'description' => $request->input('description'),
             'happened_at' => $request->input('happenedAt'),
