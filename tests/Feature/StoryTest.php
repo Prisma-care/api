@@ -108,6 +108,14 @@ class StoryTest extends TestCase
             ->assertStatus(400);
     }
 
+    public function testCreateStoryWithInvalidAlbumId()
+    {
+        $body = [ 'description' => str_random(16), 'albumId' => 0, 'creatorId' => 1 ];
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
+    }
+
     public function testCreateStoryWithoutRequiredFields()
     {
         $requiredKeys = [ 'description', 'albumId', 'creatorId' ];
