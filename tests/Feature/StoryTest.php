@@ -11,6 +11,7 @@ class StoryTest extends TestCase
 {
     private $baseEndpoint = 'v1/patient/{patientId}/story';
     private $endpoint;
+    private $ownedAlbumId;
     private $baseObject = [
         'id' => null,
         'description' => 'A description',
@@ -26,6 +27,10 @@ class StoryTest extends TestCase
         parent::setUp();
         $this->authenticate();
         $this->endpoint = $this->getEndpointWithValidPatientId();
+        $this->ownedAlbumId = \App\Patient::find($this->testPatientId)
+                                ->albums()->get()->values()->first()->id;
+        $this->baseObject['albumId'] = $this->ownedAlbumId;
+        $this->baseObject['creatorId'] = $this->testUserId;
     }
 
     private function getEndpointWithValidPatientId($patientId = null)
@@ -85,7 +90,7 @@ class StoryTest extends TestCase
 
     public function testCreateStory()
     {
-        $body = [ 'description' => str_random(16), 'albumId' => 1, 'creatorId' => 1 ];
+        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => 1 ];
         $expectedResponseObject = $this->baseObject;
         unset($expectedResponseObject['assetSource']);
         $response = $this->postJson($this->endpoint, $body, $this->headers)
@@ -101,7 +106,7 @@ class StoryTest extends TestCase
     public function testCreateStoryWithInvalidPatientId()
     {
         $endpoint = $this->getEndpointWithInvalidPatientId();
-        $body = [ 'description' => str_random(16), 'albumId' => 1, 'creatorId' => 1 ];
+        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => 1 ];
         $response = $this->postJson($endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
