@@ -59,6 +59,14 @@ class AlbumTest extends TestCase
             ->assertStatus(401);
     }
 
+    public function testResourceIsRestricted()
+    {
+        $patient = \App\Patient::find(1);
+        $patient->users()->detach($this->testUserId);
+        $response = $this->getJson($this->endpoint, $this->headers)
+            ->assertStatus(403);
+    }
+
     public function testIndexAlbum()
     {
         $response = $this->getJson($this->endpoint, $this->headers)
