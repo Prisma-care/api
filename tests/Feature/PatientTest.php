@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class PatientTest extends TestCase
 {
     private $baseEndpoint = 'v1/patient';
-    private $endpoint = 'v1/patient/1';
+    private $endpoint;
 
     private $baseObject = [
         'id' => null,
@@ -28,6 +28,7 @@ class PatientTest extends TestCase
     {
         parent::setUp();
         $this->authenticate();
+        $this->endpoint = "v1/patient/$this->testPatientId";
     }
 
     public function testResourceIsProtected()
@@ -40,7 +41,7 @@ class PatientTest extends TestCase
 
     public function testResourceIsRestricted()
     {
-        $patient = Patient::find(1);
+        $patient = Patient::find($this->testPatientId);
         $patient->users()->detach($this->testUserId);
         $response = $this->getJson($this->endpoint, $this->headers)
             ->assertStatus(403);

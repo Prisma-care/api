@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StoryTest extends TestCase
 {
-    private $existingPatientId = 1;
     private $baseEndpoint = 'v1/patient/{patientId}/story';
     private $endpoint;
     private $baseObject = [
@@ -29,9 +28,9 @@ class StoryTest extends TestCase
         $this->endpoint = $this->getEndpointWithValidPatientId();
     }
 
-    private function getEndpointWithValidPatientId()
+    private function getEndpointWithValidPatientId($patientId = null)
     {
-        return str_replace('{patientId}', $this->existingPatientId, $this->baseEndpoint);
+        return str_replace('{patientId}', $patientId ?: $this->testPatientId, $this->baseEndpoint);
     }
     private function getEndpointWithInvalidPatientId()
     {
@@ -48,7 +47,7 @@ class StoryTest extends TestCase
 
     public function testResourceIsRestricted()
     {
-        $patient = \App\Patient::find(1);
+        $patient = \App\Patient::find($this->testPatientId);
         $patient->users()->detach($this->testUserId);
         $response = $this->getJson($this->endpoint . '/1', $this->headers)
             ->assertStatus(403);

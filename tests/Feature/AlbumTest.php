@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AlbumTest extends TestCase
 {
-    private $existingPatientId = 1;
     private $baseEndpoint = 'v1/patient/{patientId}/album';
     private $endpoint;
     private $baseObject = [
@@ -45,7 +44,7 @@ class AlbumTest extends TestCase
 
     private function getEndpointWithValidPatientId()
     {
-        return str_replace('{patientId}', $this->existingPatientId, $this->baseEndpoint);
+        return str_replace('{patientId}', $this->testPatientId, $this->baseEndpoint);
     }
     private function getEndpointWithInvalidPatientId()
     {
@@ -62,7 +61,7 @@ class AlbumTest extends TestCase
 
     public function testResourceIsRestricted()
     {
-        $patient = \App\Patient::find(1);
+        $patient = \App\Patient::find($this->testPatientId);
         $patient->users()->detach($this->testUserId);
         $response = $this->getJson($this->endpoint, $this->headers)
             ->assertStatus(403);
@@ -144,7 +143,7 @@ class AlbumTest extends TestCase
     {
         $album = factory(Album::class)->create([
             'title' => 'Taken',
-            'patient_id' => 1
+            'patient_id' => $this->testPatientId
         ]);
         $body = [ 'title' => 'Taken' ];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
