@@ -46,6 +46,14 @@ class StoryTest extends TestCase
             ->assertStatus(401);
     }
 
+    public function testResourceIsRestricted()
+    {
+        $patient = \App\Patient::find(1);
+        $patient->users()->detach($this->testUserId);
+        $response = $this->getJson($this->endpoint . '/1', $this->headers)
+            ->assertStatus(403);
+    }
+
     public function testGetStory($location = null)
     {
         $endpoint = $this->endpoint . '/1';
