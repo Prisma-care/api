@@ -38,6 +38,14 @@ class StoryTest extends TestCase
         return str_replace('{patientId}', 0, $this->baseEndpoint);
     }
 
+    public function testResourceIsProtected()
+    {
+        $headers = $this->headers;
+        unset($headers['HTTP_Authorization']);
+        $response = $this->getJson($this->endpoint . '/1', $headers)
+            ->assertStatus(401);
+    }
+
     public function testGetStory($location = null)
     {
         $endpoint = $this->endpoint . '/1';
