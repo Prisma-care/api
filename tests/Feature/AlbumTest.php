@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Album;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -141,6 +142,10 @@ class AlbumTest extends TestCase
 
     public function testCreateAlbumWithTakenTitle()
     {
+        $album = factory(Album::class)->create([
+            'title' => 'Taken',
+            'patient_id' => 1
+        ]);
         $body = [ 'title' => 'Taken' ];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
@@ -149,7 +154,7 @@ class AlbumTest extends TestCase
 
     public function testUpdateAlbum()
     {
-        $album = \App\Album::create(['title' => str_random(20), 'patient_id' => 1]);
+        $album = Album::create(['title' => str_random(20), 'patient_id' => 1]);
         $endpoint = $this->endpoint . '/' . $album->id;
         $newTitle = str_random(20);
         $response = $this->patchJson($endpoint, ['title' => $newTitle], $this->headers)

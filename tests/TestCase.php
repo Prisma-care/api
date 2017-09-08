@@ -70,10 +70,6 @@ abstract class TestCase extends BaseTestCase
         ]);
         $patient->prepopulate();
         $patient->users()->attach($user->id);
-        $album = factory(Album::class)->create([
-            'title' => 'Taken',
-            'patient_id' => $patient->id
-        ]);
     }
 
     public function seedUsers($numberOfUsers = 5)
