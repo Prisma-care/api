@@ -120,6 +120,26 @@ class StoryTest extends TestCase
             ->assertStatus(400);
     }
 
+    public function testCreateStoryBelongingToAlbumOfAnotherPatient()
+    {
+        $patient = factory(\App\Patient::class)->create();
+        $patient->users()->attach($this->testUserId);
+        $album = factory(\App\Album::class)->create(['patient_id' => $patient->id]);
+
+        $patient2 = factory(\App\Patient::class)->create();
+        $album2 = factory(\App\Album::class)->create(['patient_id' => $patient2->id]);
+
+        $endpoint = $this->getEndpointWithValidPatientId($patient->id);
+        $body = [
+            'description' => str_random(16),
+            'albumId' => $album2->id,
+            'creatorId' => $this->testUserId
+        ];
+        $response = $this->postJson($endpoint, $body, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
+    }
+
     public function testCreateStoryWithoutRequiredFields()
     {
         $requiredKeys = [ 'description', 'albumId', 'creatorId' ];
