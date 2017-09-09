@@ -190,6 +190,14 @@ class StoryTest extends TestCase
         $this->assertEquals($story->description, $newDescription);
     }
 
+    public function testUpdateStoryBelongingToAnotherPatient()
+    {
+        $endpoint = $this->getEndpointWithValidPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
+        $response = $this->patchJson($endpoint, ['description' => str_random(20)], $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
+    }
+
     public function testDeleteAlbum()
     {
         $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
