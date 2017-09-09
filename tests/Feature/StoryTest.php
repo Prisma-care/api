@@ -11,7 +11,10 @@ class StoryTest extends TestCase
 {
     private $baseEndpoint = 'v1/patient/{patientId}/story';
     private $endpoint;
+    private $specificEndpoint;
+
     private $ownedAlbumId;
+    private $ownedStoryId;
     private $baseObject = [
         'id' => null,
         'description' => 'A description',
@@ -22,17 +25,6 @@ class StoryTest extends TestCase
         'favorited' => false
     ];
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->authenticate();
-        $this->endpoint = $this->getEndpointWithValidPatientId();
-        $this->ownedAlbumId = \App\Patient::find($this->testPatientId)
-                                ->albums()->get()->values()->first()->id;
-        $this->baseObject['albumId'] = $this->ownedAlbumId;
-        $this->baseObject['creatorId'] = $this->testUserId;
-    }
-
     private function getEndpointWithValidPatientId($patientId = null)
     {
         return str_replace('{patientId}', $patientId ?: $this->testPatientId, $this->baseEndpoint);
@@ -40,6 +32,20 @@ class StoryTest extends TestCase
     private function getEndpointWithInvalidPatientId()
     {
         return str_replace('{patientId}', 0, $this->baseEndpoint);
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->authenticate();
+        $ownedAlbum = \App\Patient::find($this->testPatientId)
+                                ->albums()->get()->values()->first();
+        $this->ownedAlbumId = $ownedAlbum->id;
+        $this->ownedStoryId = $ownedAlbum->stories()->first()->id;
+        $this->baseObject['albumId'] = $this->ownedAlbumId;
+        $this->baseObject['creatorId'] = $this->testUserId;
+        $this->endpoint = $this->getEndpointWithValidPatientId();
+        $this->specificEndpoint = "$this->endpoint/$this->ownedStoryId";
     }
 
     public function testResourceIsProtected()
