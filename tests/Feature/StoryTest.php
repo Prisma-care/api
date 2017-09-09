@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Story;
+use App\Album;
+use App\Patient;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -34,7 +37,7 @@ class StoryTest extends TestCase
     {
         parent::setUp();
         $this->authenticate();
-        $ownedAlbum = \App\Patient::find($this->testPatientId)
+        $ownedAlbum = Patient::find($this->testPatientId)
                                 ->albums()->get()->values()->first();
         $this->ownedAlbumId = $ownedAlbum->id;
         $this->ownedStoryId = $ownedAlbum->stories()->first()->id;
@@ -54,7 +57,7 @@ class StoryTest extends TestCase
 
     public function testResourceIsRestricted()
     {
-        $patient = \App\Patient::find($this->testPatientId);
+        $patient = Patient::find($this->testPatientId);
         $patient->users()->detach($this->testUserId);
         $response = $this->getJson($this->specificEndpoint, $this->headers)
             ->assertStatus(403);
@@ -141,7 +144,7 @@ class StoryTest extends TestCase
 
     public function testCreateStoryBelongingToAlbumOfAnotherPatient()
     {
-        $album = factory(\App\Album::class)->create([
+        $album = factory(Album::class)->create([
             'patient_id' => $this->privatePatientId
         ]);
 
@@ -169,7 +172,7 @@ class StoryTest extends TestCase
 
     public function testUpdateStory()
     {
-        $story = \App\Story::create([
+        $story = Story::create([
             'description' => str_random(16),
             'album_id' => $this->ownedAlbumId,
             'user_id' => $this->testUserId
@@ -182,7 +185,7 @@ class StoryTest extends TestCase
                 'response' => []
             ])
             ->assertStatus(200);
-        $story = \App\Story::find($story->id);
+        $story = Story::find($story->id);
         $this->assertEquals($story->description, $newDescription);
     }
 
