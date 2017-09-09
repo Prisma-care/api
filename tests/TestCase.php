@@ -112,4 +112,9 @@ abstract class TestCase extends BaseTestCase
     {
         return substr($location, (strpos($location, '/', strpos($location, '/') + 2) + 1));
     }
+
+    protected function disconnectTestUserFromTestPatient()
+    {
+        Patient::find($this->testPatientId)->users()->detach($this->testUserId);
+    }
 }

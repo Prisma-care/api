@@ -55,14 +55,6 @@ class StoryTest extends TestCase
             ->assertStatus(401);
     }
 
-    public function testResourceIsRestricted()
-    {
-        $patient = Patient::find($this->testPatientId);
-        $patient->users()->detach($this->testUserId);
-        $response = $this->getJson($this->specificEndpoint, $this->headers)
-            ->assertStatus(403);
-    }
-
     public function testGetStory($location = null)
     {
         $endpoint = $this->specificEndpoint;
@@ -93,10 +85,10 @@ class StoryTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testGetStoryBelongingToAnotherPatient()
+    public function testGetStoryBelongingToUnconnectedPatient()
     {
-        $endpoint = $this->getEndpointWithPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
-        $response = $this->getJson($endpoint, $this->headers)
+        $this->disconnectTestUserFromTestPatient();
+        $response = $this->getJson($this->specificEndpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
     }
@@ -133,11 +125,11 @@ class StoryTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testCreateStoryForAnotherPatient()
+    public function testCreateStoryForUnconnectedPatient()
     {
+        $this->disconnectTestUserFromTestPatient();
         $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
-        $endpoint = $this->getEndpointWithPatientId($this->privatePatientId);
-        $response = $this->postJson($endpoint, $body, $this->headers)
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
     }
@@ -189,10 +181,10 @@ class StoryTest extends TestCase
         $this->assertEquals($story->description, $newDescription);
     }
 
-    public function testUpdateStoryBelongingToAnotherPatient()
+    public function testUpdateStoryBelongingToUnconnectedPatient()
     {
-        $endpoint = $this->getEndpointWithPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
-        $response = $this->patchJson($endpoint, ['description' => str_random(20)], $this->headers)
+        $this->disconnectTestUserFromTestPatient();
+        $response = $this->patchJson($this->specificEndpoint, ['description' => str_random(20)], $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
     }
@@ -207,10 +199,10 @@ class StoryTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function testDeleteStoryBelongingToAnotherPatient()
+    public function testDeleteStoryBelongingToUnconnectedPatient()
     {
-        $endpoint = $this->getEndpointWithPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
-        $response = $this->deleteJson($endpoint, [], $this->headers)
+        $this->disconnectTestUserFromTestPatient();
+        $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
     }

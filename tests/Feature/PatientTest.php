@@ -62,7 +62,7 @@ class PatientTest extends TestCase
 
     public function testGetUnconnectedPatient()
     {
-        $patient = Patient::find($this->testPatientId)->users()->detach($this->testUserId);
+        $this->disconnectTestUserFromTestPatient();
         $response = $this->getJson($this->endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
