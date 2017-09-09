@@ -25,13 +25,9 @@ class StoryTest extends TestCase
         'favorited' => false
     ];
 
-    private function getEndpointWithValidPatientId($patientId = null)
+    private function getEndpointWithPatientId($patientId = null)
     {
         return str_replace('{patientId}', $patientId ?: $this->testPatientId, $this->baseEndpoint);
-    }
-    private function getEndpointWithInvalidPatientId()
-    {
-        return str_replace('{patientId}', 0, $this->baseEndpoint);
     }
 
     public function setUp()
@@ -44,7 +40,7 @@ class StoryTest extends TestCase
         $this->ownedStoryId = $ownedAlbum->stories()->first()->id;
         $this->baseObject['albumId'] = $this->ownedAlbumId;
         $this->baseObject['creatorId'] = $this->testUserId;
-        $this->endpoint = $this->getEndpointWithValidPatientId();
+        $this->endpoint = $this->getEndpointWithPatientId();
         $this->specificEndpoint = "$this->endpoint/$this->ownedStoryId";
     }
 
@@ -80,7 +76,7 @@ class StoryTest extends TestCase
 
     public function testGetStoryWithInvalidPatientId()
     {
-        $endpoint = $this->getEndpointWithInvalidPatientId() . '/' . $this->ownedStoryId;
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId) . '/' . $this->ownedStoryId;
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -96,7 +92,7 @@ class StoryTest extends TestCase
 
     public function testGetStoryBelongingToAnotherPatient()
     {
-        $endpoint = $this->getEndpointWithValidPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
+        $endpoint = $this->getEndpointWithPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
@@ -119,7 +115,7 @@ class StoryTest extends TestCase
 
     public function testCreateStoryWithInvalidPatientId()
     {
-        $endpoint = $this->getEndpointWithInvalidPatientId();
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId);
         $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
         $response = $this->postJson($endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
@@ -137,7 +133,7 @@ class StoryTest extends TestCase
     public function testCreateStoryForAnotherPatient()
     {
         $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
-        $endpoint = $this->getEndpointWithValidPatientId($this->privatePatientId);
+        $endpoint = $this->getEndpointWithPatientId($this->privatePatientId);
         $response = $this->postJson($endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
@@ -192,7 +188,7 @@ class StoryTest extends TestCase
 
     public function testUpdateStoryBelongingToAnotherPatient()
     {
-        $endpoint = $this->getEndpointWithValidPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
+        $endpoint = $this->getEndpointWithPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
         $response = $this->patchJson($endpoint, ['description' => str_random(20)], $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
@@ -210,7 +206,7 @@ class StoryTest extends TestCase
 
     public function testDeleteStoryBelongingToAnotherPatient()
     {
-        $endpoint = $this->getEndpointWithValidPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
+        $endpoint = $this->getEndpointWithPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
         $response = $this->deleteJson($endpoint, [], $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);

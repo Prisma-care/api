@@ -26,12 +26,13 @@ abstract class TestCase extends BaseTestCase
         'HTTP_Authorization' => 'Bearer <token>'
     ];
 
-    public $numberOfUsers = 5;
-    public $numberOfPatients = 5;
-
     protected $testPatientId = 2;
     protected $testUserId = 2;
     protected $privatePatientId = 3;
+    protected $nonExistentPatientId = 123;
+
+    protected $numberOfUsers = 5;
+    protected $numberOfPatients = 5;
 
     public function setUp()
     {
