@@ -185,6 +185,14 @@ class AlbumTest extends TestCase
         $this->assertEquals($album->title, $newTitle);
     }
 
+    public function testUpdateAlbumOfUnconnectedPatient()
+    {
+        $this->disconnectTestUserFromTestPatient();
+        $response = $this->patchJson($this->specificEndpoint, ['title' => str_random(20)], $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
+    }
+
     public function testDeleteAlbum()
     {
         $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
