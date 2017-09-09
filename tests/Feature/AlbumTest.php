@@ -202,4 +202,13 @@ class AlbumTest extends TestCase
             ])
             ->assertStatus(200);
     }
+
+
+    public function testDeleteAlbumOfUnconnectedPatient()
+    {
+        $this->disconnectTestUserFromTestPatient();
+        $this->deleteJson($this->specificEndpoint, [], $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
+    }
 }
