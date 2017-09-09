@@ -27,6 +27,9 @@ class AlbumTest extends TestCase
     ];
     private $objectStructure;
 
+    private $ownedAlbumId;
+    private $specificEndpoint;
+
     public function setUp()
     {
         parent::setUp();
@@ -39,16 +42,15 @@ class AlbumTest extends TestCase
               ]
             ]
         );
-        $this->endpoint = $this->getEndpointWithValidPatientId();
+        $this->endpoint = $this->getEndpointWithPatientId();
+        $this->ownedAlbumId = \App\Patient::find($this->testPatientId)
+                                ->albums()->get()->values()->first()->id;
+        $this->specificEndpoint = "$this->endpoint/$this->ownedAlbumId";
     }
 
-    private function getEndpointWithValidPatientId()
+    private function getEndpointWithPatientId($patientId = null)
     {
-        return str_replace('{patientId}', $this->testPatientId, $this->baseEndpoint);
-    }
-    private function getEndpointWithInvalidPatientId()
-    {
-        return str_replace('{patientId}', 0, $this->baseEndpoint);
+        return str_replace('{patientId}', $patientId ?: $this->testPatientId, $this->baseEndpoint);
     }
 
     public function testResourceIsProtected()
@@ -73,13 +75,13 @@ class AlbumTest extends TestCase
 
     public function testIndexAlbumWithInvalidPatientId()
     {
-        $endpoint = $this->getEndpointWithInvalidPatientId();
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId);
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
     }
 
-    public function testIndexAlbumOfAnotherPatient()
+    public function testIndexAlbumOfUnconnectedPatient()
     {
         $this->disconnectTestUserFromTestPatient();
         $response = $this->getJson($this->endpoint, $this->headers)
@@ -88,7 +90,7 @@ class AlbumTest extends TestCase
 
     public function testGetAlbum($location = null)
     {
-        $endpoint = $this->endpoint . '/1';
+        $endpoint = $this->specificEndpoint;
         if ($location) {
             $endpoint = $this->parseResourceLocation($location);
         }
@@ -102,7 +104,7 @@ class AlbumTest extends TestCase
 
     public function testGetAlbumWithInvalidPatientId()
     {
-        $endpoint = $this->getEndpointWithInvalidPatientId() . '/1';
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId) . '/' . $this->ownedAlbumId;
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -110,7 +112,7 @@ class AlbumTest extends TestCase
 
     public function testGetAlbumWithInvalidAlbumId()
     {
-        $endpoint = $this->endpoint . '/0';
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId) . '/0';
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -131,7 +133,7 @@ class AlbumTest extends TestCase
 
     public function testCreateAlbumWithInvalidPatientId()
     {
-        $endpoint = $this->getEndpointWithInvalidPatientId();
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId);
         $body = [ 'title' => str_random(16) ];
         $response = $this->postJson($endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
@@ -167,7 +169,7 @@ class AlbumTest extends TestCase
 
     public function testDeleteAlbum()
     {
-        $response = $this->deleteJson($this->endpoint . '/1', [], $this->headers)
+        $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
                 'response' => []
