@@ -161,6 +161,15 @@ class AlbumTest extends TestCase
             ->assertStatus(400);
     }
 
+    public function testCreateAlbumForUnconnectedPatient()
+    {
+        $this->disconnectTestUserFromTestPatient();
+        $body = [ 'title' => str_random(20) ];
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
+    }
+
     public function testUpdateAlbum()
     {
         $album = Album::create(['title' => str_random(20), 'patient_id' => 1]);
