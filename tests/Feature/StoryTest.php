@@ -104,7 +104,7 @@ class StoryTest extends TestCase
 
     public function testCreateStory()
     {
-        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => 1 ];
+        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
         $expectedResponseObject = $this->baseObject;
         unset($expectedResponseObject['assetSource']);
         $response = $this->postJson($this->endpoint, $body, $this->headers)
@@ -120,7 +120,7 @@ class StoryTest extends TestCase
     public function testCreateStoryWithInvalidPatientId()
     {
         $endpoint = $this->getEndpointWithInvalidPatientId();
-        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => 1 ];
+        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
         $response = $this->postJson($endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -128,10 +128,19 @@ class StoryTest extends TestCase
 
     public function testCreateStoryWithInvalidAlbumId()
     {
-        $body = [ 'description' => str_random(16), 'albumId' => 0, 'creatorId' => 1 ];
+        $body = [ 'description' => str_random(16), 'albumId' => 0, 'creatorId' => $this->testUserId ];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
+    }
+
+    public function testCreateStoryForAnotherPatient()
+    {
+        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
+        $endpoint = $this->getEndpointWithValidPatientId($this->privatePatientId);
+        $response = $this->postJson($endpoint, $body, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
     }
 
     public function testCreateStoryBelongingToAlbumOfAnotherPatient()
@@ -164,7 +173,11 @@ class StoryTest extends TestCase
 
     public function testUpdateStory()
     {
-        $story = \App\Story::create([ 'description' => str_random(16), 'album_id' => 1, 'user_id' => 1 ]);
+        $story = \App\Story::create([
+            'description' => str_random(16),
+            'album_id' => $this->ownedAlbumId,
+            'user_id' => $this->testUserId
+        ]);
         $endpoint = $this->endpoint . '/' . $story->id;
         $newDescription = str_random(20);
         $response = $this->patchJson($endpoint, ['description' => $newDescription], $this->headers)
