@@ -25,9 +25,9 @@ class StoryTest extends TestCase
         'favorited' => false
     ];
 
-    private function getEndpointWithValidPatientId()
+    private function getEndpointWithValidPatientId($patientId = null)
     {
-        return str_replace('{patientId}', $this->testPatientId, $this->baseEndpoint);
+        return str_replace('{patientId}', $patientId ?: $this->testPatientId, $this->baseEndpoint);
     }
     private function getEndpointWithInvalidPatientId()
     {
@@ -92,6 +92,14 @@ class StoryTest extends TestCase
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
+    }
+
+    public function testGetStoryBelongingToAnotherPatient()
+    {
+        $endpoint = $this->getEndpointWithValidPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
+        $response = $this->getJson($endpoint, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
     }
 
     public function testCreateStory()
