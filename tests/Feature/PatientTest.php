@@ -39,14 +39,6 @@ class PatientTest extends TestCase
             ->assertStatus(401);
     }
 
-    public function testResourceIsRestricted()
-    {
-        $patient = Patient::find($this->testPatientId);
-        $patient->users()->detach($this->testUserId);
-        $response = $this->getJson($this->endpoint, $this->headers)
-            ->assertStatus(403);
-    }
-
     public function testGetPatient($location = null)
     {
         $endpoint = $this->endpoint;
@@ -66,6 +58,14 @@ class PatientTest extends TestCase
         $response = $this->getJson($this->baseEndpoint . '/0', $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
+    }
+
+    public function testGetUnconnectedPatient()
+    {
+        $patient = Patient::find($this->testPatientId)->users()->detach($this->testUserId);
+        $response = $this->getJson($this->endpoint, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
     }
 
     public function testCreatePatient()
