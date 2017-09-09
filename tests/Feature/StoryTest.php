@@ -198,7 +198,7 @@ class StoryTest extends TestCase
             ->assertStatus(403);
     }
 
-    public function testDeleteAlbum()
+    public function testDeleteStory()
     {
         $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure([
@@ -206,5 +206,13 @@ class StoryTest extends TestCase
                 'response' => []
             ])
             ->assertStatus(200);
+    }
+
+    public function testDeleteStoryBelongingToAnotherPatient()
+    {
+        $endpoint = $this->getEndpointWithValidPatientId($this->privatePatientId) . '/' . $this->ownedStoryId;
+        $response = $this->deleteJson($endpoint, [], $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
     }
 }
