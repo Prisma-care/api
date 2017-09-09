@@ -59,14 +59,6 @@ class AlbumTest extends TestCase
             ->assertStatus(401);
     }
 
-    public function testResourceIsRestricted()
-    {
-        $patient = \App\Patient::find($this->testPatientId);
-        $patient->users()->detach($this->testUserId);
-        $response = $this->getJson($this->endpoint, $this->headers)
-            ->assertStatus(403);
-    }
-
     public function testIndexAlbum()
     {
         $response = $this->getJson($this->endpoint, $this->headers)
@@ -85,6 +77,13 @@ class AlbumTest extends TestCase
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
+    }
+
+    public function testIndexAlbumOfAnotherPatient()
+    {
+        $this->disconnectTestUserFromTestPatient();
+        $response = $this->getJson($this->endpoint, $this->headers)
+            ->assertStatus(403);
     }
 
     public function testGetAlbum($location = null)
