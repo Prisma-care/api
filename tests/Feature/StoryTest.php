@@ -52,7 +52,7 @@ class StoryTest extends TestCase
     {
         $headers = $this->headers;
         unset($headers['HTTP_Authorization']);
-        $response = $this->getJson($this->endpoint . '/1', $headers)
+        $response = $this->getJson($this->specificEndpoint, $headers)
             ->assertStatus(401);
     }
 
@@ -60,13 +60,13 @@ class StoryTest extends TestCase
     {
         $patient = \App\Patient::find($this->testPatientId);
         $patient->users()->detach($this->testUserId);
-        $response = $this->getJson($this->endpoint . '/1', $this->headers)
+        $response = $this->getJson($this->specificEndpoint, $this->headers)
             ->assertStatus(403);
     }
 
     public function testGetStory($location = null)
     {
-        $endpoint = $this->endpoint . '/1';
+        $endpoint = $this->specificEndpoint;
         if ($location) {
             $endpoint = $this->parseResourceLocation($location);
         }
@@ -80,7 +80,7 @@ class StoryTest extends TestCase
 
     public function testGetStoryWithInvalidPatientId()
     {
-        $endpoint = $this->getEndpointWithInvalidPatientId() . '/1';
+        $endpoint = $this->getEndpointWithInvalidPatientId() . '/' . $this->ownedStoryId;
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -175,7 +175,7 @@ class StoryTest extends TestCase
 
     public function testDeleteAlbum()
     {
-        $response = $this->deleteJson($this->endpoint . '/1', [], $this->headers)
+        $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
                 'response' => []
