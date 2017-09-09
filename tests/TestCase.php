@@ -31,6 +31,7 @@ abstract class TestCase extends BaseTestCase
 
     protected $testPatientId = 2;
     protected $testUserId = 2;
+    protected $privatePatientId = 3;
 
     public function setUp()
     {

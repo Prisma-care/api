@@ -25,9 +25,9 @@ class StoryTest extends TestCase
         'favorited' => false
     ];
 
-    private function getEndpointWithValidPatientId($patientId = null)
+    private function getEndpointWithValidPatientId()
     {
-        return str_replace('{patientId}', $patientId ?: $this->testPatientId, $this->baseEndpoint);
+        return str_replace('{patientId}', $this->testPatientId, $this->baseEndpoint);
     }
     private function getEndpointWithInvalidPatientId()
     {
@@ -128,20 +128,16 @@ class StoryTest extends TestCase
 
     public function testCreateStoryBelongingToAlbumOfAnotherPatient()
     {
-        $patient = factory(\App\Patient::class)->create();
-        $patient->users()->attach($this->testUserId);
-        $album = factory(\App\Album::class)->create(['patient_id' => $patient->id]);
+        $album = factory(\App\Album::class)->create([
+            'patient_id' => $this->privatePatientId
+        ]);
 
-        $patient2 = factory(\App\Patient::class)->create();
-        $album2 = factory(\App\Album::class)->create(['patient_id' => $patient2->id]);
-
-        $endpoint = $this->getEndpointWithValidPatientId($patient->id);
         $body = [
             'description' => str_random(16),
-            'albumId' => $album2->id,
+            'albumId' => $album->id,
             'creatorId' => $this->testUserId
         ];
-        $response = $this->postJson($endpoint, $body, $this->headers)
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
     }
