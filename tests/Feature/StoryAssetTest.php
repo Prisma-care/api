@@ -78,4 +78,17 @@ class StoryAssetTest extends TestCase
         $response = $this->getJson($endpoint, $this->headers)
             ->assertStatus(200);
     }
+
+    public function testCreateStoryImageAsset()
+    {
+        $body = [ 'asset' => UploadedFile::fake()->image('image.jpg') ];
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaCreatedResponseStructure,
+                'response' => [ 'id' ]
+            ])
+            ->assertStatus(201)
+            ->getData();
+        $this->testGetStoryImageAsset($response->meta->location);
+    }
 }
