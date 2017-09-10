@@ -31,8 +31,11 @@ class StoryAssetTest extends TestCase
         $this->endpoint = $this->getPopulatedEndpoint();
     }
 
-    public function testPlaceholder()
+    public function testResourceIsProtected()
     {
-        $this->assertEquals(true, true);
+        $headers = $this->headers;
+        unset($headers['HTTP_Authorization']);
+        $response = $this->postJson($this->endpoint, [], $headers)
+            ->assertStatus(401);
     }
 }
