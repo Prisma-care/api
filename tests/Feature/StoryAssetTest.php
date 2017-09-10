@@ -37,6 +37,16 @@ class StoryAssetTest extends TestCase
                                 ->getDriver()->getAdapter()->getPathPrefix();
     }
 
+    private function generateImageAssetForPatient($patientId, $extension = null)
+    {
+        $hierarchy = "$patientId/$this->ownedStoryId";
+        Storage::disk($this->diskName)->makeDirectory($hierarchy);
+
+        $fileName = $this->ownedStoryId . '.' . $extension ?: 'jpg';
+        $fullPath = $this->storagePath  . "$hierarchy/$fileName";
+        Image::generate($fullPath);
+    }
+
     public function setUp()
     {
         parent::setUp();
@@ -46,10 +56,7 @@ class StoryAssetTest extends TestCase
         $this->endpoint = $this->getPopulatedEndpoint();
 
         $this->setUpStorage();
-        $path = "$patient->id/$this->ownedStoryId/$this->ownedStoryId.jpg";
-        $fullPath = $this->storagePath  . $path;
-        Storage::disk($this->diskName)->makeDirectory("$patient->id/$this->ownedStoryId");
-        Image::generate($fullPath);
+        $this->generateImageAssetForPatient($patient->id);
 
         $this->specificEndpoint = "$this->endpoint/$this->ownedStoryId.jpg";
     }
@@ -62,7 +69,7 @@ class StoryAssetTest extends TestCase
             ->assertStatus(401);
     }
 
-    public function testGetStoryAsset($location = null)
+    public function testGetStoryImageAsset($location = null)
     {
         $endpoint = $this->specificEndpoint;
         if ($location) {
