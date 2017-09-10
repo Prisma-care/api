@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoryAsset as StoryAssetRequest;
 use App\Story;
 use App\Utils\ImageUtility;
-use File;
 
 /**
  * Class StoryAssetController
@@ -93,14 +93,14 @@ class StoryAssetController extends Controller
                 'type' => 'youtube'
             ], 200, 'OK');
         }
-        $storagePath = storage_path("app/stories/$patientId/$storyId/$asset");
 
-        if (!File::exists($storagePath)) {
+        $storagePath = "stories/$patientId/$storyId/$asset";
+        if (!Storage::exists($storagePath)) {
             return response()->exception('This asset does not exist.', 404);
         }
 
-        $file = File::get($storagePath);
-        $mimeType = File::mimeType($storagePath);
+        $file = Storage::get($storagePath);
+        $mimeType = Storage::mimeType($storagePath);
 
         return response($file, 200)->header("Content-Type", $mimeType);
     }
