@@ -41,7 +41,7 @@ class StoryAssetTest extends TestCase
         $patient = Patient::find($this->testPatientId);
         $this->ownedStoryId = $patient->albums()->get()->values()->first()->stories()->first()->id;
         $this->endpoint = $this->getPopulatedEndpoint();
-        $this->specificEndpoint = "$this->endpoint/$this->ownedStoryId.jpg";
+        $this->specificEndpoint = "$this->endpoint/$this->ownedStoryId.jpeg";
 
         Storage::fake($this->diskName);
     }
@@ -60,7 +60,7 @@ class StoryAssetTest extends TestCase
         if ($location) {
             $endpoint = $this->parseResourceLocation($location);
         } else {
-            $body = [ 'asset' => UploadedFile::fake()->image("image.jpg") ];
+            $body = [ 'asset' => UploadedFile::fake()->image("image.jpeg") ];
             $response = $this->postJson($this->endpoint, $body, $this->headers);
         }
         $response = $this->getJson($endpoint, $this->headers)
