@@ -60,7 +60,8 @@ class StoryAssetTest extends TestCase
         if ($location) {
             $endpoint = $this->parseResourceLocation($location);
         } else {
-            $this->testAddImageAssetToStory();
+            $body = [ 'asset' => UploadedFile::fake()->image("image.jpg") ];
+            $response = $this->postJson($this->endpoint, $body, $this->headers);
         }
         $response = $this->getJson($endpoint, $this->headers)
             ->assertStatus(200);
