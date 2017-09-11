@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Story;
 use App\Patient;
 use Tests\TestCase;
-use Tests\Utils\Image;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -30,14 +29,6 @@ class StoryAssetTest extends TestCase
         return str_replace('{storyId}', $storyId ?: $this->ownedStoryId, $tmpEndpoint);
     }
 
-    private function generateImageAssetForPatient($patientId, $extension = null)
-    {
-        $extension = $extension ?: 'jpg';
-        $img = Image::generate($extension);
-        $path = "$patientId/$this->ownedStoryId/$this->ownedStoryId.$extension";
-        Storage::disk($this->diskName)->put($path, $img);
-    }
-
     private function clearStorage()
     {
         Storage::disk($this->diskName)->deleteDirectory($this->testPatientId);
@@ -50,11 +41,9 @@ class StoryAssetTest extends TestCase
         $patient = Patient::find($this->testPatientId);
         $this->ownedStoryId = $patient->albums()->get()->values()->first()->stories()->first()->id;
         $this->endpoint = $this->getPopulatedEndpoint();
+        $this->specificEndpoint = "$this->endpoint/$this->ownedStoryId.jpg";
 
         Storage::fake($this->diskName);
-        $this->generateImageAssetForPatient($patient->id);
-
-        $this->specificEndpoint = "$this->endpoint/$this->ownedStoryId.jpg";
     }
 
     public function testResourceIsProtected()
@@ -70,6 +59,8 @@ class StoryAssetTest extends TestCase
         $endpoint = $this->specificEndpoint;
         if ($location) {
             $endpoint = $this->parseResourceLocation($location);
+        } else {
+            $this->testAddImageAssetToStory();
         }
         $response = $this->getJson($endpoint, $this->headers)
             ->assertStatus(200);
