@@ -65,7 +65,7 @@ class StoryAssetTest extends TestCase
             ->assertStatus(401);
     }
 
-    public function testGetStoryImageAsset($location = null)
+    public function testGetImageStoryAsset($location = null)
     {
         $endpoint = $this->specificEndpoint;
         if ($location) {
@@ -75,7 +75,7 @@ class StoryAssetTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function testGetStoryImageAssetWithInvalidPatientId()
+    public function testGetImageStoryAssetWithInvalidPatientId()
     {
         $endpoint = $this->getPopulatedEndpoint($this->nonExistentPatientId) . "/$this->ownedStoryId.jpg";
         $response = $this->getJson($endpoint, $this->headers)
@@ -83,12 +83,28 @@ class StoryAssetTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testGetStoryImageAssetWithInvalidStoryId()
+    public function testGetImageStoryAssetWithInvalidStoryId()
     {
         $endpoint = $this->getPopulatedEndpoint($this->testPatientId, 999) . "/$this->ownedStoryId.jpg";
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
+    }
+
+    public function testGetYoutubeStoryAsset($location = null)
+    {
+        $endpoint = $this->specificEndpoint;
+        if ($location) {
+            $endpoint = $this->parseResourceLocation($location);
+        } else {
+            $this->testAddYoutubeAssetToStory();
+        }
+        $this->getJson($endpoint, $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaResponseStructure,
+                'response' => [ 'id', 'source', 'type' ]
+            ])
+            ->assertStatus(200);
     }
 
     public function testAddImageAssetToStory()
@@ -104,7 +120,7 @@ class StoryAssetTest extends TestCase
                 ])
                 ->assertStatus(201)
                 ->getData();
-            $this->testGetStoryImageAsset($response->meta->location);
+            $this->testGetImageStoryAsset($response->meta->location);
         }
     }
 
@@ -130,7 +146,7 @@ class StoryAssetTest extends TestCase
             ])
             ->assertStatus(201)
             ->getData();
-        $this->testGetStoryImageAsset($response->meta->location);
+        $this->testGetYoutubeStoryAsset($response->meta->location);
     }
 
     public function testAddYoutubeAssetToStoryWithoutAssetTypeSpecified()
