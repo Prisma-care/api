@@ -15,7 +15,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class StoryAssetTest extends TestCase
 {
     private $diskName = 'stories';
-    private $storagePath;
     private $pathToStaticImage;
 
     private $baseEndpoint = 'v1/patient/{patientId}/story/{storyId}/asset';
@@ -30,21 +29,12 @@ class StoryAssetTest extends TestCase
         return str_replace('{storyId}', $storyId ?: $this->ownedStoryId, $tmpEndpoint);
     }
 
-    private function setUpStorage()
-    {
-        Storage::fake($this->diskName);
-        $this->storagePath = Storage::disk($this->diskName)
-                                ->getDriver()->getAdapter()->getPathPrefix();
-    }
-
     private function generateImageAssetForPatient($patientId, $extension = null)
     {
-        $hierarchy = "$patientId/$this->ownedStoryId";
-        Storage::disk($this->diskName)->makeDirectory($hierarchy);
-
-        $fileName = $this->ownedStoryId . '.' . $extension ?: 'jpg';
-        $fullPath = $this->storagePath  . "$hierarchy/$fileName";
-        Image::generate($fullPath);
+        $extension = $extension ?: 'jpg';
+        $img = Image::generate($extension);
+        $path = "$patientId/$this->ownedStoryId/$this->ownedStoryId.$extension";
+        Storage::disk($this->diskName)->put($path, $img);
     }
 
     public function setUp()
@@ -55,7 +45,7 @@ class StoryAssetTest extends TestCase
         $this->ownedStoryId = $patient->albums()->get()->values()->first()->stories()->first()->id;
         $this->endpoint = $this->getPopulatedEndpoint();
 
-        $this->setUpStorage();
+        Storage::fake($this->diskName);
         $this->generateImageAssetForPatient($patient->id);
 
         $this->specificEndpoint = "$this->endpoint/$this->ownedStoryId.jpg";
