@@ -16,7 +16,7 @@
 
                         <p>Je hebt nu een account voor de Prisma app.</p>
 
-                        <p><a href="#" class="btn btn-primary">Installeer de app</a> en meld je aan.</p>
+                        <p><a href="https://github.com/Prisma/mobile-app/releases/download/0.3.2.2/prisma-beta.apk" class="btn btn-primary">Installeer de app</a> en meld je aan.</p>
 
                         <p>Na het installeren en openen van de app dien je je e-mail adres en wachtwoord nog in te
                             geven. Hou deze goed bij.</p>
