@@ -86,7 +86,7 @@ class StoryAssetTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testAddImageAssetToSotry()
+    public function testAddImageAssetToStory()
     {
         $extensions = ['jpg', 'gif', 'png'];
         foreach ($extensions as $extension) {
@@ -102,6 +102,17 @@ class StoryAssetTest extends TestCase
         }
     }
 
+    public function testAddImageAssetToStoryWithoutAssetTypeSpecified()
+    {
+        $body = [ 'asset' => UploadedFile::fake()->image("image.jpg") ];
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaCreatedResponseStructure,
+                'response' => [ 'id' ]
+            ])
+            ->assertStatus(201);
+    }
+
     public function testAddYoutubeAssetToStory()
     {
         $body = [ 'asset' => $this->youtubeAsset, 'assetType' => 'youtube' ];
@@ -113,5 +124,13 @@ class StoryAssetTest extends TestCase
             ->assertStatus(201)
             ->getData();
         $this->testGetStoryImageAsset($response->meta->location);
+    }
+
+    public function testAddYoutubeAssetToStoryWithoutAssetTypeSpecified()
+    {
+        $body = [ 'asset' => $this->youtubeAsset ];
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
     }
 }
