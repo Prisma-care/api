@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Album;
 
 use App\Patient;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\BaseRequest;
 
 class Update extends BaseRequest
@@ -23,7 +24,12 @@ class Update extends BaseRequest
     public function rules()
     {
         return [
-            'title' => 'unique:albums'
+            'title' => [
+                Rule::unique('albums')->where(function ($query) {
+                    $patientId = Patient::findOrFail($this->route('patient'))->id;
+                    $query->where('patient_id', '=', $patientId);
+                })
+            ]
         ];
     }
 }

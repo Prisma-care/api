@@ -28,9 +28,9 @@ class StoryPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, $patient, $album)
     {
-        return true;
+        return $user->can('view', $patient) && $patient->id === $album->patient_id;
     }
 
     /**

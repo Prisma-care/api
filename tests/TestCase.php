@@ -26,8 +26,13 @@ abstract class TestCase extends BaseTestCase
         'HTTP_Authorization' => 'Bearer <token>'
     ];
 
-    public $numberOfUsers = 5;
-    public $numberOfPatients = 5;
+    protected $testPatientId = 2;
+    protected $testUserId = 2;
+    protected $privatePatientId = 3;
+    protected $nonExistentPatientId = 123;
+
+    protected $numberOfUsers = 5;
+    protected $numberOfPatients = 5;
 
     public function setUp()
     {
@@ -40,7 +45,7 @@ abstract class TestCase extends BaseTestCase
     protected function authenticate($user = null)
     {
         if (!$user) {
-            $user = User::first();
+            $user = User::find($this->testUserId);
         }
         $token = JWTAuth::fromUser($user);
         $this->headers['HTTP_Authorization'] = 'Bearer ' . $token;
@@ -68,10 +73,6 @@ abstract class TestCase extends BaseTestCase
         ]);
         $patient->prepopulate();
         $patient->users()->attach($user->id);
-        $album = factory(Album::class)->create([
-            'title' => 'Taken',
-            'patient_id' => $patient->id
-        ]);
     }
 
     public function seedUsers($numberOfUsers = 5)
@@ -89,11 +90,10 @@ abstract class TestCase extends BaseTestCase
 
     public function seedPatientUsers()
     {
-        $testUserId = 2;
-        $patient = Patient::find(2);
-        $patient->users()->attach($testUserId);
+        $patient = Patient::find($this->testPatientId);
+        $patient->users()->attach($this->testUserId);
         $patient = Patient::find(5);
-        $patient->users()->attach($testUserId);
+        $patient->users()->attach($this->testUserId);
     }
 
     public function seedHeritage()
@@ -111,5 +111,10 @@ abstract class TestCase extends BaseTestCase
     protected function parseResourceLocation($location)
     {
         return substr($location, (strpos($location, '/', strpos($location, '/') + 2) + 1));
+    }
+
+    protected function disconnectTestUserFromTestPatient()
+    {
+        Patient::find($this->testPatientId)->users()->detach($this->testUserId);
     }
 }

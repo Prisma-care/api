@@ -52,6 +52,9 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson() && $exception instanceof HttpException) {
             return response()->exception($exception->getMessage(), $exception->getStatusCode());
         }
+        if ($request->expectsJson() && $exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            return response()->exception('Forbidden', 403);
+        }
         return parent::render($request, $exception);
     }
 

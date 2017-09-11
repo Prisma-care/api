@@ -19,7 +19,7 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient)
     {
-        return $patient->users()->exists($user->id);
+        return $patient->users->contains($user);
     }
 
 
