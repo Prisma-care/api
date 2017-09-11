@@ -87,6 +87,14 @@ class StoryAssetTest extends TestCase
             ->assertStatus(400);
     }
 
+    public function testGetStoryImageAssetWithInvalidStoryId()
+    {
+        $endpoint = $this->getPopulatedEndpoint($this->testPatientId, 999) . "/$this->ownedStoryId.jpg";
+        $response = $this->getJson($endpoint, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
+    }
+
     public function testCreateStoryImageAsset()
     {
         $body = [ 'asset' => UploadedFile::fake()->image('image.jpg') ];
