@@ -38,6 +38,11 @@ class StoryAssetTest extends TestCase
         Storage::disk($this->diskName)->put($path, $img);
     }
 
+    private function clearStorage()
+    {
+        Storage::disk($this->diskName)->deleteDirectory($this->testPatientId);
+    }
+
     public function setUp()
     {
         parent::setUp();
@@ -90,6 +95,7 @@ class StoryAssetTest extends TestCase
     {
         $extensions = ['jpg', 'gif', 'png'];
         foreach ($extensions as $extension) {
+            $this->clearStorage();
             $body = [ 'asset' => UploadedFile::fake()->image("image.$extension") ];
             $response = $this->postJson($this->endpoint, $body, $this->headers)
                 ->assertJsonStructure([
@@ -104,6 +110,7 @@ class StoryAssetTest extends TestCase
 
     public function testAddImageAssetToStoryWithoutAssetTypeSpecified()
     {
+        $this->clearStorage();
         $body = [ 'asset' => UploadedFile::fake()->image("image.jpg") ];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
