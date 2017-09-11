@@ -86,7 +86,7 @@ class StoryAssetTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testCreateStoryImageAsset()
+    public function testAddImageAssetToSotry()
     {
         $extensions = ['jpg', 'gif', 'png'];
         foreach ($extensions as $extension) {
@@ -102,7 +102,7 @@ class StoryAssetTest extends TestCase
         }
     }
 
-    public function testCreateYoutubeAsset()
+    public function testAddYoutubeAssetToStory()
     {
         $body = [ 'asset' => $this->youtubeAsset, 'assetType' => 'youtube' ];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
