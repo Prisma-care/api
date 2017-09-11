@@ -98,6 +98,14 @@ class StoryAssetTest extends TestCase
             ->assertStatus(200);
     }
 
+    public function testGetStoryAssetOfUnconnectedPatient()
+    {
+        $this->disconnectTestUserFromTestPatient();
+        $response = $this->getJson($this->specificEndpoint, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
+    }
+
     public function testAddImageAssetToStory()
     {
         $extensions = ['jpg', 'gif', 'png'];
@@ -146,5 +154,13 @@ class StoryAssetTest extends TestCase
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
+    }
+
+    public function testAddStoryAssetOfUnconnectedPatient()
+    {
+        $this->disconnectTestUserFromTestPatient();
+        $response = $this->postJson($this->endpoint, [], $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(403);
     }
 }
