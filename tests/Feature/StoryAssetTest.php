@@ -22,6 +22,7 @@ class StoryAssetTest extends TestCase
     private $specificEndpoint;
 
     private $ownedStoryId;
+    private $youtubeAsset = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
 
     private function getPopulatedEndpoint($patientId = null, $storyId = null)
     {
@@ -99,5 +100,18 @@ class StoryAssetTest extends TestCase
                 ->getData();
             $this->testGetStoryImageAsset($response->meta->location);
         }
+    }
+
+    public function testCreateYoutubeAsset()
+    {
+        $body = [ 'asset' => $this->youtubeAsset, 'assetType' => 'youtube' ];
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaCreatedResponseStructure,
+                'response' => [ 'id' ]
+            ])
+            ->assertStatus(201)
+            ->getData();
+        $this->testGetStoryImageAsset($response->meta->location);
     }
 }
