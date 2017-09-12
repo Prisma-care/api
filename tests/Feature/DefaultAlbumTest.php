@@ -21,7 +21,6 @@ class DefaultAlbumTest extends TestCase
               'description' => 'A description',
               'asset_type' => 'image',
               'asset_name' => null,
-              'favorited' => false,
               'album_id' => 0
             ]
         ]
@@ -46,8 +45,11 @@ class DefaultAlbumTest extends TestCase
         $this->specificEndpoint = "$this->endpoint/$defaultAlbum->id";
     }
 
-    public function testPlaceholder()
+    public function testResourceIsProtected()
     {
-        $this->assertEquals(true, true);
+        $headers = $this->headers;
+        unset($headers['HTTP_Authorization']);
+        $response = $this->getJson($this->endpoint, $headers)
+            ->assertStatus(401);
     }
 }
