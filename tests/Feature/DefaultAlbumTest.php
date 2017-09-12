@@ -110,4 +110,20 @@ class DefaultAlbumTest extends TestCase
                  ->assertStatus(403);
         }
     }
+
+    public function testUpdateAlbum()
+    {
+        $album = factory(Album::class)->create();
+        $endpoint = $this->endpoint . '/' . $album->id;
+        $newTitle = str_random(20);
+        $this->loginAsSuperAdmin();
+        $this->patchJson($endpoint, ['title' => $newTitle], $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaResponseStructure,
+                'response' => []
+            ])
+            ->assertStatus(200);
+        $album = Album::find($album->id);
+        $this->assertEquals($album->title, $newTitle);
+    }
 }
