@@ -132,6 +132,16 @@ class DefaultAlbumTest extends TestCase
             ->assertStatus(403);
     }
 
+    public function testRouteDoesntAllowNormalAlbumUpdate()
+    {
+        $album = factory(Album::class)->create(['patient_id' => $this->testPatientId]);
+        $this->loginAsSuperAdmin();
+        $endpoint = $this->endpoint . '/' . $album->id;
+        $this->patchJson($endpoint, ['title' => str_random(20)], $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
+    }
+
     public function testDeleteDefaultAlbum()
     {
         $this->loginAsSuperAdmin();

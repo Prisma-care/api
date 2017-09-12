@@ -21,8 +21,11 @@ $factory->define(App\Patient::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Album::class, function ($faker) {
+    static $patientId;
+
     return [
-        'title' => str_random(20)
+        'title' => str_random(20),
+        'patient_id' => $patientId
     ];
 });
 
