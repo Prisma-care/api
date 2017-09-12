@@ -70,6 +70,14 @@ class DefaultAlbumTest extends TestCase
              ->assertStatus(200);
     }
 
+    public function testIndexDefaultAlbumsDoesntShowNormalAlbums()
+    {
+        $albums = $this->getJson($this->endpoint, $this->headers)->getData()->response;
+        foreach ($albums as $album) {
+            $this->assertEquals($album->patient_id, null);
+        }
+    }
+
     public function testGetDefaultAlbum($location = null)
     {
         $endpoint = $this->specificEndpoint;
