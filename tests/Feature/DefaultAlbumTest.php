@@ -52,4 +52,14 @@ class DefaultAlbumTest extends TestCase
         $response = $this->getJson($this->endpoint, $headers)
             ->assertStatus(401);
     }
+
+    public function testIndexDefaultAlbums()
+    {
+        $this->getJson($this->endpoint, $this->headers)
+             ->assertJsonStructure([
+                 'meta' => $this->metaResponseStructure,
+                 'response' => [ '*' => $this->baseObjectStructure ]
+             ])
+             ->assertStatus(200);
+    }
 }
