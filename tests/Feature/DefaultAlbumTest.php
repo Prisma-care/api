@@ -155,7 +155,16 @@ class DefaultAlbumTest extends TestCase
 
     public function testOnlySuperAdminCanDeleteDefaultAlbum()
     {
-        $this->patchJson($this->specificEndpoint, [], $this->headers)
+        $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertStatus(403);
+    }
+
+    public function testRouteDoesntAllowNormalAlbumDeletion()
+    {
+        $album = factory(Album::class)->create(['patient_id' => $this->testPatientId]);
+        $this->loginAsSuperAdmin();
+        $endpoint = $this->endpoint . '/' . $album->id;
+        $this->deleteJson($endpoint, [], $this->headers)
+            ->assertStatus(400);
     }
 }
