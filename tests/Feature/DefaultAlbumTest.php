@@ -105,8 +105,7 @@ class DefaultAlbumTest extends TestCase
         foreach ($userTypes as $userType) {
             $user = factory(User::class)->create(['user_type' => $userType]);
             $this->authenticate($user);
-            $body = [ 'title' => str_random(16) ];
-            $this->postJson($this->endpoint, $body, $this->headers)
+            $this->postJson($this->endpoint, ['title' => str_random(16)], $this->headers)
                  ->assertStatus(403);
         }
     }
@@ -125,5 +124,11 @@ class DefaultAlbumTest extends TestCase
             ->assertStatus(200);
         $album = Album::find($album->id);
         $this->assertEquals($album->title, $newTitle);
+    }
+
+    public function testOnlySuperAdminCanUpdateDefaultAlbum()
+    {
+        $this->patchJson($this->specificEndpoint, ['title' => str_random(16)], $this->headers)
+            ->assertStatus(403);
     }
 }
