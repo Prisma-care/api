@@ -142,4 +142,10 @@ class DefaultAlbumTest extends TestCase
             ])
             ->assertStatus(200);
     }
+
+    public function testOnlySuperAdminCanDeleteDefaultAlbum()
+    {
+        $this->patchJson($this->specificEndpoint, [], $this->headers)
+            ->assertStatus(403);
+    }
 }
