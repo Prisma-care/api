@@ -62,4 +62,18 @@ class DefaultAlbumTest extends TestCase
              ])
              ->assertStatus(200);
     }
+
+    public function testGetDefaultAlbum($location = null)
+    {
+        $endpoint = $this->specificEndpoint;
+        if ($location) {
+            $endpoint = $this->parseResourceLocation($location);
+        }
+        $this->getJson($endpoint, $this->headers)
+             ->assertJsonStructure([
+                 'meta' => $this->metaResponseStructure,
+                 'response' => $this->baseObjectStructure
+             ])
+             ->assertStatus(200);
+    }
 }
