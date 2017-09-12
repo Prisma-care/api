@@ -29,6 +29,12 @@ class DefaultAlbumTest extends TestCase
 
     private $baseObjectStructure;
 
+    public function loginAsSuperAdmin()
+    {
+        $user = factory(User::class)->create(['user_type' => 'superadmin']);
+        $this->authenticate($user);
+    }
+
     public function setUp()
     {
         parent::setUp();
@@ -76,6 +82,20 @@ class DefaultAlbumTest extends TestCase
                  'response' => $this->baseObjectStructure
              ])
              ->assertStatus(200);
+    }
+
+    public function testCreateDefaultAlbum()
+    {
+        $this->loginAsSuperAdmin();
+        $body = [ 'title' => str_random(16) ];
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaCreatedResponseStructure,
+                'response' => [ 'id', 'title' ]
+            ])
+            ->assertStatus(201)
+            ->getData();
+        $this->testGetDefaultAlbum($response->meta->location);
     }
 
     public function testOnlySuperAdminCanCreateDefaultAlbum()
