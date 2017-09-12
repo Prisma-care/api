@@ -104,7 +104,7 @@ class DefaultAlbumController extends Controller
      * @param $albumId
      * @return mixed
      */
-    public function destroy($albumId)
+    public function destroy(DefaultAlbumRequest\Destroy $request, $albumId)
     {
         $album = Album::findOrFail($albumId);
         if (!$album->isDefault()) {
