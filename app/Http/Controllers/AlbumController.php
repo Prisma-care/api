@@ -153,7 +153,7 @@ class AlbumController extends Controller
      *  Removes an Album from storage
      *
      * @param AlbumRequest\Destroy $request
-     * @param $patienId
+     * @param $patientId
      * @param $albumId
      * @return mixed
      */
