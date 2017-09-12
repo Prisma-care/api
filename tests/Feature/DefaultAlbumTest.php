@@ -131,4 +131,15 @@ class DefaultAlbumTest extends TestCase
         $this->patchJson($this->specificEndpoint, ['title' => str_random(16)], $this->headers)
             ->assertStatus(403);
     }
+
+    public function testDeleteDefaultAlbum()
+    {
+        $this->loginAsSuperAdmin();
+        $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaResponseStructure,
+                'response' => []
+            ])
+            ->assertStatus(200);
+    }
 }
