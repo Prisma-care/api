@@ -2,12 +2,14 @@
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
+    static $userType;
 
     return [
         'email' => $faker->unique()->safeEmail,
         'password' => Hash::make(str_random(20)),
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
+        'user_type' => $userType ?: 'family'
     ];
 });
 
