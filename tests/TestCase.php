@@ -26,6 +26,8 @@ abstract class TestCase extends BaseTestCase
         'HTTP_Authorization' => 'Bearer <token>'
     ];
 
+    protected $userTypes = ['family', 'admin', 'superadmin'];
+
     protected $testPatientId = 2;
     protected $testUserId = 2;
     protected $privatePatientId = 3;
