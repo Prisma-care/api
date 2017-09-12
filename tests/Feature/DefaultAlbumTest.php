@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use App\Album;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -75,5 +76,18 @@ class DefaultAlbumTest extends TestCase
                  'response' => $this->baseObjectStructure
              ])
              ->assertStatus(200);
+    }
+
+    public function testOnlySuperAdminCanCreateDefaultAlbum()
+    {
+        // copy user types without superadmin
+        $userTypes = array_diff($this->userTypes, ['superadmin']);
+        foreach ($userTypes as $userType) {
+            $user = factory(User::class)->create(['user_type' => $userType]);
+            $this->authenticate($user);
+            $body = [ 'title' => str_random(16) ];
+            $this->postJson($this->endpoint, $body, $this->headers)
+                 ->assertStatus(403);
+        }
     }
 }
