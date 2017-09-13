@@ -63,7 +63,24 @@ class HeritageTest extends TestCase
              ->assertStatus(200);
     }
 
-    public function testGetStory($location = null)
+    public function testIndexHeritageWithInvalidAlbumId()
+    {
+        $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
+        $this->getJson($endpoint, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
+    }
+
+    public function testAllUserTypesCanIndexHeritage()
+    {
+        foreach ($this->userTypes as $userType) {
+            $user = factory(User::class)->create(['user_type' => $userType]);
+            $this->authenticate($user);
+            $this->testIndexHeritage();
+        }
+    }
+
+    public function testGetHeritage($location = null)
     {
         $endpoint = $this->specificEndpoint;
         if ($location) {
@@ -77,7 +94,7 @@ class HeritageTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function testGetStoryWithInvalidAlbumId()
+    public function testGetHeritageWithInvalidAlbumId()
     {
         $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
         $this->getJson($endpoint, $this->headers)
@@ -85,7 +102,7 @@ class HeritageTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testGetStoryWithInvalidHeritageId()
+    public function testGetHeritageWithInvalidHeritageId()
     {
         $endpoint = $this->endpoint . '/' . 0;
         $this->getJson($endpoint, $this->headers)
@@ -98,7 +115,7 @@ class HeritageTest extends TestCase
         foreach ($this->userTypes as $userType) {
             $user = factory(User::class)->create(['user_type' => $userType]);
             $this->authenticate($user);
-            $this->testGetStory();
+            $this->testGetHeritage();
         }
     }
 }
