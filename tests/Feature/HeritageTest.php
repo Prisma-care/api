@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use App\Story;
 use App\Album;
 use Tests\TestCase;
@@ -80,5 +81,14 @@ class HeritageTest extends TestCase
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
+    }
+
+    public function testAllUserTypesCanGetHeritage()
+    {
+        foreach ($this->userTypes as $userType) {
+            $user = factory(User::class)->create(['user_type' => $userType]);
+            $this->authenticate($user);
+            $this->testGetStory();
+        }
     }
 }
