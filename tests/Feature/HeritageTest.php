@@ -32,6 +32,12 @@ class HeritageTest extends TestCase
         return str_replace('{albumId}', $albumId ?: $this->defaultAlbumId, $this->baseEndpoint);
     }
 
+    public function loginAsSuperAdmin()
+    {
+        $user = factory(User::class)->create(['user_type' => 'superadmin']);
+        $this->authenticate($user);
+    }
+
     public function setUp()
     {
         parent::setUp();
@@ -134,5 +140,17 @@ class HeritageTest extends TestCase
             ->assertStatus(201)
             ->getData();
         $this->testGetHeritage($response->meta->location);
+    }
+
+    public function testOnlySuperAdminCanCreateDefaultAlbum()
+    {
+        // copy user types without superadmin
+        $userTypes = array_diff($this->userTypes, ['superadmin']);
+        foreach ($userTypes as $userType) {
+            $user = factory(User::class)->create(['user_type' => $userType]);
+            $this->authenticate($user);
+            $this->postJson($this->endpoint, ['title' => str_random(16)], $this->headers)
+                 ->assertStatus(403);
+        }
     }
 }
