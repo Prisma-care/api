@@ -53,6 +53,16 @@ class HeritageTest extends TestCase
             ->assertStatus(401);
     }
 
+    public function testIndexHeritage()
+    {
+        $this->getJson($this->endpoint, $this->headers)
+             ->assertJsonStructure([
+                 'meta' => $this->metaResponseStructure,
+                 'response' => [ '*' => array_keys($this->baseObject) ]
+             ])
+             ->assertStatus(200);
+    }
+
     public function testGetStory($location = null)
     {
         $endpoint = $this->specificEndpoint;
