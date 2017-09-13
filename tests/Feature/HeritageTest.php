@@ -48,7 +48,37 @@ class HeritageTest extends TestCase
     {
         $headers = $this->headers;
         unset($headers['HTTP_Authorization']);
-        $response = $this->getJson($this->specificEndpoint, $headers)
+        $this->getJson($this->specificEndpoint, $headers)
             ->assertStatus(401);
+    }
+
+    public function testGetStory($location = null)
+    {
+        $endpoint = $this->specificEndpoint;
+        if ($location) {
+            $endpoint = $this->parseResourceLocation($location);
+        }
+        $this->getJson($endpoint, $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaResponseStructure,
+                'response' => array_keys($this->baseObject)
+            ])
+            ->assertStatus(200);
+    }
+
+    public function testGetStoryWithInvalidAlbumId()
+    {
+        $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
+        $this->getJson($endpoint, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
+    }
+
+    public function testGetStoryWithInvalidHeritageId()
+    {
+        $endpoint = $this->endpoint . '/' . 0;
+        $this->getJson($endpoint, $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
     }
 }
