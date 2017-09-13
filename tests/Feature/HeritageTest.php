@@ -35,7 +35,8 @@ class HeritageTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->authenticate();
+        $user = factory(User::class)->create(['user_type' => 'superadmin']);
+        $this->authenticate($user);
         $defaultAlbum = Album::with('heritage')->get()
                             ->where('patient_id', '=', null)->values()->first();
         $this->defaultAlbumId = $defaultAlbum->id;
@@ -117,5 +118,21 @@ class HeritageTest extends TestCase
             $this->authenticate($user);
             $this->testGetHeritage();
         }
+    }
+
+    public function testCreateHeritage()
+    {
+        $baseObject = $this->baseObject;
+        unset($baseObject['asset_name']);
+        unset($baseObject['asset_type']);
+        $body = [ 'description' => str_random(16), 'album_id' => $this->defaultAlbumId ];
+        $response = $this->postJson($this->endpoint, $body, $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaCreatedResponseStructure,
+                'response' => array_keys($baseObject)
+            ])
+            ->assertStatus(201)
+            ->getData();
+        $this->testGetHeritage($response->meta->location);
     }
 }
