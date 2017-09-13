@@ -43,4 +43,12 @@ class HeritageTest extends TestCase
         $this->endpoint = $this->getEndpointWithAlbumId();
         $this->specificEndpoint = "$this->endpoint/$this->testHeritageId";
     }
+
+    public function testResourceIsProtected()
+    {
+        $headers = $this->headers;
+        unset($headers['HTTP_Authorization']);
+        $response = $this->getJson($this->specificEndpoint, $headers)
+            ->assertStatus(401);
+    }
 }
