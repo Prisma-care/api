@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HeritageTest extends TestCase
 {
-    private $baseEndpoint = 'v1/album/{albumId}/story';
+    private $baseEndpoint = 'v1/album/{albumId}/heritage';
     private $endpoint;
     private $specificEndpoint;
 
@@ -28,7 +28,7 @@ class HeritageTest extends TestCase
 
     private function getEndpointWithAlbumId($albumId = null)
     {
-        return str_replace('{albumId}', $albumId ?: $this->testPatientId, $this->baseEndpoint);
+        return str_replace('{albumId}', $albumId ?: $this->defaultAlbumId, $this->baseEndpoint);
     }
 
     public function setUp()
