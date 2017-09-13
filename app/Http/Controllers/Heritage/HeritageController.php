@@ -79,15 +79,8 @@ class HeritageController extends Controller
     {
         Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
-        $gotHeritage = [
-            'id' => $heritage->id,
-            'filename' => $heritage->filename,
-            'title' => $heritage->title,
-            'description' => $heritage->description,
-            'happened_in' => $heritage->happened_in,
-        ];
 
-        return response()->success($gotHeritage, 200, 'OK');
+        return response()->success($heritage, 200, 'OK');
     }
 
     /**
