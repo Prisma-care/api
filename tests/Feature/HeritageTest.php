@@ -179,4 +179,14 @@ class HeritageTest extends TestCase
         $heritage = Heritage::find($heritage->id);
         $this->assertEquals($heritage->description, $newDescription);
     }
+
+    public function testDeleteHeritage()
+    {
+        $this->deleteJson($this->specificEndpoint, [], $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaResponseStructure,
+                'response' => []
+            ])
+            ->assertStatus(200);
+    }
 }
