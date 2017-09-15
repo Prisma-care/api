@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Story;
 
+use App\Story;
+use App\Album;
 use App\Patient;
 use App\Http\Requests\BaseRequest;
 
@@ -11,7 +13,8 @@ class Store extends BaseRequest
     {
         $user = $this->getUser();
         $patient = Patient::findOrFail($this->route('patient'));
-        return $user->can('view', $patient);
+        $album = Album::findOrFail(request('albumId'));
+        return $user->can('create', [Story::class, $patient, $album]);
     }
 
     /**

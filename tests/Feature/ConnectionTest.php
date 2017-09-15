@@ -9,7 +9,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ConnectionTest extends TestCase
 {
-    private $existingPatientId = 1;
+    // This should be an unconnected patient
+    private $existingPatientId = 3;
     private $baseEndpoint = 'v1/patient/{patientId}/connection';
     private $endpoint;
 

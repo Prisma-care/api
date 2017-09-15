@@ -13,13 +13,13 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "spatie/laravel-backup": "^4.19",
-        "tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "0.5.*",
+        "mpociot/laravel-apidoc-generator": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "mpociot/laravel-apidoc-generator": "^2.0",
         "phpunit/phpunit": "~5.7"
     },
     "autoload": {
@@ -50,7 +50,8 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta",
-            "php artisan optimize"
+            "php artisan optimize",
+            "php artisan api:generate --routePrefix='v1/*'"
         ]
     },
     "config": {

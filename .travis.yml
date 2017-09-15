@@ -17,7 +17,7 @@ before_script:
 - tee .env .env.testing < ci/.env.travis > /dev/null
 - mysql -e 'CREATE DATABASE prisma_test;'
 - composer install --dev --prefer-source --no-interaction
-- php artisan key:generate && php artisan config:clear
+- php artisan key:generate && php artisan cache:clear && php artisan config:clear
 script:
 - vendor/bin/phpunit
 before_deploy:
