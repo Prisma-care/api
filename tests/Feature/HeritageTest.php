@@ -180,6 +180,18 @@ class HeritageTest extends TestCase
         $this->assertEquals($heritage->description, $newDescription);
     }
 
+    public function testOnlySuperAdminCanUpdateHeritage()
+    {
+        // copy user types without superadmin
+        $userTypes = array_diff($this->userTypes, ['superadmin']);
+        foreach ($userTypes as $userType) {
+            $user = factory(User::class)->create(['user_type' => $userType]);
+            $this->authenticate($user);
+            $this->patchJson($this->specificEndpoint, ['description' => str_random(20)], $this->headers)
+                 ->assertStatus(403);
+        }
+    }
+
     public function testDeleteHeritage()
     {
         $this->deleteJson($this->specificEndpoint, [], $this->headers)
@@ -188,5 +200,17 @@ class HeritageTest extends TestCase
                 'response' => []
             ])
             ->assertStatus(200);
+    }
+
+    public function testOnlySuperAdminCanDeleteHeritage()
+    {
+        // copy user types without superadmin
+        $userTypes = array_diff($this->userTypes, ['superadmin']);
+        foreach ($userTypes as $userType) {
+            $user = factory(User::class)->create(['user_type' => $userType]);
+            $this->authenticate($user);
+            $this->patchJson($this->specificEndpoint, ['description' => str_random(20)], $this->headers)
+                 ->assertStatus(403);
+        }
     }
 }
