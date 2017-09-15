@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\User;
-use App\Story;
 use App\Album;
+use App\Heritage;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -160,5 +160,23 @@ class HeritageTest extends TestCase
         $endpoint = $this->endpoint . '/' . $album->id;
         $this->postJson($this->endpoint, ['title' => $album->title], $this->headers)
              ->assertStatus(400);
+    }
+
+    public function testUpdateHeritage()
+    {
+        $heritage = Heritage::create([
+            'description' => str_random(20),
+            'album_id' => $this->defaultAlbumId
+        ]);
+        $endpoint = $this->endpoint . '/' . $heritage->id;
+        $newDescription = str_random(20);
+        $response = $this->patchJson($endpoint, ['description' => $newDescription], $this->headers)
+            ->assertJsonStructure([
+                'meta' => $this->metaResponseStructure,
+                'response' => []
+            ])
+            ->assertStatus(200);
+        $heritage = Heritage::find($heritage->id);
+        $this->assertEquals($heritage->description, $newDescription);
     }
 }
