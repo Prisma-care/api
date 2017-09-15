@@ -192,6 +192,14 @@ class HeritageTest extends TestCase
         }
     }
 
+    public function testUpdateHeritageWithInvalidAlbumId()
+    {
+        $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
+        $this->patchJson($endpoint, [], $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
+    }
+
     public function testDeleteHeritage()
     {
         $this->deleteJson($this->specificEndpoint, [], $this->headers)
@@ -209,8 +217,16 @@ class HeritageTest extends TestCase
         foreach ($userTypes as $userType) {
             $user = factory(User::class)->create(['user_type' => $userType]);
             $this->authenticate($user);
-            $this->patchJson($this->specificEndpoint, ['description' => str_random(20)], $this->headers)
+            $this->deleteJson($this->specificEndpoint, [], $this->headers)
                  ->assertStatus(403);
         }
+    }
+
+    public function testDeleteHeritageWithInvalidAlbumId()
+    {
+        $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
+        $this->deleteJson($endpoint, [], $this->headers)
+            ->assertJsonStructure($this->exceptionResponseStructure)
+            ->assertStatus(400);
     }
 }
