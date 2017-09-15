@@ -142,7 +142,7 @@ class HeritageTest extends TestCase
         $this->testGetHeritage($response->meta->location);
     }
 
-    public function testOnlySuperAdminCanCreateDefaultAlbum()
+    public function testOnlySuperAdminCanCreateHeritage()
     {
         // copy user types without superadmin
         $userTypes = array_diff($this->userTypes, ['superadmin']);
@@ -152,5 +152,13 @@ class HeritageTest extends TestCase
             $this->postJson($this->endpoint, ['title' => str_random(16)], $this->headers)
                  ->assertStatus(403);
         }
+    }
+
+    public function testHeritageCreationForNonDefaultAlbum()
+    {
+        $album = factory(Album::class)->create(['patient_id' => $this->testPatientId]);
+        $endpoint = $this->endpoint . '/' . $album->id;
+        $this->postJson($this->endpoint, ['title' => $album->title], $this->headers)
+             ->assertStatus(400);
     }
 }
