@@ -30,7 +30,7 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: rsync -rtgoP --exclude storage/app/stories --exclude storage/framework/testing --quiet $TRAVIS_BUILD_DIR/ ci@146.185.145.169:$BUILD_PATH
+  script: rsync -rtgoP --exclude=storage/app/stories --exclude=storage/framework/testing --quiet $TRAVIS_BUILD_DIR/ ci@146.185.145.169:$BUILD_PATH
   on:
     branch: master
 after_deploy: ssh-agent -k

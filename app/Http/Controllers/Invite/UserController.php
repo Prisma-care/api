@@ -49,7 +49,7 @@ class UserController extends Controller
 
         $user = User::firstOrCreate(['email' => $email], $user_data);
 
-        /* 
+        /*
         iif (!$user->save()) {
             return response()->exception('Unexpected error while creating the user', 500);
         }
@@ -81,6 +81,6 @@ class UserController extends Controller
 
         Mail::to($user)->send(new Invitation($data));
 
-        return response()->success([], 'Invitation email sent', 204);
+        return response()->success([], 204, 'Invitation email sent');
     }
 }
