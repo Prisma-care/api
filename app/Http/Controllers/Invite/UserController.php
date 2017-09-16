@@ -49,12 +49,6 @@ class UserController extends Controller
 
         $user = User::firstOrCreate(['email' => $email], $user_data);
 
-        /* 
-        iif (!$user->save()) {
-            return response()->exception('Unexpected error while creating the user', 500);
-        }
-        */
-
         $inviter = User::find($inviterId)->full_name;
 
         $patient = Patient::findOrFail($patientId);
