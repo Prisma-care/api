@@ -103,4 +103,18 @@ class PatientTest extends TestCase
                 ->assertStatus(400);
         }
     }
+
+    public function testCreatedPatientHasCorrectPrepopulatedAlbums()
+    {
+        $patientResponse = $this->postJson($this->baseEndpoint, $this->baseObject, $this->headers)->getData();
+
+        $defaultAlbums = $defaultAlbum = Album::with('heritage')->get()
+                            ->where('patient_id', '=', null)->values()->all();
+        $patientAlbums = Patient::find($patientResponse->response->id)
+                            ->albums()->get()->values()->all();
+        $this->assertEquals(count($defaultAlbums), count($patientAlbums));
+        for ($i = 0; $i < count($defaultAlbums); $i += 1) {
+            $this->assertEquals($defaultAlbums[$i]->title, $patientAlbums[$i]->title);
+        }
+    }
 }
