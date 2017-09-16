@@ -77,16 +77,10 @@ class HeritageController extends Controller
      */
     public function show(HeritageRequest\Show $reqeust, $albumId, $heritageId)
     {
+        Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
-        $gotHeritage = [
-            'id' => $heritage->id,
-            'filename' => $heritage->filename,
-            'title' => $heritage->title,
-            'description' => $heritage->description,
-            'happened_in' => $heritage->happened_in,
-        ];
 
-        return response()->success($gotHeritage, 200, 'OK');
+        return response()->success($heritage, 200, 'OK');
     }
 
     /**
@@ -98,6 +92,7 @@ class HeritageController extends Controller
      */
     public function update(HeritageRequest\Update $request, $albumId, $heritageId)
     {
+        Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
         $heritage->description = $request->input('description') ?: $heritage->description;
         $heritage->happened_at = $request->input('happened_at') ?: $heritage->happenedAt;
@@ -117,6 +112,7 @@ class HeritageController extends Controller
      */
     public function destroy(HeritageRequest\Destroy $request, $albumId, $heritageId)
     {
+        Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
         if ($heritage->delete()) {
             $directory = storage_path("app/heritage/$heritageId");
