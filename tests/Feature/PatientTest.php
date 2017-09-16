@@ -105,7 +105,7 @@ class PatientTest extends TestCase
         }
     }
 
-    public function testCreatedPatientHasCorrectPrepopulatedAlbums()
+    public function testCreatedPatientIsPrepopulatedCorrectly()
     {
         $patientResponse = $this->postJson($this->baseEndpoint, $this->baseObject, $this->headers)->getData();
 
