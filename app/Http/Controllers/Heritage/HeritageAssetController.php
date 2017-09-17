@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Heritage;
 
+use App\Album;
 use App\Heritage;
-use App\Http\Controllers\Controller;
 use App\Utils\ImageUtility;
-use File;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\HeritageAsset as HeritageAssetRequest;
 
 /**
@@ -58,6 +59,7 @@ class HeritageAssetController extends Controller
      */
     public function store(HeritageAssetRequest\Store $request, $albumId, $heritageId)
     {
+        Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
         $assetType = $request->input('assetType');
         if (!$assetType || $assetType === 'image') {
@@ -96,6 +98,7 @@ class HeritageAssetController extends Controller
      */
     public function show(HeritageAssetRequest\Show $request, $albumId, $heritageId, $assetId)
     {
+        Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
         if ($heritage->asset_type === 'youtube') {
             return response()->success([
@@ -104,14 +107,14 @@ class HeritageAssetController extends Controller
                 'type' => 'youtube'
             ], 200, 'OK');
         }
-        $storagePath = storage_path("app/heritage/$heritageId/$assetId");
 
-        if (!File::exists($storagePath)) {
+        $storagePath = "heritage/$heritageId/$assetId";
+        if (!Storage::exists($storagePath)) {
             return response()->exception('This asset does not exist.', 404);
         }
 
-        $file = File::get($storagePath);
-        $mimeType = File::mimeType($storagePath);
+        $file = Storage::get($storagePath);
+        $mimeType = Storage::mimeType($storagePath);
 
         return response($file, 200)->header("Content-Type", $mimeType);
     }
