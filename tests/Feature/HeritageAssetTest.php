@@ -105,7 +105,11 @@ class HeritageAssetTest extends TestCase
 
     public function testEveryUserTypeCanGetHeritageAsset()
     {
-        //
+        foreach ($this->userTypes as $userType) {
+            $user = factory(User::class)->create(['user_type' => $userType]);
+            $this->authenticate($user);
+            $this->testGetImageHeritageAsset();
+        }
     }
 
     public function testAddHeritageAssetToHeritage()
@@ -160,6 +164,13 @@ class HeritageAssetTest extends TestCase
 
     public function testOnlySuperadminCanAddHeritageAsset()
     {
-        //
+        // copy user types without superadmin
+        $userTypes = array_diff($this->userTypes, ['superadmin']);
+        foreach ($userTypes as $userType) {
+            $user = factory(User::class)->create(['user_type' => $userType]);
+            $this->authenticate($user);
+            $this->postJson($this->endpoint, [ 'asset' => UploadedFile::fake()->image('image.jpg') ], $this->headers)
+                ->assertStatus(403);
+        }
     }
 }
