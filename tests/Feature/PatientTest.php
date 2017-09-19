@@ -109,7 +109,7 @@ class PatientTest extends TestCase
     {
         $patientResponse = $this->postJson($this->baseEndpoint, $this->baseObject, $this->headers)->getData();
 
-        $defaultAlbums = $defaultAlbum = Album::with('heritage')->get()
+        $defaultAlbums = Album::with('heritage')->get()
                             ->where('patient_id', '=', null)->values()->all();
         $patientAlbums = Patient::find($patientResponse->response->id)
                             ->albums()->get()->values()->all();
