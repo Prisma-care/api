@@ -22,3 +22,7 @@ Route::get('/password/set/{token}', [
 Route::post('password/set', [
     'as' => 'password.save', 'uses' => 'Invite\SetPasswordController@set'
 ]);
+
+Route::get('/reset/{token}', [
+    'as' => 'reset.check', 'uses' => 'reset\ResetController@checkToken'
+]);
