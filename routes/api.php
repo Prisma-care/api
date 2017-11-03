@@ -61,4 +61,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('invite', [
         'uses' => 'Invite\UserController@store'
     ]);
+
+    Route::post('reset', [
+        'uses' => 'Reset\ResetController@store'
+    ]);
 });
