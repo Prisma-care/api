@@ -25,7 +25,6 @@ class Store extends BaseRequest
     public function rules()
     {
         return [
-            'description' => 'required',
             'creatorId' => 'required',
             'albumId' => 'required'
         ];
