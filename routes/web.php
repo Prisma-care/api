@@ -26,3 +26,7 @@ Route::post('password/set', [
 Route::get('reset/{token}', [
     'as' => 'reset.check', 'uses' => 'reset\ResetController@checkToken'
 ]);
+
+Route::post('reset/set', [
+    'as' => 'reset.save', 'uses' => 'Reset\ResetController@set'
+]);
