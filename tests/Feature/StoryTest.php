@@ -152,7 +152,7 @@ class StoryTest extends TestCase
 
     public function testCreateStoryWithoutRequiredFields()
     {
-        $requiredKeys = [ 'description', 'albumId', 'creatorId' ];
+        $requiredKeys = [ 'albumId', 'creatorId' ];
         foreach ($requiredKeys as $key) {
             $body = $this->baseObject;
             unset($body[$key]);
