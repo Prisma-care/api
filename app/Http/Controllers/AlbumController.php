@@ -25,7 +25,10 @@ class AlbumController extends Controller
     private $keyTranslations = array(
         'id' => 'id',
         'title' => 'title',
-        'description' => 'description'
+        'description' => 'description',
+        'isHeritage' => 'is_heritage',
+        'patientId' => 'patient_id',
+        'userId' => 'user_id'
     );
 
 
@@ -42,9 +45,10 @@ class AlbumController extends Controller
         $allAlbums = [];
         foreach ($albums as $album) {
             $thisAlbum = [
-               'id' => $album->id,
-               'title' => $album->title,
-               'stories' => []
+                'id' => $album->id,
+                'title' => $album->title,
+                'patientId' => $album->patient_id,
+                'stories' => []
             ];
             $stories = Album::find($album->id)->stories;
             foreach ($stories as $story) {
@@ -53,7 +57,9 @@ class AlbumController extends Controller
                     'description' => $story->description,
                     'type' => $story->asset_type,
                     'favorited' => $story->favorited,
-                    'source' => $story->asset_name
+                    'source' => $story->asset_name,
+                    'isHeritage' => $story->is_heritage,
+                    'userId' => $story->user_id
                 ];
             }
             $allAlbums[] = $thisAlbum;
@@ -102,9 +108,10 @@ class AlbumController extends Controller
     {
         $album = Album::findOrFail($albumId);
         $thisAlbum = [
-           'id' => $album->id,
-           'title' => $album->title,
-           'stories' => []
+            'id' => $album->id,
+            'title' => $album->title,
+            'patient_id' => $patientId,
+            'stories' => []
         ];
         $stories = Album::find($album->id)->stories;
         foreach ($stories as $story) {
@@ -113,7 +120,9 @@ class AlbumController extends Controller
                 'description' => $story->description,
                 'type' => $story->asset_type,
                 'favorited' => $story->favorited,
-                'source' => $story->asset_name
+                'source' => $story->asset_name,
+                'isHeritage' => $story->is_heritage,
+                'userId' => $story->user_id
             ];
         }
 
