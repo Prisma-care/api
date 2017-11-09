@@ -39,7 +39,7 @@ class ResetController extends Controller
             ['email' => $email, 'token' => $token, 'created_at' => $created_at]
         );
 
-        // mail them a tokenized link
+        return response()->success([], 204, 'Password reset email sent');
     }
 
     /**
