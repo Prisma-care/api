@@ -101,6 +101,7 @@ class DefaultAlbumController extends Controller
 
     /**
      * Remove a specific DefaultAlbum
+     * @param DefaultAlbumRequest\Destroy $request
      * @param $albumId
      * @return mixed
      */
