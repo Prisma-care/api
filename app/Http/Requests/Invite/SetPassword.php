@@ -19,8 +19,8 @@ class SetPassword extends BaseRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|max:255',
-            'password' => 'required|max:255',
+            'email' => 'required|email|max:191',
+            'password' => 'required|max:191',
             'user_id' => 'required|integer',
             'token' => 'required|string'
         ];
