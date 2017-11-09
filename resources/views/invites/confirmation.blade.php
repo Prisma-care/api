@@ -17,6 +17,7 @@
                         <p>Je hebt nu een account voor de Prisma app.</p>
 
                         <p><a href="https://play.google.com/store/apps/details?id=care.prisma.familyapp" class="btn btn-primary">Installeer de app</a> en meld je aan.</p>
+
                         <p>Na het installeren en openen van de app dien je je e-mail adres en wachtwoord nog in te
                             geven. Hou deze goed bij.</p>
 
