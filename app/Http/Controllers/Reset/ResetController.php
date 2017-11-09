@@ -39,6 +39,14 @@ class ResetController extends Controller
             ['email' => $email, 'token' => $token, 'created_at' => $created_at]
         );
 
+        $user = User::where('email',$email)->get();
+
+        $data = [
+            'token' => $token
+        ];
+
+        Mail::to($user)->send(new SendPasswordResetLink($data));
+
         return response()->success([], 204, 'Password reset email sent');
     }
 
