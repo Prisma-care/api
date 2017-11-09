@@ -61,7 +61,8 @@ class AlbumController extends Controller
                     'favorited' => $story->favorited,
                     'source' => $story->asset_name,
                     'isHeritage' => $story->is_heritage,
-                    'userId' => $story->user_id
+                    'userId' => $story->user_id,
+
                 ];
             }
             $allAlbums[] = $thisAlbum;
@@ -124,7 +125,9 @@ class AlbumController extends Controller
                 'favorited' => $story->favorited,
                 'source' => $story->asset_name,
                 'isHeritage' => $story->is_heritage,
-                'userId' => $story->user_id
+                'userId' => $story->user_id,
+                'updatedAt' => $story->updated_at,
+                'createdAt' => $story->created_at
             ];
         }
 
