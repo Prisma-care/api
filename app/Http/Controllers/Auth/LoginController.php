@@ -8,6 +8,7 @@ use App\User;
 use Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Carbon\Carbon;
 
 /**
  * Class LoginController
