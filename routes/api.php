@@ -58,7 +58,11 @@ Route::group(['prefix' => 'v1'], function () {
     Route::match(['link'], 'patient/{patientId}/connection', 'ConnectionController@connect');
     Route::match(['unlink'], 'patient/{patientId}/connection', 'ConnectionController@disconnect');
 
-    Route::post('/invite', [
+    Route::post('invite', [
         'uses' => 'Invite\UserController@store'
+    ]);
+
+    Route::post('reset', [
+        'uses' => 'Reset\ResetController@store'
     ]);
 });
