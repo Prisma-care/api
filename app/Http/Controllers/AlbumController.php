@@ -28,7 +28,9 @@ class AlbumController extends Controller
         'description' => 'description',
         'isHeritage' => 'is_heritage',
         'patientId' => 'patient_id',
-        'userId' => 'user_id'
+        'userId' => 'user_id',
+        'updatedAt' => 'updated_at',
+        'createdAt' => 'created_at'
     );
 
 
