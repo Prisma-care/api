@@ -64,7 +64,7 @@ class ResetController extends Controller
         $reset = DB::table('password_resets')->where('token', $token)->first();
 
         if (!$reset) {
-            abort(404, 'Token has already been used or is invalid');
+            abort(404, 'Dit wachtwoord herstel token is niet geldig.'); // This password recovery token is not valid
         }
 
         $data = [
