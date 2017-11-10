@@ -69,7 +69,7 @@ class ResetController extends Controller
 
         $data = [
             'email' => $reset->email,
-            'token' => $reset->token
+            'token' => $token
         ];
 
         return View::make('reset.set', $data);
@@ -99,7 +99,7 @@ class ResetController extends Controller
 
         Mail::to($user)->send(new SendNewPassword($data));
 
-        return view('invites.confirmation');
+        return view('reset.confirmation');
 
     }
 
