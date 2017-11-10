@@ -9,9 +9,7 @@
                         <h4>Success</h4></div>
 
                     <div class="panel-body">
-
                         <p>Het wachtwoord van je account is gewijzigd.</p>
-
                     </div>
                 </div>
             </div>

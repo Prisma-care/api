@@ -42,7 +42,7 @@
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
 
-                                    <button type="submit" class="btn btn-primary">Update Your Password</button> <!-- Update your password -->
+                                    <button type="submit" class="btn btn-primary">Je Wachtwoord Bijwerken</button> <!-- Update your password -->
 
                                 </div>
                             </div>

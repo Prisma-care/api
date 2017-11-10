@@ -79,7 +79,6 @@ class ResetController extends Controller
     }
 
 
-
     /**
      *  Set a new password
      *
@@ -90,9 +89,7 @@ class ResetController extends Controller
     {
         $email = $request->input('email');
         $new_password = Hash::make($request->input('password'));
-
         $user = User::where('email', $email)->update(['password' => $new_password]);
-
         $this->destroyToken($request->input('token'));
 
         $data = [
