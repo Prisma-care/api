@@ -28,7 +28,7 @@
                                 <label for="password" class="col-md-4 control-label">Wachtwoord</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password" required>
+                                    <input id="password" type="password" class="form-control" name="password" required minlength="8">
 
                                     @if ($errors->has('password'))
                                         <span class="help-block">
@@ -40,7 +40,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">Aanmelden</button> <!-- Update your password -->
+                                    <button type="submit" class="btn btn-primary">Update Your Password</button> <!-- Update your password -->
                                 </div>
                             </div>
                         </form>
