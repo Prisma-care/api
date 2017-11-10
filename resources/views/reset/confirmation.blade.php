@@ -10,7 +10,7 @@
 
                     <div class="panel-body">
 
-                        <p>Het wachtwoord van uw account is gewijzigd.</p>
+                        <p>Het wachtwoord van je account is gewijzigd.</p>
 
                     </div>
                 </div>
