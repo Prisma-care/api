@@ -84,7 +84,7 @@ class ResetController extends Controller
      * @param StoreResetPassword $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function set(SetNewPassword $request)
+    public function set(StoreResetPassword $request)
     {
         $email = $request->input('email');
         $new_password = Hash::make($request->input('password'));
