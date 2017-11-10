@@ -63,7 +63,9 @@ class ResetController extends Controller
     {
         $reset = DB::table('password_resets')->where('token', $token)->first();
 
-        if(!$reset) { abort(404,'Token has already been used or is invalid'); }
+        if (!$reset) {
+            abort(404, 'Token has already been used or is invalid');
+        }
 
         $data = [
             'email' => $reset->email,
