@@ -33,7 +33,7 @@ class SendNewPassword extends Mailable
         $data = $this->data;
 
         return $this->from('info@prisma.care')
-            ->subject('Uw nieuwe Prisma-wachtwoord') // 'Your New Prisma Password'
+            ->subject('Uw nieuwe Prisma wachtwoord') // 'Your New Prisma Password'
             ->with($data)
             ->markdown('emails.your-new-password');
     }
