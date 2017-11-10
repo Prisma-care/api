@@ -89,7 +89,7 @@ class ResetController extends Controller
         $email = $request->input('email');
         $new_password = Hash::make($request->input('password'));
 
-        User::where('email', $email)->update(['password' => $new_password]);
+        $user = User::where('email', $email)->update(['password' => $new_password]);
 
         $this->destroyToken($request->input('token'));
 
