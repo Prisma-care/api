@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Reset;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reset\StoreReset;
-use App\Mail\SendPasswordResetLink;
+use App\Http\Requests\Reset\StoreResetPassword;
 use App\Mail\SendNewPassword;
+use App\Mail\SendPasswordResetLink;
 use App\User;
 use Carbon\Carbon;
 use Hash;
@@ -29,7 +30,9 @@ class ResetController extends Controller
     /**
      * @param StoreReset $request
      */
-    public function store(StoreReset $request){
+
+    public function store(StoreReset $request)
+    {
 
         $email = $request->email;
         $token = str_random(40);
@@ -39,7 +42,7 @@ class ResetController extends Controller
             ['email' => $email, 'token' => $token, 'created_at' => $created_at]
         );
 
-        $user = User::where('email',$email)->get();
+        $user = User::where('email', $email)->get();
 
         $data = [
             'token' => $token
@@ -62,11 +65,13 @@ class ResetController extends Controller
     {
         $reset = DB::table('password_resets')->where('token', $token)->first();
 
-        if(!$reset) { abort(404,'Token has already been used or is invalid'); }
+        if (!$reset) {
+            abort(404, 'Dit wachtwoord herstel token is niet geldig.'); // This password recovery token is not valid
+        }
 
         $data = [
             'email' => $reset->email,
-            'token' => $reset->token
+            'token' => $token
         ];
 
         return View::make('reset.set', $data);
@@ -74,19 +79,17 @@ class ResetController extends Controller
     }
 
 
-    /**
-     * Set new password
+    /*
+     *  Set a new password
      *
-     * @param SetNewPassword $request
+     * @param StoreResetPassword $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function set(SetNewPassword $request)
+    public function set(StoreResetPassword $request)
     {
         $email = $request->input('email');
         $new_password = Hash::make($request->input('password'));
-
-        User::where('email', $email)->update(['password' => $new_password]);
-
+        $user = User::where('email', $email)->update(['password' => $new_password]);
         $this->destroyToken($request->input('token'));
 
         $data = [
@@ -96,8 +99,7 @@ class ResetController extends Controller
 
         Mail::to($user)->send(new SendNewPassword($data));
 
-        return view('invites.confirmation');
-
+        return view('reset.confirmation');
     }
 
     /**

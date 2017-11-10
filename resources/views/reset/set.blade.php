@@ -18,31 +18,18 @@
                             {{ csrf_field() }}
 
                             <input type="hidden" name="token" value="{{ $token }}">
-                            <input type="hidden" name="user_id" value="{{ $user_id }}">
+                            <input type="hidden" name="email" value="{{ $email }}">
 
                             <h3>Welkom bij Prisma</h3>
                             <p>Kies een wachtwoord dat je makkelijk kan onthouden want je hebt het straks nodig bij het
                                 starten van de app.</p>
 
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">E-mail</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ $email }}"required>
-
-                                    @if ($errors->has('email'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password" class="col-md-4 control-label">Wachtwoord</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password" required>
+
+                                    <input id="password" type="password" class="form-control" name="password" required minlength="8">
 
                                     @if ($errors->has('password'))
                                         <span class="help-block">
@@ -54,7 +41,8 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">Aanmelden</button>
+
+                                    <button type="submit" class="btn btn-primary">Update Your Password</button> <!-- Update your password -->
                                 </div>
                             </div>
                         </form>

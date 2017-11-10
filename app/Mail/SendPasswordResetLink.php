@@ -33,6 +33,7 @@ class SendPasswordResetLink extends Mailable
         $data = $this->data;
 
         return $this->from('info@prisma.care')
+            ->subject('Maak een nieuw Prisma wachtwoord aan') // Make a new Prisma password
             ->subject('Your Prisma Reset Link')
             ->with($data)
             ->markdown('emails.send-password-reset-link');
