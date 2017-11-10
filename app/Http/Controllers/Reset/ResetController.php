@@ -42,7 +42,6 @@ class ResetController extends Controller
             ['email' => $email, 'token' => $token, 'created_at' => $created_at]
         );
 
-
         $user = User::where('email', $email)->get();
 
         $data = [
@@ -66,7 +65,6 @@ class ResetController extends Controller
     {
         $reset = DB::table('password_resets')->where('token', $token)->first();
 
-
         if (!$reset) {
             abort(404, 'Dit wachtwoord herstel token is niet geldig.'); // This password recovery token is not valid
         }
@@ -81,20 +79,17 @@ class ResetController extends Controller
     }
 
 
-    /**
+    /*
      *  Set a new password
      *
      * @param StoreResetPassword $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function set(StoreResetPassword $request)
-
     {
         $email = $request->input('email');
         $new_password = Hash::make($request->input('password'));
-
         $user = User::where('email', $email)->update(['password' => $new_password]);
-
         $this->destroyToken($request->input('token'));
 
         $data = [
