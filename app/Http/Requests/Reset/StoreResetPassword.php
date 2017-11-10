@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Reset;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,8 +25,7 @@ class StoreResetPassword extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'email' => 'required|email',
-            'email' => 'required|email'
+            'password' => 'required|string'
         ];
     }
 }

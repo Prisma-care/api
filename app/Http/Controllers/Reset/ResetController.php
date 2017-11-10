@@ -79,7 +79,7 @@ class ResetController extends Controller
     }
 
 
-    /*
+    /**
      *  Set a new password
      *
      * @param StoreResetPassword $request
