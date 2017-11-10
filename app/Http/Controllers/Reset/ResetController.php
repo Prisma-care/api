@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reset;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reset\StoreReset;
+use App\Http\Requests\Reset\StoreResetPassword;
 use App\Mail\SendNewPassword;
 use App\Mail\SendPasswordResetLink;
 use App\User;
