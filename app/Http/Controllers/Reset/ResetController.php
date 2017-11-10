@@ -29,7 +29,8 @@ class ResetController extends Controller
     /**
      * @param StoreReset $request
      */
-    public function store(StoreReset $request){
+    public function store(StoreReset $request)
+    {
 
         $email = $request->email;
         $token = str_random(40);
@@ -39,7 +40,7 @@ class ResetController extends Controller
             ['email' => $email, 'token' => $token, 'created_at' => $created_at]
         );
 
-        $user = User::where('email',$email)->get();
+        $user = User::where('email', $email)->get();
 
         $data = [
             'token' => $token
