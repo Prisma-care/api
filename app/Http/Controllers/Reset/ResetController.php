@@ -79,9 +79,9 @@ class ResetController extends Controller
 
 
     /**
-     * Set new password
+     *  Set a new password
      *
-     * @param SetNewPassword $request
+     * @param StoreResetPassword $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function set(SetNewPassword $request)
