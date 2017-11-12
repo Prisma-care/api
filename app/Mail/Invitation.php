@@ -34,7 +34,7 @@ class Invitation extends Mailable
     public function build()
     {
         $data = $this->data;
-        return $this->from('info@prisma.care')
+        return $this->from('info@prisma.care','Prisma')
             ->subject($data['inviter']. ' nodigde je uit voor Prisma')
             ->with($data)
             ->markdown('emails.invite');
