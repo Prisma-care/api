@@ -43,6 +43,7 @@
                                 <div class="col-md-6 col-md-offset-4">
 
                                     <button type="submit" class="btn btn-primary">Je wachtwoord bijwerken</button> <!-- Update your password -->
+
                                 </div>
                             </div>
                         </form>
