@@ -48,7 +48,9 @@ class SetPasswordController extends Controller
     {
         $invite = Invite::where('token', $token)->first();
 
-        if(!$invite) { abort(404,'Token already used or invalid'); }
+        if (!$invite) {
+            abort(404, 'Token already used or invalid');
+        }
 
         $data = [
             'invite_id' => $invite->id,
@@ -58,7 +60,6 @@ class SetPasswordController extends Controller
         ];
 
         return View::make('invites.set', $data);
-
     }
 
 
@@ -92,7 +93,6 @@ class SetPasswordController extends Controller
         Mail::to($user)->send(new SendPassword($data));
 
         return view('invites.confirmation');
-
     }
 
     /**

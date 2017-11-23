@@ -8,7 +8,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-
 class Invitation extends Mailable
 {
     use Queueable, SerializesModels;
@@ -34,7 +33,7 @@ class Invitation extends Mailable
     public function build()
     {
         $data = $this->data;
-        return $this->from('info@prisma.care','Prisma')
+        return $this->from('info@prisma.care', 'Prisma')
             ->subject($data['inviter']. ' nodigde je uit voor Prisma')
             ->with($data)
             ->markdown('emails.invite');

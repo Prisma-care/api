@@ -78,7 +78,6 @@ class ResetController extends Controller
         ];
 
         return View::make('reset.set', $data);
-
     }
 
 
@@ -89,7 +88,6 @@ class ResetController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function set(StoreResetPassword $request)
-
     {
         $email = $request->input('email');
         $new_password = $request->input('password');
