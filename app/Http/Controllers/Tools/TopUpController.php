@@ -21,5 +21,4 @@ class TopUpController extends Controller
     {
         $this->middleware('guest');
     }
-
 }
