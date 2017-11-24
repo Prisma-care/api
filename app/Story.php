@@ -18,7 +18,7 @@ class Story extends Model
      * @var array
      */
     protected $fillable = [
-        'description', 'happened_at', 'is_heritage', 'asset_name', 'asset_type', 'favorited', 'album_id', 'user_id'
+        'description', 'happened_at', 'is_heritage', 'asset_name', 'asset_type', 'favorited', 'album_id', 'user_id', 'heritage_id'
     ];
 
     protected $casts = [
