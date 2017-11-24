@@ -65,4 +65,13 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('reset', [
         'uses' => 'Reset\ResetController@store'
     ]);
+
+    Route::get('update-album-source', [
+        'uses' => 'Tools\TopUpController@sourceOriginalAlbums'
+    ]);
+
+    Route::get('update-story-source', [
+        'uses' => 'Tools\TopUpController@sourceOriginaHeritage'
+    ]);
+
 });
