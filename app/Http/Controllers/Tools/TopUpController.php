@@ -37,7 +37,7 @@ class TopUpController extends Controller
     }
 
 
-    public function sourceOriginaHeritage()
+    public function sourceOriginalHeritage()
     {
         $heritages = Heritage::all();
 
