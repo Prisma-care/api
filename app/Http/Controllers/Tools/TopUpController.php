@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Tools;
 
-use App\Http\Controllers\Controller;
-use App\User;
 use App\Album;
 use App\Heritage;
-use App\Story;
+use App\Http\Controllers\Controller;
 use App\Patient;
+use App\Story;
 
 class TopUpController extends Controller
 {
@@ -26,12 +25,12 @@ class TopUpController extends Controller
 
     public function sourceOriginalAlbums()
     {
-        $default_albums = Album::with('heritage')->get()->where('patient_id','=',null)->values()->all();
+        $default_albums = Album::with('heritage')->get()->where('patient_id', '=', null)->values()->all();
 
         foreach ($default_albums as $default_album) {
 
-            Album::where('title',$default_album->title)
-                ->where('patient_id','>',0)
+            Album::where('title', $default_album->title)
+                ->where('patient_id', '>', 0)
                 ->update(['source_album_id' => $default_album->id]);
         }
     }
@@ -44,8 +43,53 @@ class TopUpController extends Controller
         foreach ($heritages as $heritage) {
 
             Story::where('description', $heritage->description)
-                ->where('is_heritage',1)
+                ->where('is_heritage', 1)
                 ->update(['heritage_id' => $heritage->id]);
+        }
+    }
+
+    public function addNewHeritage()
+    {
+        // 2017-11-20
+
+        $new_heritages = Heritage::where('created_at', '>', '2017-11-18')->get();
+
+        $patients = Patient::has('albums')->get();
+
+        foreach ($patients as $patient) {
+
+            $patient_id = $patient->id;
+
+            foreach ($new_heritages as $new_heritage) {
+
+                $heritage_album_id = $new_heritage->album_id;
+
+                $patient_album = Album::where('patient_id', $patient_id)
+                    ->where('source_album_id', $heritage_album_id)->first();
+
+                if ($patient_album) {
+
+                    $patient_album_id = $patient_album->id;
+
+                    Story::firstOrCreate(
+
+                        ['heritage_id' => $new_heritage->id, 'album_id' => $patient_album_id],
+
+                        [
+                            'description' => $new_heritage->description,
+                            'asset_name' => $new_heritage->asset_name ?: null,
+                            'asset_type' => $new_heritage->asset_type ?: null,
+                            'user_id' => 1,
+                            'is_heritage' => true,
+                            'album_id' => $patient_album_id,
+                            'heritage_id' => $heritage_album_id
+                        ]);
+
+                }
+
+            }
+
+
         }
     }
 
@@ -56,6 +100,8 @@ class TopUpController extends Controller
      *
      * get all heritage
      * loop. Match description to story description and update heritage_id
+     *
+     *
      *
      *
      *
