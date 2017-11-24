@@ -61,7 +61,8 @@ class Patient extends Model
                     'asset_type' => $heritage->asset_type ?: null,
                     'user_id' => 1,
                     'album_id' => $newAlbum->id,
-                    'is_heritage' => true
+                    'is_heritage' => true,
+                    'heritage_id' => $heritage->id
                 ]);
             }
         }
