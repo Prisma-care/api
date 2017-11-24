@@ -21,6 +21,7 @@ class TopUpController extends Controller
         $this->middleware('guest');
     }
 
+
     /* series of one use catch up methods */
 
     public function sourceOriginalAlbums()
@@ -48,6 +49,7 @@ class TopUpController extends Controller
         }
     }
 
+    
     public function addNewHeritage()
     {
         // 2017-11-20
@@ -101,7 +103,8 @@ class TopUpController extends Controller
      * get all heritage
      * loop. Match description to story description and update heritage_id
      *
-     *
+     * get all heritage
+     * loop. Match description to story description and update heritage_id
      *
      *
      *
