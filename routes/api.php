@@ -74,7 +74,6 @@ Route::group(['prefix' => 'v1'], function () {
     ]);
 
     Route::get('update-story-source', [
-
         'uses' => 'Tools\TopUpController@sourceOriginalHeritage'
     ]);
 

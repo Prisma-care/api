@@ -37,6 +37,7 @@ class TopUpController extends Controller
     }
 
 
+
     public function sourceOriginalHeritage()
     {
         $heritages = Heritage::all();
@@ -99,9 +100,6 @@ class TopUpController extends Controller
      * Fast Forward
      * get all the albums with no patientID
      * loop each and match title. update source_album_id
-     *
-     * get all heritage
-     * loop. Match description to story description and update heritage_id
      *
      * get all heritage
      * loop. Match description to story description and update heritage_id
