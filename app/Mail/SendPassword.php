@@ -32,7 +32,7 @@ class SendPassword extends Mailable
     {
         $data = $this->data;
 
-        return $this->from('info@prisma.care','Prisma')
+        return $this->from('info@prisma.care', 'Prisma')
             ->subject('Your Prisma Password')
             ->with($data)
             ->markdown('emails.newpassword');
