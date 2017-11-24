@@ -22,6 +22,7 @@ class TopUpController extends Controller
         $this->middleware('guest');
     }
 
+
     /* series of one use catch up methods */
 
     public function sourceOriginalAlbums()
