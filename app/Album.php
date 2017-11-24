@@ -17,7 +17,7 @@ class Album extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'patient_id', 'is_default'
+        'title', 'description', 'patient_id', 'is_default', 'source_album_id'
     ];
 
     protected $casts = [
