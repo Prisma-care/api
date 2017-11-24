@@ -26,6 +26,8 @@ class Story extends Model
         'is_heritage' => 'boolean'
     ];
 
+    protected $dates = ['deleted_at'];
+
     public function comments()
     {
         return $this->hasMany('App\Comments');

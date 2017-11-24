@@ -24,6 +24,8 @@ class Album extends Model
         'is_default' => 'boolean'
     ];
 
+    protected $dates = ['deleted_at'];
+
     public function isDefault()
     {
         return $this->patient_id === null;
