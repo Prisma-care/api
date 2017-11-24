@@ -78,4 +78,8 @@ Route::group(['prefix' => 'v1'], function () {
 
     */
 
+    Route::get('add-stories', [
+        'uses' => 'Tools\TopUpController@addNewHeritage'
+    ]);
+
 });
