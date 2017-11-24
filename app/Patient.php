@@ -52,6 +52,7 @@ class Patient extends Model
         foreach ($albums as $album) {
             $newAlbum = $album->replicate();
             $newAlbum->patient_id = $this->id;
+            $newAlbum->source_album_id = $album->id;
             $newAlbum->save();
             foreach ($album->heritage as $heritage) {
                 Story::create([
