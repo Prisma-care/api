@@ -28,11 +28,6 @@ class Story extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function comments()
-    {
-        return $this->hasMany('App\Comments');
-    }
-
     public function album()
     {
         return $this->belongsTo('App\Album');
