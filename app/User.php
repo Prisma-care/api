@@ -32,11 +32,6 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Patient');
     }
 
-    public function relations()
-    {
-        return $this->belongsToMany('App\Relation');
-    }
-
     public function isAdmin()
     {
         return $this->user_type === 'admin' || $this->isSuperAdmin();
