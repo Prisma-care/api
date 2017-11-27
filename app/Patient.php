@@ -4,7 +4,6 @@ namespace App;
 
 use App\Album;
 use App\Story;
-use App\Category;
 use App\Heritage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
