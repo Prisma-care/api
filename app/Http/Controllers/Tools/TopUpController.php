@@ -37,6 +37,7 @@ class TopUpController extends Controller
     }
 
 
+
     public function sourceOriginalHeritage()
     {
         $heritages = Heritage::all();
@@ -49,7 +50,7 @@ class TopUpController extends Controller
         }
     }
 
-  
+
     public function addNewHeritage()
     {
         // 2017-11-20
