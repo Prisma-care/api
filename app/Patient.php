@@ -30,11 +30,6 @@ class Patient extends Model
         return $this->hasMany('App\Album');
     }
 
-    public function relations()
-    {
-        return $this->belongsToMany('App\Relation');
-    }
-
     public function users()
     {
         return $this->belongsToMany('App\User');
