@@ -66,7 +66,6 @@ Route::group(['prefix' => 'v1'], function () {
         'uses' => 'Reset\ResetController@store'
     ]);
 
-
     /*
 
     Route::get('update-album-source', [

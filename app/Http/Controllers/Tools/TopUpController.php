@@ -50,7 +50,7 @@ class TopUpController extends Controller
         }
     }
 
-    
+
     public function addNewHeritage()
     {
         // 2017-11-20
@@ -86,32 +86,11 @@ class TopUpController extends Controller
                             'is_heritage' => true,
                             'album_id' => $patient_album_id,
                             'heritage_id' => $heritage_album_id
-                        ]);
-
+                        ]
+                    );
                 }
 
             }
-
-
         }
     }
-
-    /*
-     * Fast Forward
-     * get all the albums with no patientID
-     * loop each and match title. update source_album_id
-     *
-     * get all heritage
-     * loop. Match description to story description and update heritage_id
-     *
-     *
-     *
-     * Incremental
-     *
-     *
-     *
-     *
-     *
-     *
-     */
 }
