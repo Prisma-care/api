@@ -15,7 +15,6 @@ class RemoveOldTables extends Migration
     {
         Schema::dropIfExists('category_heritage');
         Schema::dropIfExists('categories');
-        Schema::dropIfExists('profile');
         Schema::dropIfExists('comments');
         Schema::dropIfExists('relations');
     }
