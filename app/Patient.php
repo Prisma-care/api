@@ -4,7 +4,6 @@ namespace App;
 
 use App\Album;
 use App\Story;
-use App\Category;
 use App\Heritage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -28,11 +27,6 @@ class Patient extends Model
     public function albums()
     {
         return $this->hasMany('App\Album');
-    }
-
-    public function relations()
-    {
-        return $this->belongsToMany('App\Relation');
     }
 
     public function users()
