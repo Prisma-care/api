@@ -53,6 +53,22 @@ class TopUpController extends Controller
         endif;
     }
 
+    public function doesPatientHaveAlbum()
+    {
+    }
+
+    public function doesPatientAlbumHaveStory()
+    {
+    }
+
+    public function replicateStoryIntoAlbum()
+    {
+    }
+
+    public function getLastSyncTime()
+    {
+    }
+
     /* series of one use catch up methods */
 
     public function sourceOriginalAlbums()
