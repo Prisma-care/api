@@ -72,6 +72,8 @@ class DefaultAlbumController extends Controller
             return response()->exception('The default album could not be created', 500);
         }
 
+        Sync::create(['model_type' => 'Album', 'model_id' => $album->id]);
+
         $location = $request->url() . '/' . $album->id;
         return response()->success($album, 201, 'Created', $location);
     }
