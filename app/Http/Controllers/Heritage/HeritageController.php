@@ -62,7 +62,11 @@ class HeritageController extends Controller
             return response()->exception('The heritage could not be created', 500);
         }
 
-        $location = $request->url() . '/' . $heritage->id;
+        $heritageId = $heritage->id;
+
+        Sync::create(['model_type' => 'Story', 'model_id' => $heritageId]);
+
+        $location = $request->url() . '/' . $heritageId;
         return response()->success($heritage, 201, 'Created', $location);
     }
 
