@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Heritage;
 
 use App\Album;
-use App\Http\Requests\DefaultAlbum as DefaultAlbumRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DefaultAlbum as DefaultAlbumRequest;
+use App\Sync;
 
 /**
  * Class DefaultAlbumController
@@ -15,7 +16,6 @@ use App\Http\Controllers\Controller;
  * This ensures that there is content available for the new User/Patient
  * Because the generated Heritage Albums are assigned to the Patient the can also be deleted
  */
-
 class DefaultAlbumController extends Controller
 {
     public function __construct()
@@ -32,9 +32,9 @@ class DefaultAlbumController extends Controller
     public function index(DefaultAlbumRequest\Index $request)
     {
         $albums = Album::with('heritage')->get()
-                                        ->where('patient_id', '=', null)
-                                        ->values()
-                                        ->all();
+            ->where('patient_id', '=', null)
+            ->values()
+            ->all();
 
         return response()->success($albums, 200, 'OK');
     }
@@ -43,15 +43,15 @@ class DefaultAlbumController extends Controller
      * Fetch a single Heritage Album
      *
      * @param  \App\Http\Requests\DefaultAlbum\Show $request
-     * @param  int  $albumId
+     * @param  int $albumId
      * @return \Illuminate\Http\Response
      */
     public function show(DefaultAlbumRequest\Show $request, $albumId)
     {
         $album = Album::with('heritage')->get()
-                                        ->where('patient_id', '=', null)
-                                        ->where('id', '=', $albumId)
-                                        ->first();
+            ->where('patient_id', '=', null)
+            ->where('id', '=', $albumId)
+            ->first();
 
         return response()->success($album, 200, 'OK');
     }
@@ -71,6 +71,8 @@ class DefaultAlbumController extends Controller
         if (!$album->save()) {
             return response()->exception('The default album could not be created', 500);
         }
+
+        Sync::create(['model_type' => 'Album', 'model_id' => $album->id]);
 
         $location = $request->url() . '/' . $album->id;
         return response()->success($album, 201, 'Created', $location);
@@ -113,6 +115,7 @@ class DefaultAlbumController extends Controller
         }
 
         if ($album->delete()) {
+            Sync::where(['model_type' => 'Album', 'model_id' => $albumId])->delete();
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception('The album could not be deleted', 500);

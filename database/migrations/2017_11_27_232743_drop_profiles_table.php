@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RemoveOldTables extends Migration
+class DropProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,7 @@ class RemoveOldTables extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('category_heritage');
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('comments');
-        Schema::dropIfExists('relations');
+        Schema::dropIfExists('profiles');
     }
 
     /**
