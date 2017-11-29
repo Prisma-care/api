@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Album;
 use App\Story;
 use App\Sync;
-use Illuminate\Http\Request;
 
 class SyncController extends Controller
 {
