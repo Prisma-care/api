@@ -48,8 +48,39 @@ class SyncController extends Controller
 
             $model = Story::where('id', $model_id)->get();
 
+            $all_albums = Album::where('patient_id','>',0)->take($batch_size)->pluck('id');
+            $albums_with_this_story = Story::where(['is_heritage' => 1, 'heritage_id' => $model_id])->pluck('album_id');
+            $balance = $all_albums->diff($albums_with_this_story);
+            $albums = $balance->all();
+
+            if ($albums->count() === 0) {
+
+                $sync->status = 'complete';
+                $sync->save();
+
+            }
+
             // get the collection of 100 patients that don't have this asset
             // if there are none exit and update the sync as completed
+
+            // replicate this into the relevant table with their ids
+
+            foreach ($albums as $album) {
+
+                $newStory = $model->replicate();
+                $newStory->user_id = 1;
+                $newStory->album_id = $album;
+                $newStory->heritage_id = $model->id;
+                $newStory->save();
+            }
+
+            // get the patient album id
+
+            if (count($patients < 100)) {
+
+                $sync->status = 'complete';
+                $sync->save();
+            }
 
         } else {
 
@@ -58,7 +89,17 @@ class SyncController extends Controller
             // get the collection of 100 patients that don't have this asset
             // if there are none exit and update the sync as completed
 
-            $patients = [];
+            $all_patients = Patient::all()->pluck('id');
+            $patients_with_this_album = Album::where('source_album_id', $model_id)->pluck('patient_id');
+            $balance = $all_patients->diff($patients_with_this_album);
+            $patients = $balance->all();
+
+            if ($patients->count() === 0) {
+
+                $sync->status = 'complete';
+                $sync->save();
+
+            }
 
             // replicate this into the relevant table with their ids
 
@@ -68,14 +109,13 @@ class SyncController extends Controller
                 $newAlbum->patient_id = $patient->id;
                 $newAlbum->source_album_id = $model->id;
                 $newAlbum->save();
-
             }
-
         }
 
-        if (count($patients < 100)){
+        if (count($patients < 100)) {
 
-            // if collection was less than 100 update the sync as completed
+            $sync->status = 'complete';
+            $sync->save();
         }
     }
 }
