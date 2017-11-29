@@ -43,15 +43,15 @@ class DefaultAlbumController extends Controller
      * Fetch a single Heritage Album
      *
      * @param  \App\Http\Requests\DefaultAlbum\Show $request
-     * @param  int  $albumId
+     * @param  int $albumId
      * @return \Illuminate\Http\Response
      */
     public function show(DefaultAlbumRequest\Show $request, $albumId)
     {
         $album = Album::with('heritage')->get()
-                                        ->where('patient_id', '=', null)
-                                        ->where('id', '=', $albumId)
-                                        ->first();
+            ->where('patient_id', '=', null)
+            ->where('id', '=', $albumId)
+            ->first();
 
         return response()->success($album, 200, 'OK');
     }
