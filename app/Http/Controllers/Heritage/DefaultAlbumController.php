@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Heritage;
 
 use App\Album;
-use App\Http\Requests\DefaultAlbum as DefaultAlbumRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DefaultAlbum as DefaultAlbumRequest;
+use App\Sync;
 
 /**
  * Class DefaultAlbumController
@@ -15,7 +16,6 @@ use App\Http\Controllers\Controller;
  * This ensures that there is content available for the new User/Patient
  * Because the generated Heritage Albums are assigned to the Patient the can also be deleted
  */
-
 class DefaultAlbumController extends Controller
 {
     public function __construct()
