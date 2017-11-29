@@ -29,25 +29,39 @@ class SyncController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function runSync(Sync $sync)
     {
-        //
+        $sync_id = $sync->id;
+        $model_id = $sync->model_id;
+        $model_type = $sync->model_type;
+
+        if ($model_type === 'Story') {
+
+            $model = Story::where('id', $model_id)->get();
+
+        } else {
+
+            $model = Album::where('id', $model_id)->get();
+
+        }
+
+        // get the collection of 100 patients that don't have this asset
+        // if there are none exit and update the sync as completed
+
+        // replicate this into the relevant table with their ids
+
+        // update the status of the job
+        // if collection was less than 100 update the sync as completed
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Sync $sync
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Sync $sync)
+
+    public function store($data)
+    {
+
+    }
+
+    public function update($data)
     {
         //
     }
