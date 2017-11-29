@@ -32,9 +32,9 @@ class DefaultAlbumController extends Controller
     public function index(DefaultAlbumRequest\Index $request)
     {
         $albums = Album::with('heritage')->get()
-                                        ->where('patient_id', '=', null)
-                                        ->values()
-                                        ->all();
+            ->where('patient_id', '=', null)
+            ->values()
+            ->all();
 
         return response()->success($albums, 200, 'OK');
     }
