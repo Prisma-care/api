@@ -75,12 +75,12 @@ class HeritageController extends Controller
      * Fetch a specific Heritage
      *
      * These are attached to Albums and therefore are User specific
-     * @param HeritageRequest\Show $reqeust
+     * @param HeritageRequest\Show $request
      * @param $albumId
      * @param $heritageId
      * @return mixed
      */
-    public function show(HeritageRequest\Show $reqeust, $albumId, $heritageId)
+    public function show(HeritageRequest\Show $request, $albumId, $heritageId)
     {
         Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
@@ -92,6 +92,7 @@ class HeritageController extends Controller
      * Update a specific Heritage
      *
      * @param  \App\Http\Requests\Heritage\Update $request
+     * @param  int  $albumId
      * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
