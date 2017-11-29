@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Heritage;
 
 use App\Album;
 use App\Heritage;
+use App\Sync;
 use App\Http\Controllers\Controller;
 use File;
 use App\Http\Requests\Heritage as HeritageRequest;
