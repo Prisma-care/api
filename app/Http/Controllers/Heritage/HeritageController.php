@@ -113,6 +113,7 @@ class HeritageController extends Controller
      * Remove the specified heritage
      *
      * @param  \App\Http\Requests\Heritage\Destroy $request
+     * @param  int  $albumId
      * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
