@@ -124,6 +124,7 @@ class HeritageController extends Controller
         if ($heritage->delete()) {
             $directory = storage_path("app/heritage/$heritageId");
             File::deleteDirectory($directory);
+            Sync::where(['model_type' => 'Story', 'model_id' => $heritageId])->delete();
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception("The heritage could not be deleted", 500);
