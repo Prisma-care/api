@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Syncing;
 
-use App\Http\Controllers\Controller;
 use App\Album;
+use App\Http\Controllers\Controller;
 use App\Story;
 use App\Sync;
 
