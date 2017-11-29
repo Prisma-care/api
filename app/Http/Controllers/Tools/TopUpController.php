@@ -21,6 +21,53 @@ class TopUpController extends Controller
         $this->middleware('guest');
     }
 
+    /**
+     * @param int $patientId
+     * @param int $albumId
+     * @return bool
+     */
+    public function patientHasAlbum(int $patientId, int $albumId)
+    {
+        $album = Album::where('patient_id', $patientId)->where('source_album_id', $albumId)->first();
+
+        if (!$album) :
+            return false;
+        else :
+            return true;
+        endif;
+    }
+
+    /**
+     * @param int $patientAlbumId
+     * @param int $heritageId
+     * @return bool
+     */
+    public function albumHasHeritage(int $patientAlbumId, int $heritageId)
+    {
+        $story = Story::where('album_id', $patientAlbumId)->where('heritage_id', $heritageId)->first();
+
+        if (!$story) :
+            return false;
+        else :
+            return true;
+        endif;
+    }
+
+    public function doesPatientHaveAlbum()
+    {
+    }
+
+    public function doesPatientAlbumHaveStory()
+    {
+    }
+
+    public function replicateStoryIntoAlbum()
+    {
+    }
+
+    public function getLastSyncTime()
+    {
+    }
 
     /* series of one use catch up methods */
 
@@ -35,7 +82,6 @@ class TopUpController extends Controller
                 ->update(['source_album_id' => $default_album->id]);
         }
     }
-
 
 
     public function sourceOriginalHeritage()
@@ -53,7 +99,6 @@ class TopUpController extends Controller
 
     public function addNewHeritage()
     {
-        // 2017-11-20
 
         $new_heritages = Heritage::where('created_at', '>', '2017-11-18')->get();
 
@@ -89,7 +134,6 @@ class TopUpController extends Controller
                         ]
                     );
                 }
-
             }
         }
     }
