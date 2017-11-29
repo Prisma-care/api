@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Heritage;
 
 use App\Album;
 use App\Heritage;
+use App\Sync;
 use App\Http\Controllers\Controller;
 use File;
 use App\Http\Requests\Heritage as HeritageRequest;
@@ -61,7 +62,11 @@ class HeritageController extends Controller
             return response()->exception('The heritage could not be created', 500);
         }
 
-        $location = $request->url() . '/' . $heritage->id;
+        $heritageId = $heritage->id;
+
+        Sync::create(['model_type' => 'Story', 'model_id' => $heritageId]);
+
+        $location = $request->url() . '/' . $heritageId;
         return response()->success($heritage, 201, 'Created', $location);
     }
 
@@ -70,12 +75,12 @@ class HeritageController extends Controller
      * Fetch a specific Heritage
      *
      * These are attached to Albums and therefore are User specific
-     * @param HeritageRequest\Show $reqeust
+     * @param HeritageRequest\Show $request
      * @param $albumId
      * @param $heritageId
      * @return mixed
      */
-    public function show(HeritageRequest\Show $reqeust, $albumId, $heritageId)
+    public function show(HeritageRequest\Show $request, $albumId, $heritageId)
     {
         Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
@@ -87,6 +92,7 @@ class HeritageController extends Controller
      * Update a specific Heritage
      *
      * @param  \App\Http\Requests\Heritage\Update $request
+     * @param  int  $albumId
      * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
@@ -107,6 +113,7 @@ class HeritageController extends Controller
      * Remove the specified heritage
      *
      * @param  \App\Http\Requests\Heritage\Destroy $request
+     * @param  int  $albumId
      * @param  int  $heritageId
      * @return \Illuminate\Http\Response
      */
@@ -117,6 +124,7 @@ class HeritageController extends Controller
         if ($heritage->delete()) {
             $directory = storage_path("app/heritage/$heritageId");
             File::deleteDirectory($directory);
+            Sync::where(['model_type' => 'Story', 'model_id' => $heritageId])->delete();
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception("The heritage could not be deleted", 500);
