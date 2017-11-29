@@ -33,6 +33,9 @@ class SyncController extends Controller
         }
     }
 
+    /**
+     * @param Sync $sync
+     */
     public function runSync(Sync $sync)
     {
         $sync_id = $sync->id;
