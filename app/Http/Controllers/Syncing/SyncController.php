@@ -9,6 +9,8 @@ use App\Sync;
 
 class SyncController extends Controller
 {
+    protected $batch_size = 100;
+
     /**
      * Display a listing of the resource.
      *
