@@ -20,6 +20,7 @@ class SyncController extends Controller
         try {
 
             $sync = Sync::whereIn('status', ['ready', 'running'])->findOrFail();
+            $this->runSync($sync);
 
         } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
