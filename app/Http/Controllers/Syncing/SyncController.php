@@ -42,31 +42,34 @@ class SyncController extends Controller
 
             $model = Story::where('id', $model_id)->get();
 
+            // get the collection of 100 patients that don't have this asset
+            // if there are none exit and update the sync as completed
+
         } else {
 
             $model = Album::where('id', $model_id)->get();
 
+            // get the collection of 100 patients that don't have this asset
+            // if there are none exit and update the sync as completed
+
+            $patients = [];
+
+            // replicate this into the relevant table with their ids
+
+            foreach ($patients as $patient) {
+
+                $newAlbum = $model->replicate();
+                $newAlbum->patient_id = $patient->id;
+                $newAlbum->source_album_id = $model->id;
+                $newAlbum->save();
+
+            }
+
         }
 
-        // get the collection of 100 patients that don't have this asset
-        // if there are none exit and update the sync as completed
+        if (count($patients < 100)){
 
-        // replicate this into the relevant table with their ids
-
-        // update the status of the job
-        // if collection was less than 100 update the sync as completed
-
+            // if collection was less than 100 update the sync as completed
+        }
     }
-
-
-    public function store($data)
-    {
-
-    }
-
-    public function update($data)
-    {
-        //
-    }
-
 }
