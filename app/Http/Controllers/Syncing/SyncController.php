@@ -76,7 +76,7 @@ class SyncController extends Controller
 
             // get the patient album id
 
-            if (count($patients < 100)) {
+            if (count($patients < $batch_size)) {
 
                 $sync->status = 'complete';
                 $sync->save();
@@ -112,7 +112,7 @@ class SyncController extends Controller
             }
         }
 
-        if (count($patients < 100)) {
+        if (count($patients < $batch_size)) {
 
             $sync->status = 'complete';
             $sync->save();
