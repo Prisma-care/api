@@ -42,7 +42,7 @@ class SyncController extends Controller
         $model_id = $sync->model_id;
         $model_type = $sync->model_type;
 
-        Sync::where('id',$sync_id)->update('status','running');
+        Sync::where('id', $sync_id)->update('status', 'running');
 
         if ($model_type === 'Story') {
 
