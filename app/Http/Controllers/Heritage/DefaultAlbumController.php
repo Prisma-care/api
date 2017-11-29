@@ -115,6 +115,7 @@ class DefaultAlbumController extends Controller
         }
 
         if ($album->delete()) {
+            Sync::where(['model_type' => 'Album', 'model_id' => $albumId])->delete();
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception('The album could not be deleted', 500);
