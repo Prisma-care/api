@@ -20,7 +20,10 @@ class SyncController extends Controller
     {
         try {
 
-            $sync = Sync::whereIn('status', ['ready', 'running'])->findOrFail();
+            $sync = Sync::whereIn('status', ['ready', 'running'])
+                ->orderBy('created_at', 'ASC')
+                ->findOrFail();
+
             $this->runSync($sync);
 
         } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
