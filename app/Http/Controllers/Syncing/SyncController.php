@@ -7,7 +7,6 @@ use App\Heritage;
 use App\Http\Controllers\Controller;
 use App\Patient;
 use App\Story;
-use App\Heritage;
 use App\Sync;
 use Carbon\Carbon;
 
