@@ -12,7 +12,7 @@ use Carbon\Carbon;
 
 class SyncController extends Controller
 {
-
+  
     public function checkForSyncs()
     {
         try {
@@ -89,7 +89,6 @@ class SyncController extends Controller
         } else {
 
             $model = Album::where('id', $model_id)->first();
-
             $all_patients = Patient::all()->pluck('id');
             $patients_with_this_album = Album::where('source_album_id', $model_id)->pluck('patient_id');
             $balance = $all_patients->diff($patients_with_this_album);
@@ -121,6 +120,7 @@ class SyncController extends Controller
             $sync->save();
 
             return false;
+
         }
     }
 }
