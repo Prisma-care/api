@@ -5,24 +5,21 @@ namespace App\Http\Controllers\Syncing;
 use App\Album;
 use App\Http\Controllers\Controller;
 use App\Story;
+use App\Heritage;
 use App\Sync;
+use App\Patient;
+use Carbon\Carbon;
 
 class SyncController extends Controller
 {
-    protected $batch_size = 100;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function checkForSyncs()
     {
         try {
 
             $sync = Sync::whereIn('status', ['ready', 'running'])
                 ->orderBy('created_at', 'ASC')
-                ->findOrFail();
+                ->firstOrFail();
 
             $this->runSync($sync);
 
@@ -33,80 +30,85 @@ class SyncController extends Controller
         }
     }
 
-    /**
-     * @param Sync $sync
-     */
     public function runSync(Sync $sync)
     {
         $sync_id = $sync->id;
         $model_id = $sync->model_id;
         $model_type = $sync->model_type;
+        $batch_size = 100;
 
-        Sync::where('id', $sync_id)->update('status', 'running');
+        Sync::where('id', $sync_id)->update(['status' => 'running']);
 
         if ($model_type === 'Story') {
 
-            $model = Story::where('id', $model_id)->get();
+            $model = Heritage::where('id', $model_id)->first();
 
             $all_albums = Album::where('patient_id','>',0)->take($batch_size)->pluck('id');
             $albums_with_this_story = Story::where(['is_heritage' => 1, 'heritage_id' => $model_id])->pluck('album_id');
             $balance = $all_albums->diff($albums_with_this_story);
             $albums = $balance->all();
 
-            if ($albums->count() === 0) {
+            if (count($albums) === 0) {
 
                 $sync->status = 'complete';
+                $sync->finished_at = Carbon::now();
                 $sync->save();
 
+                return false;
+
             }
-
-            // get the collection of 100 patients that don't have this asset
-            // if there are none exit and update the sync as completed
-
-            // replicate this into the relevant table with their ids
 
             foreach ($albums as $album) {
 
-                $newStory = $model->replicate();
-                $newStory->user_id = 1;
-                $newStory->album_id = $album;
-                $newStory->heritage_id = $model->id;
-                $newStory->save();
+                $data = [
+
+                    'asset_name' => $model->asset_name,
+                    'asset_type' => $model->asset_type,
+                    'description' => $model->description,
+                    'happened_at' => null,
+                    'user_id' => 1,
+                    'is_heritage' => 1,
+                    'album_id' => $album,
+                    'heritage_id' => $model->id,
+
+                ];
+
+                Story::create($data);
+
             }
 
-            // get the patient album id
-
-            if (count($patients < $batch_size)) {
+            if (count($albums < $batch_size)) {
 
                 $sync->status = 'complete';
+                $sync->finished_at = Carbon::now();
                 $sync->save();
+
+                return false;
             }
 
         } else {
 
-            $model = Album::where('id', $model_id)->get();
-
-            // get the collection of 100 patients that don't have this asset
-            // if there are none exit and update the sync as completed
+            $model = Album::where('id', $model_id)->first();
 
             $all_patients = Patient::all()->pluck('id');
             $patients_with_this_album = Album::where('source_album_id', $model_id)->pluck('patient_id');
             $balance = $all_patients->diff($patients_with_this_album);
             $patients = $balance->all();
 
-            if ($patients->count() === 0) {
+            if (count($patients) === 0) {
 
                 $sync->status = 'complete';
+                $sync->finished_at = Carbon::now();
                 $sync->save();
 
-            }
+                return false;
 
-            // replicate this into the relevant table with their ids
+            }
 
             foreach ($patients as $patient) {
 
                 $newAlbum = $model->replicate();
-                $newAlbum->patient_id = $patient->id;
+                $newAlbum->patient_id = $patient;
                 $newAlbum->source_album_id = $model->id;
                 $newAlbum->save();
             }
@@ -115,7 +117,10 @@ class SyncController extends Controller
         if (count($patients < $batch_size)) {
 
             $sync->status = 'complete';
+            $sync->finished_at = Carbon::now();
             $sync->save();
+
+            return false;
         }
     }
 }
