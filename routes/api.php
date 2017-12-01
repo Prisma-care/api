@@ -82,4 +82,8 @@ Route::group(['prefix' => 'v1'], function () {
         'uses' => 'Tools\TopUpController@addNewHeritage'
     ]);
 
+    Route::get('sync', [
+        'uses' => 'Syncing\SyncController@checkForSyncs'
+    ]);
+
 });
