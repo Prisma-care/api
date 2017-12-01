@@ -66,22 +66,6 @@ Route::group(['prefix' => 'v1'], function () {
         'uses' => 'Reset\ResetController@store'
     ]);
 
-    /*
-
-    Route::get('update-album-source', [
-        'uses' => 'Tools\TopUpController@sourceOriginalAlbums'
-    ]);
-
-    Route::get('update-story-source', [
-        'uses' => 'Tools\TopUpController@sourceOriginalHeritage'
-    ]);
-
-    */
-
-    Route::get('add-stories', [
-        'uses' => 'Tools\TopUpController@addNewHeritage'
-    ]);
-
     Route::get('sync', [
         'uses' => 'Syncing\SyncController@checkForSyncs'
     ]);
