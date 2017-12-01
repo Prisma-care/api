@@ -70,4 +70,8 @@ Route::group(['prefix' => 'v1'], function () {
         'uses' => 'Syncing\SyncController@checkForSyncs'
     ]);
 
+    Route::get('sync', [
+        'uses' => 'Syncing\SyncController@checkForSyncs'
+    ]);
+
 });
