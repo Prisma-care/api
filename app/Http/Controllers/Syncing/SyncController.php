@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Syncing;
 
 use App\Album;
-use App\Http\Controllers\Controller;
-use App\Story;
 use App\Heritage;
-use App\Sync;
+use App\Http\Controllers\Controller;
 use App\Patient;
+use App\Story;
+use App\Sync;
 use Carbon\Carbon;
 
 class SyncController extends Controller
@@ -43,7 +43,7 @@ class SyncController extends Controller
 
             $model = Heritage::where('id', $model_id)->first();
 
-            $all_albums = Album::where('patient_id','>',0)->take($batch_size)->pluck('id');
+            $all_albums = Album::where('patient_id', '>', 0)->take($batch_size)->pluck('id');
             $albums_with_this_story = Story::where(['is_heritage' => 1, 'heritage_id' => $model_id])->pluck('album_id');
             $balance = $all_albums->diff($albums_with_this_story);
             $albums = $balance->all();
