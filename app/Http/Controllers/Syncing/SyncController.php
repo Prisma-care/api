@@ -13,7 +13,7 @@ use Carbon\Carbon;
 
 class SyncController extends Controller
 {
-
+  
     public function checkForSyncs()
     {
         try {
