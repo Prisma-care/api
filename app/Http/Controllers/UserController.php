@@ -56,8 +56,6 @@ class UserController extends Controller
             'password' => Hash::make($request->input('password')),
             'first_name' => $request->input('firstName'),
             'last_name' => $request->input('lastName'),
-            'date_of_birth' => $request->input('dateOfBirth'),
-            'birth_place' => $request->input('birthPlace'),
             'user_type' => $request->input('userType', 'family')
         ]);
 
