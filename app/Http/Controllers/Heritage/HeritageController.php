@@ -109,13 +109,14 @@ class HeritageController extends Controller
         return response()->success([], 200, 'OK');
     }
 
+
     /**
      * Remove the specified heritage
-     *
-     * @param  \App\Http\Requests\Heritage\Destroy $request
-     * @param  int  $albumId
-     * @param  int  $heritageId
-     * @return \Illuminate\Http\Response
+     * @param HeritageRequest\Destroy $request
+     * @param $albumId
+     * @param $heritageId
+     * @return mixed
+     * @throws \Exception
      */
     public function destroy(HeritageRequest\Destroy $request, $albumId, $heritageId)
     {
