@@ -52,6 +52,7 @@ class AlbumController extends Controller
                 'id' => $album->id,
                 'title' => $album->title,
                 'patientId' => $album->patient_id,
+                'hasNew' => false,
                 'stories' => []
             ];
             $stories = Album::find($album->id)->stories;
