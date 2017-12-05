@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Heritage;
 
-use App\Album;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DefaultAlbum as DefaultAlbumRequest;
+use App\Album;
+use App\Heritage;
 use App\Sync;
 
 /**
@@ -106,15 +107,17 @@ class DefaultAlbumController extends Controller
      * @param DefaultAlbumRequest\Destroy $request
      * @param $albumId
      * @return mixed
+     * @throws \Exception
      */
     public function destroy(DefaultAlbumRequest\Destroy $request, $albumId)
     {
         $album = Album::findOrFail($albumId);
         if (!$album->isDefault()) {
-            return response()->exception("The album you're trying to update is not a default album", 400);
+            return response()->exception("The album you're trying to delete is not a default album", 400);
         }
 
         if ($album->delete()) {
+            Heritage::where('album_id', $albumId)->delete();
             Sync::where(['model_type' => 'Album', 'model_id' => $albumId])->delete();
             return response()->success([], 200, 'OK');
         } else {
