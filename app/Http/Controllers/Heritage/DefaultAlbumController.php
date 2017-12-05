@@ -107,6 +107,7 @@ class DefaultAlbumController extends Controller
      * @param DefaultAlbumRequest\Destroy $request
      * @param $albumId
      * @return mixed
+     * @throws \Exception
      */
     public function destroy(DefaultAlbumRequest\Destroy $request, $albumId)
     {
