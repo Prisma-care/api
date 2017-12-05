@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Album;
-use App\Patient;
 use App\Http\Requests\Album as AlbumRequest;
+use App\Patient;
+use Auth;
 
 /**
  * Class AlbumController
