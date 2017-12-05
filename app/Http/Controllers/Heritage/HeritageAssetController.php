@@ -89,12 +89,12 @@ class HeritageAssetController extends Controller
 
     /**
      * Fetch a particular HeritageAsset
-     *
      * @param HeritageAssetRequest\Show $request
      * @param $albumId
      * @param $heritageId
      * @param $assetId
      * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function show(HeritageAssetRequest\Show $request, $albumId, $heritageId, $assetId)
     {
