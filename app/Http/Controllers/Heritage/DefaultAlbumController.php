@@ -117,6 +117,7 @@ class DefaultAlbumController extends Controller
         }
 
         if ($album->delete()) {
+            Heritage::where('album_id', $albumId)->delete();
             Sync::where(['model_type' => 'Album', 'model_id' => $albumId])->delete();
             return response()->success([], 200, 'OK');
         } else {
