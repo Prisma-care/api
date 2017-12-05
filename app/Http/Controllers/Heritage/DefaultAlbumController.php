@@ -113,7 +113,7 @@ class DefaultAlbumController extends Controller
     {
         $album = Album::findOrFail($albumId);
         if (!$album->isDefault()) {
-            return response()->exception("The album you're trying to update is not a default album", 400);
+            return response()->exception("The album you're trying to delete is not a default album", 400);
         }
 
         if ($album->delete()) {
