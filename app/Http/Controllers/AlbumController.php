@@ -43,6 +43,8 @@ class AlbumController extends Controller
      */
     public function index(AlbumRequest\Index $request, $patientId)
     {
+        $last_login = Auth::user()->last_login;
+
         $albums = Patient::find($patientId)->albums;
         $allAlbums = [];
         foreach ($albums as $album) {
