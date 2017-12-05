@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Heritage;
 
-use App\Album;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DefaultAlbum as DefaultAlbumRequest;
+use App\Album;
+use App\Heritage;
 use App\Sync;
 
 /**
