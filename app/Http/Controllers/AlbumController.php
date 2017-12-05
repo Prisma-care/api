@@ -158,8 +158,8 @@ class AlbumController extends Controller
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
-                                ? $this->keyTranslations[$key]
-                                : null;
+                ? $this->keyTranslations[$key]
+                : null;
             if ($translatedKey) {
                 $album[$translatedKey] = $values[$key];
             }
