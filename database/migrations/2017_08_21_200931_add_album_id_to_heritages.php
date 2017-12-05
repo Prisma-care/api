@@ -26,7 +26,7 @@ class AddAlbumIdToHeritages extends Migration
     public function down()
     {
         Schema::table('heritages', function (Blueprint $table) {
-            $table->dropColumn('album_id');
+            //$table->dropColumn('album_id');
         });
     }
 }
