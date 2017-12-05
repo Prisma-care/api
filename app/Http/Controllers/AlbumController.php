@@ -70,7 +70,7 @@ class AlbumController extends Controller
 
                 ];
 
-                if (!is_null($last_login) && $last_login <= $story->created_at) {
+                if (!is_null($last_login) && ($last_login <= $story->created_at) && $thisAlbum['hasNew']===false) {
                     $thisAlbum['hasNew'] = true;
                 }
             }
