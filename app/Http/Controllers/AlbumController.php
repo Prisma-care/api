@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Album;
-use App\Http\Requests\Album as AlbumRequest;
-use App\Patient;
 use Auth;
+use Carbon\Carbon;
+use App\Album;
+use App\Patient;
+use App\User;
+use App\Http\Requests\Album as AlbumRequest;
 
 /**
  * Class AlbumController
@@ -44,6 +46,9 @@ class AlbumController extends Controller
     public function index(AlbumRequest\Index $request, $patientId)
     {
         $last_login = Auth::user()->last_login;
+        $user_id = Auth::user()->id;
+        $now = Carbon::now();
+        User::where('id', $user_id)->update(['last_login' => $now]);
 
         $albums = Patient::find($patientId)->albums;
         $allAlbums = [];
