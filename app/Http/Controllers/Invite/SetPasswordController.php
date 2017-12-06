@@ -97,9 +97,8 @@ class SetPasswordController extends Controller
 
     /**
      * Destroy Invite Token
-     *
-     * Delete the token used for this reset
      * @param $token
+     * @throws \Exception
      */
     private function destroyToken($token)
     {

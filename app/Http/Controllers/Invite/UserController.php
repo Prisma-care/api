@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
 use App\Invite;
 use App\Mail\Invitation;
+use App\Mail\NewPatientConnectionNotification;
 use App\Patient;
 use App\User;
 use Hash;
@@ -48,6 +49,13 @@ class UserController extends Controller
         $inviterId = $request->input('inviterId');
 
         $user = User::firstOrCreate(['email' => $email], $user_data);
+
+        // TO DO: differentiate between new and existing users
+        if ($user->wasRecentlyCreated === true) {
+            // we'll send an introductory invite
+        } else {
+            // we'll send a new patient connection notification
+        }
 
         $inviter = User::find($inviterId)->full_name;
 
