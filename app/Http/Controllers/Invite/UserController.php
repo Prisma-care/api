@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
 use App\Invite;
 use App\Mail\Invitation;
+use App\Mail\NewPatientConnectionNotification;
 use App\Patient;
 use App\User;
 use Hash;
