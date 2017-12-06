@@ -34,8 +34,6 @@ class LoginController extends Controller
             } else {
                 $userId = Auth::user()->id;
                 $user = User::find($userId);
-                $user->last_login = Carbon::now();
-                $user->save();
 
                 $patients = $user->patients()
                     ->select(['patient_id', 'first_name', 'last_name'])
