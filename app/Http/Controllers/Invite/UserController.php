@@ -50,6 +50,13 @@ class UserController extends Controller
 
         $user = User::firstOrCreate(['email' => $email], $user_data);
 
+        // TO DO: differentiate between new and existing users
+        if ($user->wasRecentlyCreated === true) {
+            // we'll send an introductory invite
+        } else {
+            // we'll send a new patient connection notification
+        }
+
         $inviter = User::find($inviterId)->full_name;
 
         $patient = Patient::findOrFail($patientId);
