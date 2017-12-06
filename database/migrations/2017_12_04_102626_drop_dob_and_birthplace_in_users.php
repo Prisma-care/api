@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddAlbumIdToHeritages extends Migration
+class DropDobAndBirthplaceInUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddAlbumIdToHeritages extends Migration
      */
     public function up()
     {
-        Schema::table('heritages', function (Blueprint $table) {
-            $table->integer('album_id')->unsigned();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('date_of_birth');
+            $table->dropColumn('birth_place');
         });
     }
 
@@ -25,8 +26,9 @@ class AddAlbumIdToHeritages extends Migration
      */
     public function down()
     {
-        Schema::table('heritages', function (Blueprint $table) {
-            //$table->dropColumn('album_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->date('date_of_birth')->nullable();
+            $table->string('birth_place')->nullable();
         });
     }
 }

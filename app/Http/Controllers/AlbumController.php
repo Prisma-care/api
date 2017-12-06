@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Album;
-use App\Patient;
 use App\Http\Requests\Album as AlbumRequest;
+use App\Patient;
+use Auth;
 
 /**
  * Class AlbumController
@@ -14,7 +15,6 @@ use App\Http\Requests\Album as AlbumRequest;
  * Controller used return, persist and remove Album data for particular Patients
  * Albums are collections of visual content used to stimulate discussions between families and their loved ones
  */
-
 class AlbumController extends Controller
 {
     public function __construct()
@@ -43,6 +43,8 @@ class AlbumController extends Controller
      */
     public function index(AlbumRequest\Index $request, $patientId)
     {
+        $last_login = Auth::user()->last_login;
+
         $albums = Patient::find($patientId)->albums;
         $allAlbums = [];
         foreach ($albums as $album) {
@@ -50,6 +52,7 @@ class AlbumController extends Controller
                 'id' => $album->id,
                 'title' => $album->title,
                 'patientId' => $album->patient_id,
+                'hasNew' => false,
                 'stories' => []
             ];
             $stories = Album::find($album->id)->stories;
@@ -66,6 +69,10 @@ class AlbumController extends Controller
                     'createdAt' => $story->created_at
 
                 ];
+
+                if (!is_null($last_login) && ($last_login <= $story->created_at) && $thisAlbum['hasNew']===false) {
+                    $thisAlbum['hasNew'] = true;
+                }
             }
             $allAlbums[] = $thisAlbum;
         }
@@ -151,8 +158,8 @@ class AlbumController extends Controller
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
-                                ? $this->keyTranslations[$key]
-                                : null;
+                ? $this->keyTranslations[$key]
+                : null;
             if ($translatedKey) {
                 $album[$translatedKey] = $values[$key];
             }
