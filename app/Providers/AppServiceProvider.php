@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if ($this->app->environment('production')) {
-            $this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
+            $this->app->register(\Rollbar\Laravel\RollbarServiceProvider::class);
         }
     }
 }
