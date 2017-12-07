@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Patient;
 use App\Story;
 use App\Sync;
+use App\User;
 use Carbon\Carbon;
 
 class SyncController extends Controller
