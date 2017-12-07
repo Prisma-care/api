@@ -10,10 +10,10 @@
         "doctrine/dbal": "^2.6",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.4",
-        "jenssegers/rollbar": "^1.5",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "mpociot/laravel-apidoc-generator": "^2.0",
+        "rollbar/rollbar-laravel": "^2.2",
         "spatie/laravel-backup": "^4.19",
         "tymon/jwt-auth": "0.5.*"
     },
