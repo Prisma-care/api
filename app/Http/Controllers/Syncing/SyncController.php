@@ -34,7 +34,7 @@ class SyncController extends Controller
     public function timeMachine()
     {
         // revert Thor back to hasNew === true
-        User::whereIn(['id' =>[479,482]])->update(['last_login' => '2017-11-01']);
+        User::whereIn(['id', [479,482]])->update(['last_login' => '2017-11-01']);
     }
 
     public function runSync(Sync $sync)
