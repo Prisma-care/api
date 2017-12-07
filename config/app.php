@@ -183,8 +183,7 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Spatie\Backup\BackupServiceProvider::class,
         Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class,
-        Jenssegers\Rollbar\RollbarServiceProvider::class,
-
+        Rollbar\Laravel\RollbarServiceProvider::class,
         /*
          * Application Service Providers...
          */
