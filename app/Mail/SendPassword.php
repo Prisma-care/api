@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendPassword extends Mailable
 {
@@ -13,9 +12,9 @@ class SendPassword extends Mailable
 
     public $data;
 
-
     /**
      * SendPassword constructor.
+     *
      * @param $data
      */
     public function __construct($data)

@@ -6,9 +6,6 @@ use App\Story;
 use App\Album;
 use App\Patient;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StoryTest extends TestCase
 {
@@ -25,7 +22,7 @@ class StoryTest extends TestCase
         'albumId' => 1,
         'creatorId' => 1,
         'assetSource' => null,
-        'favorited' => false
+        'favorited' => false,
     ];
 
     private function getEndpointWithPatientId($patientId = null)
@@ -64,14 +61,14 @@ class StoryTest extends TestCase
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => array_keys($this->baseObject)
+                'response' => array_keys($this->baseObject),
             ])
             ->assertStatus(200);
     }
 
     public function testGetStoryWithInvalidPatientId()
     {
-        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId) . '/' . $this->ownedStoryId;
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId).'/'.$this->ownedStoryId;
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -79,7 +76,7 @@ class StoryTest extends TestCase
 
     public function testGetStoryWithInvalidStoryId()
     {
-        $endpoint = $this->endpoint . '/0';
+        $endpoint = $this->endpoint.'/0';
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -95,13 +92,13 @@ class StoryTest extends TestCase
 
     public function testCreateStory()
     {
-        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
+        $body = ['description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId];
         $expectedResponseObject = $this->baseObject;
         unset($expectedResponseObject['assetSource']);
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => array_keys($expectedResponseObject)
+                'response' => array_keys($expectedResponseObject),
             ])
             ->assertStatus(201)
             ->getData();
@@ -111,7 +108,7 @@ class StoryTest extends TestCase
     public function testCreateStoryWithInvalidPatientId()
     {
         $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId);
-        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
+        $body = ['description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId];
         $response = $this->postJson($endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -119,7 +116,7 @@ class StoryTest extends TestCase
 
     public function testCreateStoryWithInvalidAlbumId()
     {
-        $body = [ 'description' => str_random(16), 'albumId' => 0, 'creatorId' => $this->testUserId ];
+        $body = ['description' => str_random(16), 'albumId' => 0, 'creatorId' => $this->testUserId];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -128,7 +125,7 @@ class StoryTest extends TestCase
     public function testCreateStoryForUnconnectedPatient()
     {
         $this->disconnectTestUserFromTestPatient();
-        $body = [ 'description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId ];
+        $body = ['description' => str_random(16), 'albumId' => $this->ownedAlbumId, 'creatorId' => $this->testUserId];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
@@ -137,13 +134,13 @@ class StoryTest extends TestCase
     public function testCreateStoryBelongingToAlbumOfAnotherPatient()
     {
         $album = factory(Album::class)->create([
-            'patient_id' => $this->privatePatientId
+            'patient_id' => $this->privatePatientId,
         ]);
 
         $body = [
             'description' => str_random(16),
             'albumId' => $album->id,
-            'creatorId' => $this->testUserId
+            'creatorId' => $this->testUserId,
         ];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
@@ -152,7 +149,7 @@ class StoryTest extends TestCase
 
     public function testCreateStoryWithoutRequiredFields()
     {
-        $requiredKeys = [ 'albumId', 'creatorId' ];
+        $requiredKeys = ['albumId', 'creatorId'];
         foreach ($requiredKeys as $key) {
             $body = $this->baseObject;
             unset($body[$key]);
@@ -167,14 +164,14 @@ class StoryTest extends TestCase
         $story = Story::create([
             'description' => str_random(16),
             'album_id' => $this->ownedAlbumId,
-            'user_id' => $this->testUserId
+            'user_id' => $this->testUserId,
         ]);
-        $endpoint = $this->endpoint . '/' . $story->id;
+        $endpoint = $this->endpoint.'/'.$story->id;
         $newDescription = str_random(20);
         $response = $this->patchJson($endpoint, ['description' => $newDescription], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
         $story = Story::find($story->id);
@@ -194,7 +191,7 @@ class StoryTest extends TestCase
         $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
     }

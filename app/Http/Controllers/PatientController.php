@@ -7,8 +7,8 @@ use App\Patient;
 use App\Http\Requests\Patient as PatientRequest;
 
 /**
- * Class PatientController
- * @package App\Http\Controllers
+ * Class PatientController.
+ *
  * @resource Patient
  *
  * A Patient is a person who has dementia and receives nursing care.
@@ -16,7 +16,6 @@ use App\Http\Requests\Patient as PatientRequest;
  *
  * This Controller allows new Patients to be created and a Patient request returned for a particular Patient
  */
-
 class PatientController extends Controller
 {
     public function __construct()
@@ -24,10 +23,11 @@ class PatientController extends Controller
         $this->middleware('jwt.auth');
     }
 
-
     /**
-     * Persist a new Patient to storage
+     * Persist a new Patient to storage.
+     *
      * @param PatientRequest\Store $request
+     *
      * @return mixed
      */
     public function store(PatientRequest\Store $request)
@@ -39,10 +39,10 @@ class PatientController extends Controller
             'date_of_birth' => $request->input('dateOfBirth'),
             // NYI
             'birth_place' => $request->input('birthPlace'),
-            'location' => $request->input('location')
+            'location' => $request->input('location'),
         ]);
 
-        if (!$patient->save()) {
+        if (! $patient->save()) {
             return response()->exception('The patient could not be created', 500);
         }
 
@@ -55,21 +55,23 @@ class PatientController extends Controller
             'careHome' => $patient->care_home,
             'dateOfBirth' => $patient->date_of_birth,
             'birthPlace' => $patient->birth_place,
-            'location' => $patient->location
+            'location' => $patient->location,
         ];
 
         $user = JWTAuth::parseToken()->authenticate();
         $patient->users()->attach($user->id);
 
-        $location = $request->url() . '/' . $patient->id;
+        $location = $request->url().'/'.$patient->id;
+
         return response()->success($createdPatient, 201, 'Created', $location);
     }
 
-
     /**
-     * Return the specified Patient if permitted by the Form Request
+     * Return the specified Patient if permitted by the Form Request.
+     *
      * @param PatientRequest\Show $request
-     * @param Patient $patient
+     * @param Patient             $patient
+     *
      * @return mixed
      */
     public function show(PatientRequest\Show $request, Patient $patient)
@@ -82,7 +84,7 @@ class PatientController extends Controller
             'dateOfBirth' => $patient->date_of_birth,
             'birthPlace' => $patient->birth_place,
             'location' => $patient->location,
-            'createdAt' => $patient->created_at
+            'createdAt' => $patient->created_at,
         ];
 
         return response()->success($gotPatient, 200, 'OK');

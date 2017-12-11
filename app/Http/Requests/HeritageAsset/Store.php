@@ -11,6 +11,7 @@ class Store extends BaseRequest
     {
         $user = $this->getUser();
         $heritage = Heritage::findOrFail($this->route('heritage'));
+
         return $user->can('create', $heritage) && $user->can('update', $heritage);
     }
 
@@ -23,7 +24,7 @@ class Store extends BaseRequest
     {
         if (request('assetType') === 'youtube') {
             return [
-                'asset' => 'required|url'
+                'asset' => 'required|url',
             ];
         }
 

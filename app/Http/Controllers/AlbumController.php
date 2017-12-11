@@ -10,8 +10,8 @@ use App\User;
 use App\Http\Requests\Album as AlbumRequest;
 
 /**
- * Class AlbumController
- * @package App\Http\Controllers
+ * Class AlbumController.
+ *
  * @resource Album
  *
  * Controller used return, persist and remove Album data for particular Patients
@@ -24,7 +24,7 @@ class AlbumController extends Controller
         $this->middleware('jwt.auth');
     }
 
-    private $keyTranslations = array(
+    private $keyTranslations = [
         'id' => 'id',
         'title' => 'title',
         'description' => 'description',
@@ -32,15 +32,15 @@ class AlbumController extends Controller
         'patientId' => 'patient_id',
         'userId' => 'user_id',
         'updatedAt' => 'updated_at',
-        'createdAt' => 'created_at'
-    );
-
+        'createdAt' => 'created_at',
+    ];
 
     /**
-     * Returns an array of Albums belonging to a particular Patient
+     * Returns an array of Albums belonging to a particular Patient.
      *
      * @param AlbumRequest\Index $request
      * @param $patientId
+     *
      * @return mixed
      */
     public function index(AlbumRequest\Index $request, $patientId)
@@ -58,7 +58,7 @@ class AlbumController extends Controller
                 'title' => $album->title,
                 'patientId' => $album->patient_id,
                 'hasNew' => false,
-                'stories' => []
+                'stories' => [],
             ];
             $stories = Album::find($album->id)->stories;
             foreach ($stories as $story) {
@@ -71,11 +71,11 @@ class AlbumController extends Controller
                     'isHeritage' => $story->is_heritage,
                     'userId' => $story->user_id,
                     'updatedAt' => $story->updated_at,
-                    'createdAt' => $story->created_at
+                    'createdAt' => $story->created_at,
 
                 ];
 
-                if (!is_null($last_login) && ($last_login <= $story->created_at) && $thisAlbum['hasNew']===false) {
+                if (! is_null($last_login) && ($last_login <= $story->created_at) && $thisAlbum['hasNew'] === false) {
                     $thisAlbum['hasNew'] = true;
                 }
             }
@@ -85,12 +85,12 @@ class AlbumController extends Controller
         return response()->success($allAlbums, 200, 'OK');
     }
 
-
     /**
-     *  Persists an Album to storage for a particular Patient
+     *  Persists an Album to storage for a particular Patient.
      *
      * @param AlbumRequest\Store $request
      * @param $patientId
+     *
      * @return mixed
      */
     public function store(AlbumRequest\Store $request, $patientId)
@@ -98,27 +98,28 @@ class AlbumController extends Controller
         $album = new Album([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'patient_id' => $patientId
+            'patient_id' => $patientId,
         ]);
-        if (!$album->save()) {
+        if (! $album->save()) {
             return response()->exception('The album could not be created', 500);
         }
 
         $createdAlbum = [
             'id' => $album->id,
-            'title' => $album->title
+            'title' => $album->title,
         ];
-        $location = $request->url() . '/' . $album->id;
+        $location = $request->url().'/'.$album->id;
+
         return response()->success($createdAlbum, 201, 'Created', $location);
     }
 
-
     /**
-     *  Returns an Album belonging to a particular Patient
+     *  Returns an Album belonging to a particular Patient.
      *
      * @param AlbumRequest\Show $request
      * @param $patientId
      * @param $albumId
+     *
      * @return mixed
      */
     public function show(AlbumRequest\Show $request, $patientId, $albumId)
@@ -128,7 +129,7 @@ class AlbumController extends Controller
             'id' => $album->id,
             'title' => $album->title,
             'patient_id' => $patientId,
-            'stories' => []
+            'stories' => [],
         ];
         $stories = Album::find($album->id)->stories;
         foreach ($stories as $story) {
@@ -141,20 +142,20 @@ class AlbumController extends Controller
                 'isHeritage' => $story->is_heritage,
                 'userId' => $story->user_id,
                 'updatedAt' => $story->updated_at,
-                'createdAt' => $story->created_at
+                'createdAt' => $story->created_at,
             ];
         }
 
         return response()->success($thisAlbum, 200, 'OK');
     }
 
-
     /**
-     *  Updates an Album belonging to particular Patient
+     *  Updates an Album belonging to particular Patient.
      *
      * @param AlbumRequest\Update $request
      * @param $patientId
      * @param $albumId
+     *
      * @return mixed
      */
     public function update(AlbumRequest\Update $request, $patientId, $albumId)
@@ -169,20 +170,20 @@ class AlbumController extends Controller
                 $album[$translatedKey] = $values[$key];
             }
         }
-        if (!$album->update()) {
+        if (! $album->update()) {
             return response()->exception('The album could not be updated', 500);
         }
 
         return response()->success([], 200, 'OK');
     }
 
-
     /**
-     *  Removes an Album from storage
+     *  Removes an Album from storage.
      *
      * @param AlbumRequest\Destroy $request
      * @param $patientId
      * @param $albumId
+     *
      * @return mixed
      */
     public function destroy(AlbumRequest\Destroy $request, $patientId, $albumId)

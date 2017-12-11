@@ -9,7 +9,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => Hash::make(str_random(20)),
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'user_type' => $userType ?: 'family'
+        'user_type' => $userType ?: 'family',
     ];
 });
 
@@ -25,7 +25,7 @@ $factory->define(App\Album::class, function ($faker) {
 
     return [
         'title' => str_random(20),
-        'patient_id' => $patientId
+        'patient_id' => $patientId,
     ];
 });
 
@@ -34,6 +34,6 @@ $factory->define(App\Heritage::class, function () {
 
     return [
         'album_id' => $albumId,
-        'description' => str_random(30)
+        'description' => str_random(30),
     ];
 });

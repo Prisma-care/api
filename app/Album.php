@@ -17,11 +17,11 @@ class Album extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'patient_id', 'is_default', 'source_album_id'
+        'title', 'description', 'patient_id', 'is_default', 'source_album_id',
     ];
 
     protected $casts = [
-        'is_default' => 'boolean'
+        'is_default' => 'boolean',
     ];
 
     protected $dates = ['deleted_at'];

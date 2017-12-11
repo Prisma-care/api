@@ -6,13 +6,12 @@ use JWTAuth;
 use App\Patient;
 
 /**
- * Class ConnectionController
- * @package App\Http\Controllers
+ * Class ConnectionController.
+ *
  * @resource Connection
  *
  * Controller used to connect Users to Patients
  */
-
 class ConnectionController extends Controller
 {
     public function __construct()
@@ -20,10 +19,11 @@ class ConnectionController extends Controller
         $this->middleware('jwt.auth');
     }
 
-     /**
+    /**
      * Connect a user with a patient.
      *
-     * @param  int $patientId
+     * @param int $patientId
+     *
      * @return \Illuminate\Http\Response
      */
     public function connect($patientId)
@@ -35,24 +35,27 @@ class ConnectionController extends Controller
         }
 
         $patient->users()->attach($userId);
+
         return response()->success([], 200, 'OK');
     }
 
-     /**
+    /**
      * Disconnect a user from a patient.
      *
-     * @param  int $patientId
+     * @param int $patientId
+     *
      * @return \Illuminate\Http\Response
      */
     public function disconnect($patientId)
     {
         $userId = JWTAuth::parseToken()->authenticate()->id;
         $patient = Patient::findOrFail($patientId);
-        if (!$patient->users->contains($userId)) {
+        if (! $patient->users->contains($userId)) {
             return response()->exception('The patient and user are not connected', 400);
         }
 
         $patient->users()->detach($userId);
+
         return response()->success([], 200, 'OK');
     }
 }

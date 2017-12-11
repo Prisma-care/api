@@ -10,6 +10,7 @@ class Destroy extends BaseRequest
     public function authorize()
     {
         $user = $this->getUser();
+
         return $user->can('delete', Heritage::class);
     }
 }

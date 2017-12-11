@@ -58,7 +58,7 @@ return [
         'testing' => [
             'driver' => 'local',
             'root' => storage_path('framework/testing/disks'),
-            'visibility' => 'public'
+            'visibility' => 'public',
         ],
 
         's3' => [

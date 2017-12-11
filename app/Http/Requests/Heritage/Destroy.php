@@ -11,6 +11,7 @@ class Destroy extends BaseRequest
     {
         $user = $this->getUser();
         $heritage = Heritage::findOrFail($this->route('heritage'));
+
         return $user->can('delete', $heritage);
     }
 }

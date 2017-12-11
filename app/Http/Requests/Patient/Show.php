@@ -16,6 +16,7 @@ class Show extends BaseRequest
     {
         $user = $this->getUser();
         $patient = $this->route('patient');
+
         return $user->can('view', $patient);
     }
 }

@@ -7,9 +7,6 @@ use App\Patient;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StoryAssetTest extends TestCase
 {
@@ -26,6 +23,7 @@ class StoryAssetTest extends TestCase
     private function getPopulatedEndpoint($patientId = null, $storyId = null)
     {
         $tmpEndpoint = str_replace('{patientId}', $patientId ?: $this->testPatientId, $this->baseEndpoint);
+
         return str_replace('{storyId}', $storyId ?: $this->ownedStoryId, $tmpEndpoint);
     }
 
@@ -60,7 +58,7 @@ class StoryAssetTest extends TestCase
         if ($location) {
             $endpoint = $this->parseResourceLocation($location);
         } else {
-            $body = [ 'asset' => UploadedFile::fake()->image("image.jpeg") ];
+            $body = ['asset' => UploadedFile::fake()->image('image.jpeg')];
             $response = $this->postJson($this->endpoint, $body, $this->headers);
         }
         $response = $this->getJson($endpoint, $this->headers)
@@ -69,7 +67,7 @@ class StoryAssetTest extends TestCase
 
     public function testGetImageStoryAssetWithInvalidPatientId()
     {
-        $endpoint = $this->getPopulatedEndpoint($this->nonExistentPatientId) . "/$this->ownedStoryId.jpg";
+        $endpoint = $this->getPopulatedEndpoint($this->nonExistentPatientId)."/$this->ownedStoryId.jpg";
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -77,7 +75,7 @@ class StoryAssetTest extends TestCase
 
     public function testGetImageStoryAssetWithInvalidStoryId()
     {
-        $endpoint = $this->getPopulatedEndpoint($this->testPatientId, 999) . "/$this->ownedStoryId.jpg";
+        $endpoint = $this->getPopulatedEndpoint($this->testPatientId, 999)."/$this->ownedStoryId.jpg";
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -94,7 +92,7 @@ class StoryAssetTest extends TestCase
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => [ 'id', 'source', 'type' ]
+                'response' => ['id', 'source', 'type'],
             ])
             ->assertStatus(200);
     }
@@ -112,11 +110,11 @@ class StoryAssetTest extends TestCase
         $extensions = ['jpg', 'gif', 'png'];
         foreach ($extensions as $extension) {
             $this->clearStorage();
-            $body = [ 'asset' => UploadedFile::fake()->image("image.$extension") ];
+            $body = ['asset' => UploadedFile::fake()->image("image.$extension")];
             $response = $this->postJson($this->endpoint, $body, $this->headers)
                 ->assertJsonStructure([
                     'meta' => $this->metaCreatedResponseStructure,
-                    'response' => [ 'id' ]
+                    'response' => ['id'],
                 ])
                 ->assertStatus(201)
                 ->getData();
@@ -127,22 +125,22 @@ class StoryAssetTest extends TestCase
     public function testAddImageAssetToStoryWithoutAssetTypeSpecified()
     {
         $this->clearStorage();
-        $body = [ 'asset' => UploadedFile::fake()->image("image.jpg") ];
+        $body = ['asset' => UploadedFile::fake()->image('image.jpg')];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => [ 'id' ]
+                'response' => ['id'],
             ])
             ->assertStatus(201);
     }
 
     public function testAddYoutubeAssetToStory()
     {
-        $body = [ 'asset' => $this->youtubeAsset, 'assetType' => 'youtube' ];
+        $body = ['asset' => $this->youtubeAsset, 'assetType' => 'youtube'];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => [ 'id' ]
+                'response' => ['id'],
             ])
             ->assertStatus(201)
             ->getData();
@@ -151,7 +149,7 @@ class StoryAssetTest extends TestCase
 
     public function testAddYoutubeAssetToStoryWithoutAssetTypeSpecified()
     {
-        $body = [ 'asset' => $this->youtubeAsset ];
+        $body = ['asset' => $this->youtubeAsset];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);

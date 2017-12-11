@@ -11,6 +11,7 @@ class Destroy extends BaseRequest
     {
         $user = $this->getUser();
         $patient = Patient::findOrFail($this->route('patient'));
+
         return $user->can('view', $patient);
     }
 }
