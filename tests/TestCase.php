@@ -50,7 +50,7 @@ abstract class TestCase extends BaseTestCase
             $user = User::find($this->testUserId);
         }
         $token = JWTAuth::fromUser($user);
-        $this->headers['HTTP_Authorization'] = 'Bearer ' . $token;
+        $this->headers['HTTP_Authorization'] = 'Bearer '.$token;
         $this->refreshApplication();
     }
 
@@ -108,7 +108,7 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Returns everything after the third slash in a string
-     * So for URL 'https://localhost/v1/something/1', it returns 'v1/something/1'
+     * So for URL 'https://localhost/v1/something/1', it returns 'v1/something/1'.
      */
     protected function parseResourceLocation($location)
     {

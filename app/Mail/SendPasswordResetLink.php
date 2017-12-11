@@ -16,6 +16,7 @@ class SendPasswordResetLink extends Mailable
 
     /**
      * SendPassword constructor.
+     *
      * @param $data
      */
     public function __construct($data)

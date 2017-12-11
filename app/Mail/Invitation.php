@@ -17,6 +17,7 @@ class Invitation extends Mailable
 
     /**
      * Invitation constructor. Create a new message instance.
+     *
      * @param $data
      */
 
@@ -34,7 +35,7 @@ class Invitation extends Mailable
     {
         $data = $this->data;
         return $this->from('info@prisma.care', 'Prisma')
-            ->subject($data['inviter']. ' nodigde je uit voor Prisma')
+            ->subject($data['inviter'].' nodigde je uit voor Prisma')
             ->with($data)
             ->markdown('emails.invite');
     }

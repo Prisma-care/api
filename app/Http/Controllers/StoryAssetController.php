@@ -8,8 +8,8 @@ use App\Story;
 use App\Utils\ImageUtility;
 
 /**
- * Class StoryAssetController
- * @package App\Http\Controllers
+ * Class StoryAssetController.
+ *
  * @resource StoryAsset
  *
  * StoryAssets are photographic and video materials used to stimulate discussion between the User and Patient
@@ -36,18 +36,19 @@ class StoryAssetController extends Controller
         ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
 
         $story->asset_type = 'image';
-        $story->asset_name = $request->url() . '/' . $fullAssetName;
+        $story->asset_name = $request->url().'/'.$fullAssetName;
         $story->save();
     }
 
     /**
-     * Store a new StoryAsset and attach it to a Story
+     * Store a new StoryAsset and attach it to a Story.
      *
      * StoryAssets can be photos or URLs to videos on external services such as YouTube or Vimeo
      *
      * @param StoryAssetRequest\Store $request
      * @param $patientId
      * @param $storyId
+     *
      * @return mixed
      */
     public function store(StoryAssetRequest\Store $request, $patientId, $storyId)
@@ -69,18 +70,19 @@ class StoryAssetController extends Controller
             $story->asset_type = 'youtube';
             $story->save();
 
-            $location = $request->url() . '/' . $story->id;
+            $location = $request->url().'/'.$story->id;
             return response()->success(['id' => $story->id], 201, 'Created', $location);
         }
     }
 
     /**
-     * Fetch a particular StoryAsset
+     * Fetch a particular StoryAsset.
      *
      * @param StoryAssetRequest\Show $request
      * @param $patientId
      * @param $storyId
      * @param $asset
+     *
      * @return mixed
      */
     public function show(StoryAssetRequest\Show $request, $patientId, $storyId, $asset)
@@ -102,6 +104,6 @@ class StoryAssetController extends Controller
         $file = Storage::get($storagePath);
         $mimeType = Storage::mimeType($storagePath);
 
-        return response($file, 200)->header("Content-Type", $mimeType);
+        return response($file, 200)->header('Content-Type', $mimeType);
     }
 }

@@ -7,8 +7,8 @@ use App\Patient;
 use App\Http\Requests\Patient as PatientRequest;
 
 /**
- * Class PatientController
- * @package App\Http\Controllers
+ * Class PatientController.
+ *
  * @resource Patient
  *
  * A Patient is a person who has dementia and receives nursing care.
@@ -26,8 +26,10 @@ class PatientController extends Controller
 
 
     /**
-     * Persist a new Patient to storage
+     * Persist a new Patient to storage.
+     *
      * @param PatientRequest\Store $request
+     *
      * @return mixed
      */
     public function store(PatientRequest\Store $request)
@@ -61,15 +63,17 @@ class PatientController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
         $patient->users()->attach($user->id);
 
-        $location = $request->url() . '/' . $patient->id;
+        $location = $request->url().'/'.$patient->id;
         return response()->success($createdPatient, 201, 'Created', $location);
     }
 
 
     /**
-     * Return the specified Patient if permitted by the Form Request
+     * Return the specified Patient if permitted by the Form Request.
+     *
      * @param PatientRequest\Show $request
-     * @param Patient $patient
+     * @param Patient             $patient
+     *
      * @return mixed
      */
     public function show(PatientRequest\Show $request, Patient $patient)

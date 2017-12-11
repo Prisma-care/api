@@ -65,7 +65,7 @@ class DefaultAlbumTest extends TestCase
         $this->getJson($this->endpoint, $this->headers)
              ->assertJsonStructure([
                  'meta' => $this->metaResponseStructure,
-                 'response' => [ '*' => $this->baseObjectStructure ]
+                 'response' => ['*' => $this->baseObjectStructure]
              ])
              ->assertStatus(200);
     }
@@ -95,11 +95,11 @@ class DefaultAlbumTest extends TestCase
     public function testCreateDefaultAlbum()
     {
         $this->loginAsSuperAdmin();
-        $body = [ 'title' => str_random(16) ];
+        $body = ['title' => str_random(16)];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => [ 'id', 'title' ]
+                'response' => ['id', 'title']
             ])
             ->assertStatus(201)
             ->getData();
@@ -121,7 +121,7 @@ class DefaultAlbumTest extends TestCase
     public function testUpdateAlbum()
     {
         $album = factory(Album::class)->create();
-        $endpoint = $this->endpoint . '/' . $album->id;
+        $endpoint = $this->endpoint.'/'.$album->id;
         $newTitle = str_random(20);
         $this->loginAsSuperAdmin();
         $this->patchJson($endpoint, ['title' => $newTitle], $this->headers)
@@ -144,7 +144,7 @@ class DefaultAlbumTest extends TestCase
     {
         $album = factory(Album::class)->create(['patient_id' => $this->testPatientId]);
         $this->loginAsSuperAdmin();
-        $endpoint = $this->endpoint . '/' . $album->id;
+        $endpoint = $this->endpoint.'/'.$album->id;
         $this->patchJson($endpoint, ['title' => str_random(20)], $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -171,7 +171,7 @@ class DefaultAlbumTest extends TestCase
     {
         $album = factory(Album::class)->create(['patient_id' => $this->testPatientId]);
         $this->loginAsSuperAdmin();
-        $endpoint = $this->endpoint . '/' . $album->id;
+        $endpoint = $this->endpoint.'/'.$album->id;
         $this->deleteJson($endpoint, [], $this->headers)
             ->assertStatus(400);
     }

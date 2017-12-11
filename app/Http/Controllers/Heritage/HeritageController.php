@@ -10,8 +10,8 @@ use File;
 use App\Http\Requests\Heritage as HeritageRequest;
 
 /**
- * Class HeritageController
- * @package App\Http\Controllers\Heritage
+ * Class HeritageController.
+ *
  * @resource Heritage\Heritage
  *
  * A Heritage is a Story supplied by default to all Users
@@ -26,10 +26,11 @@ class HeritageController extends Controller
     }
 
     /**
-     * Fetch all Heritages for an Album
+     * Fetch all Heritages for an Album.
      *
-     * @param  \App\Http\Requests\Heritage\Index  $request
-     * @param  int $albumId
+     * @param \App\Http\Requests\Heritage\Index $request
+     * @param int                               $albumId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(HeritageRequest\Index $request, $albumId)
@@ -41,10 +42,11 @@ class HeritageController extends Controller
 
     /**
 
-     * Persist a new Heritage and assign it to an Album
+     * Persist a new Heritage and assign it to an Album.
      *
-     * @param  \App\Http\Requests\Heritage\Store  $request
-     * @param  int $albumId
+     * @param \App\Http\Requests\Heritage\Store $request
+     * @param int                               $albumId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(HeritageRequest\Store $request, $albumId)
@@ -66,18 +68,20 @@ class HeritageController extends Controller
 
         Sync::create(['model_type' => 'Story', 'model_id' => $heritageId]);
 
-        $location = $request->url() . '/' . $heritageId;
+        $location = $request->url().'/'.$heritageId;
         return response()->success($heritage, 201, 'Created', $location);
     }
 
 
     /**
-     * Fetch a specific Heritage
+     * Fetch a specific Heritage.
      *
      * These are attached to Albums and therefore are User specific
+     *
      * @param HeritageRequest\Show $request
      * @param $albumId
      * @param $heritageId
+     *
      * @return mixed
      */
     public function show(HeritageRequest\Show $request, $albumId, $heritageId)
@@ -89,11 +93,12 @@ class HeritageController extends Controller
     }
 
     /**
-     * Update a specific Heritage
+     * Update a specific Heritage.
      *
-     * @param  \App\Http\Requests\Heritage\Update $request
-     * @param  int  $albumId
-     * @param  int  $heritageId
+     * @param \App\Http\Requests\Heritage\Update $request
+     * @param int                                $albumId
+     * @param int                                $heritageId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(HeritageRequest\Update $request, $albumId, $heritageId)
@@ -103,7 +108,7 @@ class HeritageController extends Controller
         $heritage->description = $request->input('description') ?: $heritage->description;
         $heritage->happened_at = $request->input('happened_at') ?: $heritage->happenedAt;
         if (!$heritage->update()) {
-            return response()->exception("The story could not be updated", 500);
+            return response()->exception('The story could not be updated', 500);
         }
 
         return response()->success([], 200, 'OK');
@@ -111,12 +116,15 @@ class HeritageController extends Controller
 
 
     /**
-     * Remove the specified heritage
+     * Remove the specified heritage.
+     *
      * @param HeritageRequest\Destroy $request
      * @param $albumId
      * @param $heritageId
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function destroy(HeritageRequest\Destroy $request, $albumId, $heritageId)
     {
@@ -128,7 +136,7 @@ class HeritageController extends Controller
             Sync::where(['model_type' => 'Story', 'model_id' => $heritageId])->delete();
             return response()->success([], 200, 'OK');
         } else {
-            return response()->exception("The heritage could not be deleted", 500);
+            return response()->exception('The heritage could not be deleted', 500);
         }
     }
 }

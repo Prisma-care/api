@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\HeritageAsset as HeritageAssetRequest;
 
 /**
- * Class HeritageAssetController
- * @package App\Http\Controllers\Heritage
+ * Class HeritageAssetController.
+ *
  * @resource Heritage\HeritageAsset
  *
  * HeritageAssets are photographic and video materials used to stimulate discussion between the User and Patient
@@ -40,7 +40,7 @@ class HeritageAssetController extends Controller
         $asset->storeAs($storagePath, $fullAssetName);
         ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
 
-        $location = $request->url() . '/' . $fullAssetName;
+        $location = $request->url().'/'.$fullAssetName;
         $heritage->asset_name = $location;
         $heritage->asset_type = 'image';
         $heritage->save();
@@ -48,13 +48,14 @@ class HeritageAssetController extends Controller
 
 
     /**
-     * Store a new HeritageAsset and attach it to a Heritage
+     * Store a new HeritageAsset and attach it to a Heritage.
      *
      * HeritageAssets can be photos or URLs to videos on external services such as YouTube or Vimeo
      *
      * @param HeritageAssetRequest\Store $request
      * @param $albumId
      * @param $heritageId
+     *
      * @return mixed
      */
     public function store(HeritageAssetRequest\Store $request, $albumId, $heritageId)
@@ -77,7 +78,7 @@ class HeritageAssetController extends Controller
             $heritage->asset_type = 'youtube';
             $heritage->save();
 
-            $location = $request->url() . '/' . $heritage->id;
+            $location = $request->url().'/'.$heritage->id;
             return response()->success([
               'id'=> $heritage->id,
               'source' => $heritage->asset_name,
@@ -88,13 +89,16 @@ class HeritageAssetController extends Controller
 
 
     /**
-     * Fetch a particular HeritageAsset
+     * Fetch a particular HeritageAsset.
+     *
      * @param HeritageAssetRequest\Show $request
      * @param $albumId
      * @param $heritageId
      * @param $assetId
-     * @return mixed
+     *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     *
+     * @return mixed
      */
     public function show(HeritageAssetRequest\Show $request, $albumId, $heritageId, $assetId)
     {
@@ -116,6 +120,6 @@ class HeritageAssetController extends Controller
         $file = Storage::get($storagePath);
         $mimeType = Storage::mimeType($storagePath);
 
-        return response($file, 200)->header("Content-Type", $mimeType);
+        return response($file, 200)->header('Content-Type', $mimeType);
     }
 }

@@ -13,28 +13,24 @@ use Carbon\Carbon;
 
 class SyncController extends Controller
 {
-  
     public function checkForSyncs()
     {
         try {
-
             $sync = Sync::whereIn('status', ['ready', 'running'])
                 ->orderBy('created_at', 'ASC')
                 ->firstOrFail();
 
             $this->runSync($sync);
-
         } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             // there are no sync jobs to run
-
         }
     }
 
     public function timeMachine()
     {
         // revert Thor back to hasNew === true
-        User::whereIn('id', [479,482])->update(['last_login' => '2017-11-01']);
+        User::whereIn('id', [479, 482])->update(['last_login' => '2017-11-01']);
     }
 
     public function runSync(Sync $sync)
@@ -47,7 +43,6 @@ class SyncController extends Controller
         Sync::where('id', $sync_id)->update(['status' => 'running']);
 
         if ($model_type === 'Story') {
-
             $model = Heritage::where('id', $model_id)->first();
 
             $all_albums = Album::where('patient_id', '>', 0)->take($batch_size)->pluck('id');
@@ -56,17 +51,14 @@ class SyncController extends Controller
             $albums = $balance->all();
 
             if (count($albums) === 0) {
-
                 $sync->status = 'complete';
                 $sync->finished_at = Carbon::now();
                 $sync->save();
 
                 return false;
-
             }
 
             foreach ($albums as $album) {
-
                 $data = [
 
                     'asset_name' => $model->asset_name,
@@ -81,20 +73,16 @@ class SyncController extends Controller
                 ];
 
                 Story::create($data);
-
             }
 
             if (count($albums < $batch_size)) {
-
                 $sync->status = 'complete';
                 $sync->finished_at = Carbon::now();
                 $sync->save();
 
                 return false;
             }
-
         } else {
-
             $model = Album::where('id', $model_id)->first();
 
             $all_patients = Patient::all()->pluck('id');
@@ -103,17 +91,14 @@ class SyncController extends Controller
             $patients = $balance->all();
 
             if (count($patients) === 0) {
-
                 $sync->status = 'complete';
                 $sync->finished_at = Carbon::now();
                 $sync->save();
 
                 return false;
-
             }
 
             foreach ($patients as $patient) {
-
                 $newAlbum = $model->replicate();
                 $newAlbum->patient_id = $patient;
                 $newAlbum->source_album_id = $model->id;
@@ -122,7 +107,6 @@ class SyncController extends Controller
         }
 
         if (count($patients < $batch_size)) {
-
             $sync->status = 'complete';
             $sync->finished_at = Carbon::now();
             $sync->save();

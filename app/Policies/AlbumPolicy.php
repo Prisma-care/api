@@ -14,8 +14,9 @@ class AlbumPolicy
     /**
      * Determine whether the user can view the album.
      *
-     * @param  \App\User  $user
-     * @param  \App\Album  $album
+     * @param \App\User  $user
+     * @param \App\Album $album
+     *
      * @return mixed
      */
     public function view(User $user, Album $album)
@@ -26,7 +27,8 @@ class AlbumPolicy
     /**
      * Determine whether the user can create albums.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function create(User $user)
@@ -37,8 +39,9 @@ class AlbumPolicy
     /**
      * Determine whether the user can update the album.
      *
-     * @param  \App\User  $user
-     * @param  \App\Album  $album
+     * @param \App\User  $user
+     * @param \App\Album $album
+     *
      * @return mixed
      */
     public function update(User $user, Album $album)
@@ -49,8 +52,9 @@ class AlbumPolicy
     /**
      * Determine whether the user can delete the album.
      *
-     * @param  \App\User  $user
-     * @param  \App\Album  $album
+     * @param \App\User  $user
+     * @param \App\Album $album
+     *
      * @return mixed
      */
     public function delete(User $user, Album $album)

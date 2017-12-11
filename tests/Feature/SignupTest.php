@@ -23,14 +23,14 @@ class SignupTest extends TestCase
         $response = $this->postJson($this->endpoint, $this->baseObject)
         ->assertJsonStructure([
             'meta' => $this->metaCreatedResponseStructure,
-            'response' => [ 'id', 'email' ]
+            'response' => ['id', 'email']
         ])
         ->assertStatus(201);
     }
 
     public function testSignupWithoutRequiredFields()
     {
-        $requiredKeys = [ 'firstName', 'lastName', 'email', 'password'];
+        $requiredKeys = ['firstName', 'lastName', 'email', 'password'];
         foreach ($requiredKeys as $key) {
             $body = $this->baseObject;
             unset($body[$key]);

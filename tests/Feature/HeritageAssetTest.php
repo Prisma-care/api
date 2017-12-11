@@ -64,7 +64,7 @@ class HeritageAssetTest extends TestCase
         if ($location) {
             $endpoint = $this->parseResourceLocation($location);
         } else {
-            $body = [ 'asset' => UploadedFile::fake()->image('image.jpeg') ];
+            $body = ['asset' => UploadedFile::fake()->image('image.jpeg')];
             $this->postJson($this->endpoint, $body, $this->headers);
         }
         $this->getJson($endpoint, $this->headers)
@@ -73,7 +73,7 @@ class HeritageAssetTest extends TestCase
 
     public function testGetImageHeritageAssetWithInvalidAlbumId()
     {
-        $endpoint = $this->getPopulatedEndpoint(999) . "/$this->testHeritageId.jpg";
+        $endpoint = $this->getPopulatedEndpoint(999)."/$this->testHeritageId.jpg";
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -81,7 +81,7 @@ class HeritageAssetTest extends TestCase
 
     public function testGetImageHeritageAssetWithInvalidHeritageId()
     {
-        $endpoint = $this->getPopulatedEndpoint($this->testAlbumId, 999) . "/$this->testHeritageId.jpg";
+        $endpoint = $this->getPopulatedEndpoint($this->testAlbumId, 999)."/$this->testHeritageId.jpg";
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -98,7 +98,7 @@ class HeritageAssetTest extends TestCase
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => [ 'id', 'source', 'type' ]
+                'response' => ['id', 'source', 'type']
             ])
             ->assertStatus(200);
     }
@@ -117,11 +117,11 @@ class HeritageAssetTest extends TestCase
         $extensions = ['jpg', 'gif', 'png'];
         foreach ($extensions as $extension) {
             $this->clearStorage();
-            $body = [ 'asset' => UploadedFile::fake()->image("image.$extension") ];
+            $body = ['asset' => UploadedFile::fake()->image("image.$extension")];
             $response = $this->postJson($this->endpoint, $body, $this->headers)
                 ->assertJsonStructure([
                     'meta' => $this->metaCreatedResponseStructure,
-                    'response' => [ 'id' ]
+                    'response' => ['id']
                 ])
                 ->assertStatus(201)
                 ->getData();
@@ -132,22 +132,22 @@ class HeritageAssetTest extends TestCase
     public function testAddImageAssetToHeritageWithoutAssetTypeSpecified()
     {
         $this->clearStorage();
-        $body = [ 'asset' => UploadedFile::fake()->image('image.jpg') ];
+        $body = ['asset' => UploadedFile::fake()->image('image.jpg')];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => [ 'id' ]
+                'response' => ['id']
             ])
             ->assertStatus(201);
     }
 
     public function testAddYoutubeAssetToHeritage()
     {
-        $body = [ 'asset' => $this->youtubeAsset, 'assetType' => 'youtube' ];
+        $body = ['asset' => $this->youtubeAsset, 'assetType' => 'youtube'];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => [ 'id' ]
+                'response' => ['id']
             ])
             ->assertStatus(201)
             ->getData();
@@ -156,7 +156,7 @@ class HeritageAssetTest extends TestCase
 
     public function testAddYoutubeAssetToHeritageWithoutAssetTypeSpecified()
     {
-        $body = [ 'asset' => $this->youtubeAsset ];
+        $body = ['asset' => $this->youtubeAsset];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -169,7 +169,7 @@ class HeritageAssetTest extends TestCase
         foreach ($userTypes as $userType) {
             $user = factory(User::class)->create(['user_type' => $userType]);
             $this->authenticate($user);
-            $this->postJson($this->endpoint, [ 'asset' => UploadedFile::fake()->image('image.jpg') ], $this->headers)
+            $this->postJson($this->endpoint, ['asset' => UploadedFile::fake()->image('image.jpg')], $this->headers)
                 ->assertStatus(403);
         }
     }

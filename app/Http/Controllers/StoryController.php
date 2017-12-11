@@ -8,8 +8,8 @@ use App\Album;
 use App\Http\Requests\Story as StoryRequest;
 
 /**
- * Class StoryController
- * @package App\Http\Controllers
+ * Class StoryController.
+ *
  * @resource Story
  *
  * Stories are made up of a photo or video and a short text.
@@ -20,14 +20,14 @@ use App\Http\Requests\Story as StoryRequest;
 
 class StoryController extends Controller
 {
-    private $keyTranslations = array(
+    private $keyTranslations = [
         'id' => 'id',
         'description' => 'description',
         'happenedAt' => 'happened_at',
         'favorited' => 'favorited',
         'creatorId' => 'user_id',
         'albumId' => 'album_id'
-    );
+    ];
 
     public function __construct()
     {
@@ -36,10 +36,11 @@ class StoryController extends Controller
 
 
     /**
-     * Persist a new Story
+     * Persist a new Story.
      *
      * @param StoryRequest\Store $request
      * @param $patientId
+     *
      * @return mixed
      */
     public function store(StoryRequest\Store $request, $patientId)
@@ -68,17 +69,18 @@ class StoryController extends Controller
             'favorited' => false
         ];
 
-        $location = $request->url() . '/' . $story->id;
+        $location = $request->url().'/'.$story->id;
         return response()->success($createdStory, 201, 'Created', $location);
     }
 
 
     /**
-     * Fetch a Story
+     * Fetch a Story.
      *
      * @param StoryRequest\Show $request
      * @param $patientId
      * @param Story $story
+     *
      * @return mixed
      */
     public function show(StoryRequest\Show $request, $patientId, Story $story)
@@ -98,11 +100,12 @@ class StoryController extends Controller
 
 
     /**
-     * Update a Story
+     * Update a Story.
      *
      * @param StoryRequest\Update $request
      * @param $patientId
      * @param Story $story
+     *
      * @return mixed
      */
     public function update(StoryRequest\Update $request, $patientId, Story $story)
@@ -117,7 +120,7 @@ class StoryController extends Controller
             }
         }
         if (!$story->update()) {
-            return response()->exception("The story could not be updated", 500);
+            return response()->exception('The story could not be updated', 500);
         }
 
         return response()->success([], 200, 'OK');
@@ -126,7 +129,8 @@ class StoryController extends Controller
     /**
      * Remove a story from storage.
      *
-     * @param  \App\Story  $story
+     * @param \App\Story $story
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(StoryRequest\Destroy $request, $patientId, Story $story)
@@ -136,7 +140,7 @@ class StoryController extends Controller
             File::deleteDirectory($directory);
             return response()->success([], 200, 'OK');
         } else {
-            return response()->exception("The story could not be deleted", 500);
+            return response()->exception('The story could not be deleted', 500);
         }
     }
 }

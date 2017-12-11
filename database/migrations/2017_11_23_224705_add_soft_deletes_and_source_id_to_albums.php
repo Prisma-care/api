@@ -14,7 +14,7 @@ class AddSoftDeletesAndSourceIdToAlbums extends Migration
     public function up()
     {
         Schema::table('albums', function (Blueprint $table) {
-            $table->integer('source_album_id',false, true)->default(0);
+            $table->integer('source_album_id', false, true)->default(0);
             $table->softDeletes();
         });
     }

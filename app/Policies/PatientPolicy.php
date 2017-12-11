@@ -13,8 +13,9 @@ class PatientPolicy
     /**
      * Determine whether the user can view the patient.
      *
-     * @param  \App\User  $user
-     * @param  \App\Patient  $patient
+     * @param \App\User    $user
+     * @param \App\Patient $patient
+     *
      * @return mixed
      */
     public function view(User $user, Patient $patient)
@@ -26,8 +27,9 @@ class PatientPolicy
     /**
      * Determine whether the user can update the patient.
      *
-     * @param  \App\User  $user
-     * @param  \App\Patient  $patient
+     * @param \App\User    $user
+     * @param \App\Patient $patient
+     *
      * @return mixed
      */
     public function update(User $user, Patient $patient)
@@ -38,8 +40,9 @@ class PatientPolicy
     /**
      * Determine whether the user can delete the patient.
      *
-     * @param  \App\User  $user
-     * @param  \App\Patient  $patient
+     * @param \App\User    $user
+     * @param \App\Patient $patient
+     *
      * @return mixed
      */
     public function delete(User $user, Patient $patient)

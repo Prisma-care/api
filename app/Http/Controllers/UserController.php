@@ -8,8 +8,8 @@ use App\Http\Requests\User as UserRequest;
 use Hash;
 
 /**
- * Class UserController
- * @package App\Http\Controllers
+ * Class UserController.
+ *
  * @resource User
  *
  * Users are family members of a Patient
@@ -26,9 +26,10 @@ class UserController extends Controller
     }
 
     /**
-     * Return a User
+     * Return a User.
      *
      * @param UserRequest\Show $request
+     *
      * @return mixed
      */
     public function show(UserRequest\Show $request)
@@ -44,9 +45,10 @@ class UserController extends Controller
     }
 
     /**
-     * Persist a New User
+     * Persist a New User.
      *
      * @param UserRequest\Store $request
+     *
      * @return mixed
      */
     public function store(UserRequest\Store $request)
@@ -67,7 +69,7 @@ class UserController extends Controller
             'id' => $user->id,
             'email' => $user->email
         ];
-        $location = $request->url() . '/' . $user->id;
+        $location = $request->url().'/'.$user->id;
         return response()->success($createdUser, 201, 'Created', $location);
     }
 }

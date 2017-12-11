@@ -16,7 +16,6 @@ use DB;
 
 class ResetController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -34,7 +33,6 @@ class ResetController extends Controller
 
     public function store(StoreReset $request)
     {
-
         $email = $request->email;
         $token = str_random(40);
         $created_at = Carbon::now();
@@ -56,11 +54,12 @@ class ResetController extends Controller
     }
 
     /**
-     * Check reset token
+     * Check reset token.
      *
      * Check for a valid token and show the update password form if valid
      *
      * @param string $token
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function checkToken(string $token)
@@ -82,9 +81,10 @@ class ResetController extends Controller
 
 
     /**
-     *  Set a new password
+     *  Set a new password.
      *
      * @param StoreResetPassword $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function set(StoreResetPassword $request)
@@ -110,9 +110,10 @@ class ResetController extends Controller
     }
 
     /**
-     * Destroy Invite Token
+     * Destroy Invite Token.
      *
      * Delete the token used for this reset
+     *
      * @param $token
      */
     private function destroyToken($token)

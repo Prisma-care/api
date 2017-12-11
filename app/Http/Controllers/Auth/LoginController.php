@@ -11,18 +11,18 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Carbon\Carbon;
 
 /**
- * Class LoginController
- * @package App\Http\Controllers
+ * Class LoginController.
+ *
  * @resource Auth
  */
 
 class LoginController extends Controller
 {
-
     /**
-     * Authenticate a User
+     * Authenticate a User.
      *
      * @param Signin $request
+     *
      * @return mixed
      */
     public function signin(Signin $request)

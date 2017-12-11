@@ -36,7 +36,7 @@ class Patient extends Model
 
     /**
      * Copy albums with the is_default flag for every new patient
-     * As part of the FTUE, we want every new patient to have heritage content that they can edit to their liking
+     * As part of the FTUE, we want every new patient to have heritage content that they can edit to their liking.
      *
      * @return void
      */
@@ -64,6 +64,6 @@ class Patient extends Model
 
     public function getFullNameAttribute()
     {
-        return ucfirst($this->first_name) . " " .  ucfirst($this->last_name);
+        return ucfirst($this->first_name).' '.ucfirst($this->last_name);
     }
 }

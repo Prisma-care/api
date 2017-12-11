@@ -7,8 +7,8 @@ use Auth;
 use App\Http\Controllers\Controller;
 
 /**
- * Class LogoutController
- * @package App\Http\Controllers
+ * Class LogoutController.
+ *
  * @resource Auth
  */
 
@@ -21,7 +21,7 @@ class LogoutController extends Controller
     }
 
     /**
-     * Log out a User
+     * Log out a User.
      *
      * @return mixed
      */

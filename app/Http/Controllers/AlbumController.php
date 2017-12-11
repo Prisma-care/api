@@ -10,8 +10,8 @@ use App\User;
 use App\Http\Requests\Album as AlbumRequest;
 
 /**
- * Class AlbumController
- * @package App\Http\Controllers
+ * Class AlbumController.
+ *
  * @resource Album
  *
  * Controller used return, persist and remove Album data for particular Patients
@@ -24,7 +24,7 @@ class AlbumController extends Controller
         $this->middleware('jwt.auth');
     }
 
-    private $keyTranslations = array(
+    private $keyTranslations = [
         'id' => 'id',
         'title' => 'title',
         'description' => 'description',
@@ -33,14 +33,15 @@ class AlbumController extends Controller
         'userId' => 'user_id',
         'updatedAt' => 'updated_at',
         'createdAt' => 'created_at'
-    );
+    ];
 
 
     /**
-     * Returns an array of Albums belonging to a particular Patient
+     * Returns an array of Albums belonging to a particular Patient.
      *
      * @param AlbumRequest\Index $request
      * @param $patientId
+     *
      * @return mixed
      */
     public function index(AlbumRequest\Index $request, $patientId)
@@ -87,10 +88,11 @@ class AlbumController extends Controller
 
 
     /**
-     *  Persists an Album to storage for a particular Patient
+     *  Persists an Album to storage for a particular Patient.
      *
      * @param AlbumRequest\Store $request
      * @param $patientId
+     *
      * @return mixed
      */
     public function store(AlbumRequest\Store $request, $patientId)
@@ -108,17 +110,18 @@ class AlbumController extends Controller
             'id' => $album->id,
             'title' => $album->title
         ];
-        $location = $request->url() . '/' . $album->id;
+        $location = $request->url().'/'.$album->id;
         return response()->success($createdAlbum, 201, 'Created', $location);
     }
 
 
     /**
-     *  Returns an Album belonging to a particular Patient
+     *  Returns an Album belonging to a particular Patient.
      *
      * @param AlbumRequest\Show $request
      * @param $patientId
      * @param $albumId
+     *
      * @return mixed
      */
     public function show(AlbumRequest\Show $request, $patientId, $albumId)
@@ -150,11 +153,12 @@ class AlbumController extends Controller
 
 
     /**
-     *  Updates an Album belonging to particular Patient
+     *  Updates an Album belonging to particular Patient.
      *
      * @param AlbumRequest\Update $request
      * @param $patientId
      * @param $albumId
+     *
      * @return mixed
      */
     public function update(AlbumRequest\Update $request, $patientId, $albumId)
@@ -178,11 +182,12 @@ class AlbumController extends Controller
 
 
     /**
-     *  Removes an Album from storage
+     *  Removes an Album from storage.
      *
      * @param AlbumRequest\Destroy $request
      * @param $patientId
      * @param $albumId
+     *
      * @return mixed
      */
     public function destroy(AlbumRequest\Destroy $request, $patientId, $albumId)

@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
-
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('backup:clean')->daily()->at('01:00');

@@ -9,8 +9,8 @@ use App\Heritage;
 use App\Sync;
 
 /**
- * Class DefaultAlbumController
- * @package App\Http\Controllers\Heritage
+ * Class DefaultAlbumController.
+ *
  * @resource Heritage\DefaultAlbum
  *
  * When a Patient is created, a default set of Heritage Albums are generated and assigned to that Patient
@@ -26,8 +26,10 @@ class DefaultAlbumController extends Controller
 
 
     /**
-     * Fetch Heritage Albums
+     * Fetch Heritage Albums.
+     *
      * @param DefaultAlbumRequest\Index $request
+     *
      * @return mixed
      */
     public function index(DefaultAlbumRequest\Index $request)
@@ -41,10 +43,11 @@ class DefaultAlbumController extends Controller
     }
 
     /**
-     * Fetch a single Heritage Album
+     * Fetch a single Heritage Album.
      *
-     * @param  \App\Http\Requests\DefaultAlbum\Show $request
-     * @param  int $albumId
+     * @param \App\Http\Requests\DefaultAlbum\Show $request
+     * @param int                                  $albumId
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(DefaultAlbumRequest\Show $request, $albumId)
@@ -59,9 +62,10 @@ class DefaultAlbumController extends Controller
 
 
     /**
-     * Persist a new Heritage Album
+     * Persist a new Heritage Album.
      *
      * @param DefaultAlbumRequest\Store $request
+     *
      * @return mixed
      */
     public function store(DefaultAlbumRequest\Store $request)
@@ -75,16 +79,17 @@ class DefaultAlbumController extends Controller
 
         Sync::create(['model_type' => 'Album', 'model_id' => $album->id]);
 
-        $location = $request->url() . '/' . $album->id;
+        $location = $request->url().'/'.$album->id;
         return response()->success($album, 201, 'Created', $location);
     }
 
 
     /**
-     * Update a specific DefaultAlbum
+     * Update a specific DefaultAlbum.
      *
      * @param DefaultAlbumRequest\Update $request
      * @param $albumId
+     *
      * @return mixed
      */
     public function update(DefaultAlbumRequest\Update $request, $albumId)
@@ -95,7 +100,7 @@ class DefaultAlbumController extends Controller
         }
         $album->title = $request->input('title') ?: $album->title;
         if (!$album->update()) {
-            return response()->exception("The album could not be updated", 500);
+            return response()->exception('The album could not be updated', 500);
         }
 
         return response()->success([], 200, 'OK');
@@ -103,11 +108,14 @@ class DefaultAlbumController extends Controller
 
 
     /**
-     * Remove a specific DefaultAlbum
+     * Remove a specific DefaultAlbum.
+     *
      * @param DefaultAlbumRequest\Destroy $request
      * @param $albumId
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function destroy(DefaultAlbumRequest\Destroy $request, $albumId)
     {

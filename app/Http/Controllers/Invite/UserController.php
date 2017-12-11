@@ -13,8 +13,8 @@ use Hash;
 use Mail;
 
 /**
- * Class UserController
- * @package App\Http\Controllers\Invite
+ * Class UserController.
+ *
  * @resource Invite\User
  *
  * When a User invites another user to connect to a Patient,
@@ -27,12 +27,13 @@ use Mail;
 class UserController extends Controller
 {
     /**
-     * Persist New Invited User
+     * Persist New Invited User.
      *
      * Checks for the existence of an invited User
      * Creates then if they don't already exist and then generates a token and sends an email invite
      *
      * @param StoreUserConnection $request
+     *
      * @return mixed
      */
     public function store(StoreUserConnection $request)

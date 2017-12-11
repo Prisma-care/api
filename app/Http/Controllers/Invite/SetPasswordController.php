@@ -12,8 +12,8 @@ use Mail;
 use View;
 
 /**
- * Class SetPasswordController
- * @package App\Http\Controllers\Invite
+ * Class SetPasswordController.
+ *
  * @resource Invite\SetPassword
  *
  * When a User invites another user to connect to a Patient,
@@ -25,7 +25,6 @@ use View;
 
 class SetPasswordController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -37,11 +36,12 @@ class SetPasswordController extends Controller
     }
 
     /**
-     * Check invite token
+     * Check invite token.
      *
      * Check for a valid token and show the update password form if valid
      *
      * @param string $token
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function checkToken(string $token)
@@ -64,9 +64,10 @@ class SetPasswordController extends Controller
 
 
     /**
-     * Set new password
+     * Set new password.
      *
      * @param SetPassword $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function set(SetPassword $request)
@@ -96,8 +97,10 @@ class SetPasswordController extends Controller
     }
 
     /**
-     * Destroy Invite Token
+     * Destroy Invite Token.
+     *
      * @param $token
+     *
      * @throws \Exception
      */
     private function destroyToken($token)
