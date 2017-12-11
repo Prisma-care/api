@@ -5,9 +5,6 @@ namespace Tests\Feature;
 use App\User;
 use App\Album;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DefaultAlbumTest extends TestCase
 {
@@ -22,9 +19,9 @@ class DefaultAlbumTest extends TestCase
               'description' => 'A description',
               'asset_type' => 'image',
               'asset_name' => null,
-              'album_id' => 0
-            ]
-        ]
+              'album_id' => 0,
+            ],
+        ],
     ];
 
     private $baseObjectStructure;
@@ -43,8 +40,8 @@ class DefaultAlbumTest extends TestCase
             array_keys($this->baseObject),
             [
               'heritage' => [
-                '*' => array_keys($this->baseObject['heritage'][0])
-              ]
+                '*' => array_keys($this->baseObject['heritage'][0]),
+              ],
             ]
         );
         $defaultAlbum = Album::with('heritage')->get()
@@ -65,7 +62,7 @@ class DefaultAlbumTest extends TestCase
         $this->getJson($this->endpoint, $this->headers)
              ->assertJsonStructure([
                  'meta' => $this->metaResponseStructure,
-                 'response' => ['*' => $this->baseObjectStructure]
+                 'response' => ['*' => $this->baseObjectStructure],
              ])
              ->assertStatus(200);
     }
@@ -87,7 +84,7 @@ class DefaultAlbumTest extends TestCase
         $this->getJson($endpoint, $this->headers)
              ->assertJsonStructure([
                  'meta' => $this->metaResponseStructure,
-                 'response' => $this->baseObjectStructure
+                 'response' => $this->baseObjectStructure,
              ])
              ->assertStatus(200);
     }
@@ -99,7 +96,7 @@ class DefaultAlbumTest extends TestCase
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => ['id', 'title']
+                'response' => ['id', 'title'],
             ])
             ->assertStatus(201)
             ->getData();
@@ -127,7 +124,7 @@ class DefaultAlbumTest extends TestCase
         $this->patchJson($endpoint, ['title' => $newTitle], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
         $album = Album::find($album->id);
@@ -156,7 +153,7 @@ class DefaultAlbumTest extends TestCase
         $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
     }

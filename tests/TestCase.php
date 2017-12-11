@@ -9,7 +9,6 @@ use App\Album;
 use App\Heritage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -19,11 +18,11 @@ abstract class TestCase extends BaseTestCase
     protected $metaCreatedResponseStructure = ['code', 'message', 'location'];
     protected $exceptionResponseStructure = [
         'meta' => ['code', 'message'],
-        'response' => []
+        'response' => [],
     ];
 
     protected $headers = [
-        'HTTP_Authorization' => 'Bearer <token>'
+        'HTTP_Authorization' => 'Bearer <token>',
     ];
 
     protected $userTypes = ['family', 'admin', 'superadmin'];
@@ -46,7 +45,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function authenticate($user = null)
     {
-        if (!$user) {
+        if (! $user) {
             $user = User::find($this->testUserId);
         }
         $token = JWTAuth::fromUser($user);
@@ -67,11 +66,11 @@ abstract class TestCase extends BaseTestCase
     {
         $user = factory(User::class)->create([
             'email' => 'testing@prisma.care',
-            'password' => Hash::make('testing@prisma.care')
+            'password' => Hash::make('testing@prisma.care'),
         ]);
         $patient = factory(Patient::class)->create([
             'first_name' => 'Patient',
-            'last_name' => 'Testing'
+            'last_name' => 'Testing',
         ]);
         $patient->prepopulate();
         $patient->users()->attach($user->id);

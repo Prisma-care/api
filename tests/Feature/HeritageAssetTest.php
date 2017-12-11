@@ -8,9 +8,6 @@ use App\Heritage;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HeritageAssetTest extends TestCase
 {
@@ -27,6 +24,7 @@ class HeritageAssetTest extends TestCase
     private function getPopulatedEndpoint($albumId = null, $heritageId = null)
     {
         $tmpEndpoint = str_replace('{albumId}', $albumId ?: $this->testAlbumId, $this->baseEndpoint);
+
         return str_replace('{heritageId}', $heritageId ?: $this->testHeritageId, $tmpEndpoint);
     }
 
@@ -98,7 +96,7 @@ class HeritageAssetTest extends TestCase
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => ['id', 'source', 'type']
+                'response' => ['id', 'source', 'type'],
             ])
             ->assertStatus(200);
     }
@@ -121,7 +119,7 @@ class HeritageAssetTest extends TestCase
             $response = $this->postJson($this->endpoint, $body, $this->headers)
                 ->assertJsonStructure([
                     'meta' => $this->metaCreatedResponseStructure,
-                    'response' => ['id']
+                    'response' => ['id'],
                 ])
                 ->assertStatus(201)
                 ->getData();
@@ -136,7 +134,7 @@ class HeritageAssetTest extends TestCase
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => ['id']
+                'response' => ['id'],
             ])
             ->assertStatus(201);
     }
@@ -147,7 +145,7 @@ class HeritageAssetTest extends TestCase
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => ['id']
+                'response' => ['id'],
             ])
             ->assertStatus(201)
             ->getData();

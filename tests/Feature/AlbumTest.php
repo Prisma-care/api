@@ -4,9 +4,6 @@ namespace Tests\Feature;
 
 use App\Album;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AlbumTest extends TestCase
 {
@@ -21,9 +18,9 @@ class AlbumTest extends TestCase
               'description' => 'A description',
               'type' => 'image',
               'favorited' => false,
-              'source' => 'A source'
-            ]
-        ]
+              'source' => 'A source',
+            ],
+        ],
     ];
     private $objectStructure;
 
@@ -38,8 +35,8 @@ class AlbumTest extends TestCase
             array_keys($this->baseObject),
             [
               'stories' => [
-                '*' => array_keys($this->baseObject['stories'][0])
-              ]
+                '*' => array_keys($this->baseObject['stories'][0]),
+              ],
             ]
         );
         $this->endpoint = $this->getEndpointWithPatientId();
@@ -67,8 +64,8 @@ class AlbumTest extends TestCase
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
                 'response' => [
-                    '*' => $this->baseObjectStructure
-                ]
+                    '*' => $this->baseObjectStructure,
+                ],
             ])
             ->assertStatus(200);
     }
@@ -97,7 +94,7 @@ class AlbumTest extends TestCase
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => $this->baseObjectStructure
+                'response' => $this->baseObjectStructure,
             ])
             ->assertStatus(200);
     }
@@ -118,7 +115,6 @@ class AlbumTest extends TestCase
             ->assertStatus(400);
     }
 
-
     public function testGetAlbumOfUnconnectedPatient()
     {
         $this->disconnectTestUserFromTestPatient();
@@ -133,7 +129,7 @@ class AlbumTest extends TestCase
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => ['id', 'title']
+                'response' => ['id', 'title'],
             ])
             ->assertStatus(201)
             ->getData();
@@ -153,7 +149,7 @@ class AlbumTest extends TestCase
     {
         $album = factory(Album::class)->create([
             'title' => 'Taken',
-            'patient_id' => $this->testPatientId
+            'patient_id' => $this->testPatientId,
         ]);
         $body = ['title' => 'Taken'];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
@@ -178,7 +174,7 @@ class AlbumTest extends TestCase
         $response = $this->patchJson($endpoint, ['title' => $newTitle], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
         $album = Album::find($album->id);
@@ -198,11 +194,10 @@ class AlbumTest extends TestCase
         $response = $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
     }
-
 
     public function testDeleteAlbumOfUnconnectedPatient()
     {

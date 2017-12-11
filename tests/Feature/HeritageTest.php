@@ -6,9 +6,6 @@ use App\User;
 use App\Album;
 use App\Heritage;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HeritageTest extends TestCase
 {
@@ -24,7 +21,7 @@ class HeritageTest extends TestCase
         'happened_at' => null,
         'album_id' => 1,
         'asset_name' => null,
-        'asset_type' => 'image'
+        'asset_type' => 'image',
     ];
 
     private function getEndpointWithAlbumId($albumId = null)
@@ -65,7 +62,7 @@ class HeritageTest extends TestCase
         $this->getJson($this->endpoint, $this->headers)
              ->assertJsonStructure([
                  'meta' => $this->metaResponseStructure,
-                 'response' => ['*' => array_keys($this->baseObject)]
+                 'response' => ['*' => array_keys($this->baseObject)],
              ])
              ->assertStatus(200);
     }
@@ -96,7 +93,7 @@ class HeritageTest extends TestCase
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => array_keys($this->baseObject)
+                'response' => array_keys($this->baseObject),
             ])
             ->assertStatus(200);
     }
@@ -135,7 +132,7 @@ class HeritageTest extends TestCase
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => array_keys($baseObject)
+                'response' => array_keys($baseObject),
             ])
             ->assertStatus(201)
             ->getData();
@@ -166,14 +163,14 @@ class HeritageTest extends TestCase
     {
         $heritage = Heritage::create([
             'description' => str_random(20),
-            'album_id' => $this->defaultAlbumId
+            'album_id' => $this->defaultAlbumId,
         ]);
         $endpoint = $this->endpoint.'/'.$heritage->id;
         $newDescription = str_random(20);
         $response = $this->patchJson($endpoint, ['description' => $newDescription], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
         $heritage = Heritage::find($heritage->id);
@@ -205,7 +202,7 @@ class HeritageTest extends TestCase
         $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
     }

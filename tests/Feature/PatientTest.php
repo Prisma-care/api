@@ -5,10 +5,6 @@ namespace Tests\Feature;
 use App\Album;
 use App\Patient;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PatientTest extends TestCase
 {
@@ -22,7 +18,7 @@ class PatientTest extends TestCase
         'careHome' => null,
         'dateOfBirth' => null,
         'birthPlace' => null,
-        'location' => null
+        'location' => null,
     ];
 
     public function setUp()
@@ -49,7 +45,7 @@ class PatientTest extends TestCase
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => array_keys($this->baseObject)
+                'response' => array_keys($this->baseObject),
              ])
             ->assertStatus(200);
     }
@@ -76,7 +72,7 @@ class PatientTest extends TestCase
         $response = $this->postJson($this->baseEndpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => array_keys($this->baseObject)
+                'response' => array_keys($this->baseObject),
              ])
             ->assertStatus(201)
             ->getData();

@@ -3,19 +3,14 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-
-use JWTAuth;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SigninTest extends TestCase
 {
     private $endpoint = 'v1/user/signin';
     private $baseRequest = [
         'email' => 'testing@prisma.care',
-        'password' => 'testing@prisma.care'
+        'password' => 'testing@prisma.care',
     ];
 
     public function testSignin()
@@ -23,7 +18,7 @@ class SigninTest extends TestCase
         $response = $this->postJson($this->endpoint, $this->baseRequest)
             ->assertJsonStructure([
                 'meta' => ['code', 'message'],
-                'response' => ['id', 'token', 'patients']
+                'response' => ['id', 'token', 'patients'],
             ])
             ->assertStatus(200)
             ->getData();
