@@ -10,6 +10,7 @@ class Store extends BaseRequest
     public function authorize()
     {
         $user = $this->getUser();
+
         return $user->can('create', Heritage::class);
     }
 
@@ -21,7 +22,7 @@ class Store extends BaseRequest
     public function rules()
     {
         return [
-            'description' => 'required'
+            'description' => 'required',
         ];
     }
 }

@@ -12,7 +12,6 @@
 */
 
 Route::group(['prefix' => 'v1'], function () {
-
     Route::get('user', 'UserController@show');
     Route::post('user', 'UserController@store');
 
@@ -73,5 +72,4 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('roht', [
         'uses' => 'Syncing\SyncController@timeMachine'
     ]);
-
 });

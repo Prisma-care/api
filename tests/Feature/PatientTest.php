@@ -56,7 +56,7 @@ class PatientTest extends TestCase
 
     public function testGetPatientWithInvalidId()
     {
-        $response = $this->getJson($this->baseEndpoint . '/0', $this->headers)
+        $response = $this->getJson($this->baseEndpoint.'/0', $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
     }
@@ -95,7 +95,7 @@ class PatientTest extends TestCase
 
     public function testCreatePatientWithoutRequiredFields()
     {
-        $requiredKeys = [ 'firstName', 'lastName' ];
+        $requiredKeys = ['firstName', 'lastName'];
         foreach ($requiredKeys as $key) {
             $body = $this->baseObject;
             unset($body[$key]);

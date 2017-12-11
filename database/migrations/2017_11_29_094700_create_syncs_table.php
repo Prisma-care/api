@@ -15,9 +15,9 @@ class CreateSyncsTable extends Migration
     {
         Schema::create('syncs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('status',50)->default('ready');
-            $table->string('model_type',50);
-            $table->integer('model_id',false,true);
+            $table->string('status', 50)->default('ready');
+            $table->string('model_type', 50);
+            $table->integer('model_id', false, true);
             $table->dateTime('finished_at')->nullable();
             $table->timestamps();
         });

@@ -12,8 +12,8 @@ use Mail;
 use View;
 
 /**
- * Class SetPasswordController
- * @package App\Http\Controllers\Invite
+ * Class SetPasswordController.
+ *
  * @resource Invite\SetPassword
  *
  * When a User invites another user to connect to a Patient,
@@ -22,10 +22,8 @@ use View;
  * In this case an email invite is sent to the new User with a tokenized URL
  * They can use this to access a password (re)set page and accep their membership of Prisma
  */
-
 class SetPasswordController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -37,18 +35,19 @@ class SetPasswordController extends Controller
     }
 
     /**
-     * Check invite token
+     * Check invite token.
      *
      * Check for a valid token and show the update password form if valid
      *
      * @param string $token
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function checkToken(string $token)
     {
         $invite = Invite::where('token', $token)->first();
 
-        if (!$invite) {
+        if (! $invite) {
             abort(404, 'Token already used or invalid');
         }
 
@@ -56,17 +55,17 @@ class SetPasswordController extends Controller
             'invite_id' => $invite->id,
             'user_id' => $invite->user_id,
             'email' => $invite->email,
-            'token' => $invite->token
+            'token' => $invite->token,
         ];
 
         return View::make('invites.set', $data);
     }
 
-
     /**
-     * Set new password
+     * Set new password.
      *
      * @param SetPassword $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function set(SetPassword $request)
@@ -87,7 +86,7 @@ class SetPasswordController extends Controller
 
         $data = [
             'user_name' => $user->first_name,
-            'password' => $new_password
+            'password' => $new_password,
         ];
 
         Mail::to($user)->send(new SendPassword($data));
@@ -96,8 +95,10 @@ class SetPasswordController extends Controller
     }
 
     /**
-     * Destroy Invite Token
+     * Destroy Invite Token.
+     *
      * @param $token
+     *
      * @throws \Exception
      */
     private function destroyToken($token)

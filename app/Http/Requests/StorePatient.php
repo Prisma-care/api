@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Patient;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePatient extends FormRequest
@@ -26,7 +25,7 @@ class StorePatient extends FormRequest
     {
         return [
             'firstName' => 'required',
-            'lastName' => 'required'
+            'lastName' => 'required',
         ];
     }
 

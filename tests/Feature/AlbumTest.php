@@ -104,7 +104,7 @@ class AlbumTest extends TestCase
 
     public function testGetAlbumWithInvalidPatientId()
     {
-        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId) . '/' . $this->ownedAlbumId;
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId).'/'.$this->ownedAlbumId;
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -112,7 +112,7 @@ class AlbumTest extends TestCase
 
     public function testGetAlbumWithInvalidAlbumId()
     {
-        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId) . '/0';
+        $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId).'/0';
         $response = $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -129,11 +129,11 @@ class AlbumTest extends TestCase
 
     public function testCreateAlbum()
     {
-        $body = [ 'title' => str_random(16) ];
+        $body = ['title' => str_random(16)];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => [ 'id', 'title' ]
+                'response' => ['id', 'title']
             ])
             ->assertStatus(201)
             ->getData();
@@ -143,7 +143,7 @@ class AlbumTest extends TestCase
     public function testCreateAlbumWithInvalidPatientId()
     {
         $endpoint = $this->getEndpointWithPatientId($this->nonExistentPatientId);
-        $body = [ 'title' => str_random(16) ];
+        $body = ['title' => str_random(16)];
         $response = $this->postJson($endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -155,7 +155,7 @@ class AlbumTest extends TestCase
             'title' => 'Taken',
             'patient_id' => $this->testPatientId
         ]);
-        $body = [ 'title' => 'Taken' ];
+        $body = ['title' => 'Taken'];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -164,7 +164,7 @@ class AlbumTest extends TestCase
     public function testCreateAlbumForUnconnectedPatient()
     {
         $this->disconnectTestUserFromTestPatient();
-        $body = [ 'title' => str_random(20) ];
+        $body = ['title' => str_random(20)];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(403);
@@ -173,7 +173,7 @@ class AlbumTest extends TestCase
     public function testUpdateAlbum()
     {
         $album = Album::create(['title' => str_random(20), 'patient_id' => 1]);
-        $endpoint = $this->endpoint . '/' . $album->id;
+        $endpoint = $this->endpoint.'/'.$album->id;
         $newTitle = str_random(20);
         $response = $this->patchJson($endpoint, ['title' => $newTitle], $this->headers)
             ->assertJsonStructure([

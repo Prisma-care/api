@@ -18,22 +18,23 @@ class ResponseMacroServiceProvider extends ServiceProvider
             $response = [
                 'meta' => [
                     'code' => $code,
-                    'message' => $message
+                    'message' => $message,
                 ],
-                'response' => $object
+                'response' => $object,
             ];
             if ($location) {
                 $response['meta']['location'] = $location;
             }
+
             return Response::json($response, $code);
         });
         Response::macro('exception', function ($message, $code) {
             return Response::json([
                 'meta' => [
                     'code' => $code,
-                    'message' => $message
+                    'message' => $message,
                 ],
-                'response' => []
+                'response' => [],
             ], $code);
         });
     }

@@ -2,11 +2,9 @@
 
 namespace App\Mail;
 
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewPatientConnectionNotification extends Mailable
 {
@@ -32,8 +30,9 @@ class NewPatientConnectionNotification extends Mailable
     public function build()
     {
         $data = $this->data;
+
         return $this->from('info@prisma.care', 'Prisma')
-            ->subject($data['inviter']. ' nodigde je uit voor Prisma')
+            ->subject($data['inviter'].' nodigde je uit voor Prisma')
             ->with($data)
             ->markdown('emails.new-connection');
     }

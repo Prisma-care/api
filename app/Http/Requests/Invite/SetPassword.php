@@ -22,7 +22,7 @@ class SetPassword extends BaseRequest
             'email' => 'required|email|max:191',
             'password' => 'required|max:191',
             'user_id' => 'required|integer',
-            'token' => 'required|string'
+            'token' => 'required|string',
         ];
     }
 }

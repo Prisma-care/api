@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class Signin extends BaseRequest
 {
     /**
@@ -15,7 +13,7 @@ class Signin extends BaseRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ];
     }
 }
