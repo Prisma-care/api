@@ -4,10 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 class SignupTest extends TestCase
 {
     private $endpoint = 'v1/user';
@@ -15,7 +11,7 @@ class SignupTest extends TestCase
         'firstName' => 'Signup',
         'lastName' => 'Test',
         'email' => 'signup@test.com',
-        'password' => 'signup@test.com'
+        'password' => 'signup@test.com',
     ];
 
     public function testSignup()
@@ -23,14 +19,14 @@ class SignupTest extends TestCase
         $response = $this->postJson($this->endpoint, $this->baseObject)
         ->assertJsonStructure([
             'meta' => $this->metaCreatedResponseStructure,
-            'response' => [ 'id', 'email' ]
+            'response' => ['id', 'email'],
         ])
         ->assertStatus(201);
     }
 
     public function testSignupWithoutRequiredFields()
     {
-        $requiredKeys = [ 'firstName', 'lastName', 'email', 'password'];
+        $requiredKeys = ['firstName', 'lastName', 'email', 'password'];
         foreach ($requiredKeys as $key) {
             $body = $this->baseObject;
             unset($body[$key]);

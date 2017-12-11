@@ -12,9 +12,9 @@ class Update extends BaseRequest
     {
         $user = $this->getUser();
         $patient = Patient::findOrFail($this->route('patient'));
+
         return $user->can('view', $patient);
     }
-
 
     /**
      * Get the validation rules that apply to the request.
@@ -28,8 +28,8 @@ class Update extends BaseRequest
                 Rule::unique('albums')->where(function ($query) {
                     $patientId = Patient::findOrFail($this->route('patient'))->id;
                     $query->where('patient_id', '=', $patientId);
-                })
-            ]
+                }),
+            ],
         ];
     }
 }

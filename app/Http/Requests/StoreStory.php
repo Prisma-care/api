@@ -26,7 +26,7 @@ class StoreStory extends FormRequest
         return [
             'description' => 'required',
             'creatorId' => 'required',
-            'albumId' => 'required'
+            'albumId' => 'required',
         ];
     }
 

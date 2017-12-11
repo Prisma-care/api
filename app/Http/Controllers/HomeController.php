@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
-
     /**
      * HomeController constructor.
-     * No explicit return
+     * No explicit return.
      */
     public function __construct()
     {

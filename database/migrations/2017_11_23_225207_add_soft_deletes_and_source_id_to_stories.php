@@ -14,7 +14,7 @@ class AddSoftDeletesAndSourceIdToStories extends Migration
     public function up()
     {
         Schema::table('stories', function (Blueprint $table) {
-            $table->integer('heritage_id',false, true)->default(0);
+            $table->integer('heritage_id', false, true)->default(0);
             $table->softDeletes();
         });
     }

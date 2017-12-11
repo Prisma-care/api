@@ -16,17 +16,17 @@ Route::get('/', function () {
 });
 
 Route::get('password/set/{token}', [
-    'as' => 'password.set', 'uses' => 'Invite\SetPasswordController@checkToken'
+    'as' => 'password.set', 'uses' => 'Invite\SetPasswordController@checkToken',
 ]);
 
 Route::post('password/set', [
-    'as' => 'password.save', 'uses' => 'Invite\SetPasswordController@set'
+    'as' => 'password.save', 'uses' => 'Invite\SetPasswordController@set',
 ]);
 
 Route::get('reset/{token}', [
-    'as' => 'reset.check', 'uses' => 'Reset\ResetController@checkToken'
+    'as' => 'reset.check', 'uses' => 'Reset\ResetController@checkToken',
 ]);
 
 Route::post('reset/set', [
-    'as' => 'reset.save', 'uses' => 'Reset\ResetController@set'
+    'as' => 'reset.save', 'uses' => 'Reset\ResetController@set',
 ]);

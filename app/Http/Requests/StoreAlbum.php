@@ -24,7 +24,7 @@ class StoreAlbum extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|unique:albums'
+            'title' => 'required|unique:albums',
         ];
     }
 

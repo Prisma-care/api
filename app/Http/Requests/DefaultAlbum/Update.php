@@ -10,6 +10,7 @@ class Update extends BaseRequest
     public function authorize()
     {
         $user = $this->getUser();
+
         return $user->can('update', Heritage::class);
     }
 }

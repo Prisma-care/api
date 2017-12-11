@@ -6,9 +6,6 @@ use App\User;
 use App\Album;
 use App\Heritage;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HeritageTest extends TestCase
 {
@@ -24,7 +21,7 @@ class HeritageTest extends TestCase
         'happened_at' => null,
         'album_id' => 1,
         'asset_name' => null,
-        'asset_type' => 'image'
+        'asset_type' => 'image',
     ];
 
     private function getEndpointWithAlbumId($albumId = null)
@@ -65,14 +62,14 @@ class HeritageTest extends TestCase
         $this->getJson($this->endpoint, $this->headers)
              ->assertJsonStructure([
                  'meta' => $this->metaResponseStructure,
-                 'response' => [ '*' => array_keys($this->baseObject) ]
+                 'response' => ['*' => array_keys($this->baseObject)],
              ])
              ->assertStatus(200);
     }
 
     public function testIndexHeritageWithInvalidAlbumId()
     {
-        $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
+        $endpoint = $this->getEndpointWithAlbumId(999).'/'.$this->testHeritageId;
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -96,14 +93,14 @@ class HeritageTest extends TestCase
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => array_keys($this->baseObject)
+                'response' => array_keys($this->baseObject),
             ])
             ->assertStatus(200);
     }
 
     public function testGetHeritageWithInvalidAlbumId()
     {
-        $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
+        $endpoint = $this->getEndpointWithAlbumId(999).'/'.$this->testHeritageId;
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -111,7 +108,7 @@ class HeritageTest extends TestCase
 
     public function testGetHeritageWithInvalidHeritageId()
     {
-        $endpoint = $this->endpoint . '/' . 0;
+        $endpoint = $this->endpoint.'/'. 0;
         $this->getJson($endpoint, $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -131,11 +128,11 @@ class HeritageTest extends TestCase
         $baseObject = $this->baseObject;
         unset($baseObject['asset_name']);
         unset($baseObject['asset_type']);
-        $body = [ 'description' => str_random(16), 'album_id' => $this->defaultAlbumId ];
+        $body = ['description' => str_random(16), 'album_id' => $this->defaultAlbumId];
         $response = $this->postJson($this->endpoint, $body, $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaCreatedResponseStructure,
-                'response' => array_keys($baseObject)
+                'response' => array_keys($baseObject),
             ])
             ->assertStatus(201)
             ->getData();
@@ -157,7 +154,7 @@ class HeritageTest extends TestCase
     public function testHeritageCreationForNonDefaultAlbum()
     {
         $album = factory(Album::class)->create(['patient_id' => $this->testPatientId]);
-        $endpoint = $this->endpoint . '/' . $album->id;
+        $endpoint = $this->endpoint.'/'.$album->id;
         $this->postJson($this->endpoint, ['title' => $album->title], $this->headers)
              ->assertStatus(400);
     }
@@ -166,14 +163,14 @@ class HeritageTest extends TestCase
     {
         $heritage = Heritage::create([
             'description' => str_random(20),
-            'album_id' => $this->defaultAlbumId
+            'album_id' => $this->defaultAlbumId,
         ]);
-        $endpoint = $this->endpoint . '/' . $heritage->id;
+        $endpoint = $this->endpoint.'/'.$heritage->id;
         $newDescription = str_random(20);
         $response = $this->patchJson($endpoint, ['description' => $newDescription], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
         $heritage = Heritage::find($heritage->id);
@@ -194,7 +191,7 @@ class HeritageTest extends TestCase
 
     public function testUpdateHeritageWithInvalidAlbumId()
     {
-        $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
+        $endpoint = $this->getEndpointWithAlbumId(999).'/'.$this->testHeritageId;
         $this->patchJson($endpoint, [], $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);
@@ -205,7 +202,7 @@ class HeritageTest extends TestCase
         $this->deleteJson($this->specificEndpoint, [], $this->headers)
             ->assertJsonStructure([
                 'meta' => $this->metaResponseStructure,
-                'response' => []
+                'response' => [],
             ])
             ->assertStatus(200);
     }
@@ -224,7 +221,7 @@ class HeritageTest extends TestCase
 
     public function testDeleteHeritageWithInvalidAlbumId()
     {
-        $endpoint = $this->getEndpointWithAlbumId(999) . '/' . $this->testHeritageId;
+        $endpoint = $this->getEndpointWithAlbumId(999).'/'.$this->testHeritageId;
         $this->deleteJson($endpoint, [], $this->headers)
             ->assertJsonStructure($this->exceptionResponseStructure)
             ->assertStatus(400);

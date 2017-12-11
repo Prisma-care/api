@@ -4,9 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SignoutTest extends TestCase
 {
@@ -23,7 +20,7 @@ class SignoutTest extends TestCase
         $response = $this->postJson($this->endpoint, [], $this->headers)
         ->assertJsonStructure([
             'meta' => $this->metaResponseStructure,
-            'response' => []
+            'response' => [],
         ])
         ->assertStatus(200);
         if (Auth::user()) {

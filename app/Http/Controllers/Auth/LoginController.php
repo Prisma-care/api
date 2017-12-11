@@ -8,28 +8,26 @@ use App\User;
 use Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Carbon\Carbon;
 
 /**
- * Class LoginController
- * @package App\Http\Controllers
+ * Class LoginController.
+ *
  * @resource Auth
  */
-
 class LoginController extends Controller
 {
-
     /**
-     * Authenticate a User
+     * Authenticate a User.
      *
      * @param Signin $request
+     *
      * @return mixed
      */
     public function signin(Signin $request)
     {
         $credentials = $request->only('email', 'password');
         try {
-            if (!$token = JWTAuth::attempt($credentials)) {
+            if (! $token = JWTAuth::attempt($credentials)) {
                 return response()->exception('Invalid credentials', 401);
             } else {
                 $userId = Auth::user()->id;
@@ -42,7 +40,7 @@ class LoginController extends Controller
                 return response()->success([
                     'id' => $userId,
                     'token' => $token,
-                    'patients' => $patients
+                    'patients' => $patients,
                 ], 200, 'OK')
                     ->header('Authorization', "Bearer $token")
                     ->header('Access-Control-Expose-Headers', 'Authorization');

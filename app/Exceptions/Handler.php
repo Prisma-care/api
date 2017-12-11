@@ -23,32 +23,34 @@ class Handler extends ExceptionHandler
         \Illuminate\Validation\ValidationException::class,
     ];
 
-
     /**
      * Report or log an exception.
+     *
      * @param Exception $exception
+     *
      * @throws Exception
      */
     public function report(Exception $exception)
     {
-        if($this->shouldReport($exception)) {
+        if ($this->shouldReport($exception)) {
             \Log::error($exception); //rollbar
         }
         parent::report($exception);
     }
 
-
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception               $exception
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
             $resource = class_basename($exception->getModel());
+
             return response()->exception("There is no $resource resource with the provided id.", 400);
         }
         if ($request->expectsJson() && $exception instanceof HttpException) {
@@ -57,14 +59,16 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson() && $exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
             return response()->exception('Forbidden', 403);
         }
+
         return parent::render($request, $exception);
     }
 
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param \Illuminate\Http\Request                 $request
+     * @param \Illuminate\Auth\AuthenticationException $exception
+     *
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)

@@ -16,7 +16,6 @@ use DB;
 
 class ResetController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -27,14 +26,11 @@ class ResetController extends Controller
         $this->middleware('guest');
     }
 
-
     /**
      * @param StoreReset $request
      */
-
     public function store(StoreReset $request)
     {
-
         $email = $request->email;
         $token = str_random(40);
         $created_at = Carbon::now();
@@ -43,11 +39,10 @@ class ResetController extends Controller
             ['email' => $email, 'token' => $token, 'created_at' => $created_at]
         );
 
-
         $user = User::where('email', $email)->get();
 
         $data = [
-            'token' => $token
+            'token' => $token,
         ];
 
         Mail::to($user)->send(new SendPasswordResetLink($data));
@@ -56,35 +51,35 @@ class ResetController extends Controller
     }
 
     /**
-     * Check reset token
+     * Check reset token.
      *
      * Check for a valid token and show the update password form if valid
      *
      * @param string $token
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function checkToken(string $token)
     {
         $reset = DB::table('password_resets')->where('token', $token)->first();
 
-
-        if (!$reset) {
+        if (! $reset) {
             abort(404, 'Dit wachtwoord herstel token is niet geldig.'); // This password recovery token is not valid
         }
 
         $data = [
             'email' => $reset->email,
-            'token' => $token
+            'token' => $token,
         ];
 
         return View::make('reset.set', $data);
     }
 
-
     /**
-     *  Set a new password
+     *  Set a new password.
      *
      * @param StoreResetPassword $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function set(StoreResetPassword $request)
@@ -101,7 +96,7 @@ class ResetController extends Controller
 
         $data = [
             'user_name' => $user->first_name,
-            'password' => $new_password
+            'password' => $new_password,
         ];
 
         Mail::to($user)->send(new SendNewPassword($data));
@@ -110,9 +105,10 @@ class ResetController extends Controller
     }
 
     /**
-     * Destroy Invite Token
+     * Destroy Invite Token.
      *
      * Delete the token used for this reset
+     *
      * @param $token
      */
     private function destroyToken($token)

@@ -13,8 +13,9 @@ class StoryPolicy
     /**
      * Determine whether the user can view the story.
      *
-     * @param  \App\User  $user
-     * @param  \App\Story  $story
+     * @param \App\User  $user
+     * @param \App\Story $story
+     *
      * @return mixed
      */
     public function view(User $user, Story $story)
@@ -25,7 +26,8 @@ class StoryPolicy
     /**
      * Determine whether the user can create stories.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function create(User $user, $patient, $album)
@@ -36,8 +38,9 @@ class StoryPolicy
     /**
      * Determine whether the user can update the story.
      *
-     * @param  \App\User  $user
-     * @param  \App\Story  $story
+     * @param \App\User  $user
+     * @param \App\Story $story
+     *
      * @return mixed
      */
     public function update(User $user, Story $story)
@@ -48,8 +51,9 @@ class StoryPolicy
     /**
      * Determine whether the user can delete the story.
      *
-     * @param  \App\User  $user
-     * @param  \App\Story  $story
+     * @param \App\User  $user
+     * @param \App\Story $story
+     *
      * @return mixed
      */
     public function delete(User $user, Story $story)

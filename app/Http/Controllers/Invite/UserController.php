@@ -6,15 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Invite\StoreUserConnection as StoreUserConnection;
 use App\Invite;
 use App\Mail\Invitation;
-use App\Mail\NewPatientConnectionNotification;
 use App\Patient;
 use App\User;
 use Hash;
 use Mail;
 
 /**
- * Class UserController
- * @package App\Http\Controllers\Invite
+ * Class UserController.
+ *
  * @resource Invite\User
  *
  * When a User invites another user to connect to a Patient,
@@ -23,16 +22,16 @@ use Mail;
  * In this case an email invite is sent to the new User with a tokenized URL
  * They can use this to access a password (re)set page and accep their membership of Prisma
  */
-
 class UserController extends Controller
 {
     /**
-     * Persist New Invited User
+     * Persist New Invited User.
      *
      * Checks for the existence of an invited User
      * Creates then if they don't already exist and then generates a token and sends an email invite
      *
      * @param StoreUserConnection $request
+     *
      * @return mixed
      */
     public function store(StoreUserConnection $request)
@@ -42,7 +41,7 @@ class UserController extends Controller
         $user_data = [
             'password' => Hash::make(str_random(40)),
             'first_name' => $request->input('firstName'),
-            'last_name' => $request->input('lastName')
+            'last_name' => $request->input('lastName'),
         ];
 
         $patientId = $request->input('patientId');
@@ -70,7 +69,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'token' => $token,
             'patient_id' => $patientId,
-            'inviter_id' => $inviterId
+            'inviter_id' => $inviterId,
         ];
 
         Invite::create($invite);
@@ -78,7 +77,7 @@ class UserController extends Controller
         $data = [
             'patient' => $patient_name,
             'inviter' => $inviter,
-            'token' => $token
+            'token' => $token,
         ];
 
         Mail::to($user)->send(new Invitation($data));

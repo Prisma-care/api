@@ -12,6 +12,7 @@ class Store extends BaseRequest
     {
         $user = $this->getUser();
         $patient = Patient::findOrFail($this->route('patient'));
+
         return $user->can('view', $patient);
     }
 
@@ -28,8 +29,8 @@ class Store extends BaseRequest
                 Rule::unique('albums')->where(function ($query) {
                     $patientId = Patient::findOrFail($this->route('patient'))->id;
                     $query->where('patient_id', '=', $patientId);
-                })
-            ]
+                }),
+            ],
         ];
     }
 }
