@@ -17,7 +17,7 @@ class Store extends BaseRequest
             'email' => 'required|email|unique:users',
             'password' => 'required',
             'firstName' => 'required',
-            'lastName' => 'required'
+            'lastName' => 'required',
         ];
     }
 }

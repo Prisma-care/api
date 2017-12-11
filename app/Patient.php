@@ -2,12 +2,8 @@
 
 namespace App;
 
-use App\Album;
-use App\Story;
-use App\Heritage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Collection;
 
 class Patient extends Model
 {
@@ -19,7 +15,7 @@ class Patient extends Model
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'date_of_birth', 'birth_place', 'location', 'care_home'
+        'first_name', 'last_name', 'date_of_birth', 'birth_place', 'location', 'care_home',
     ];
 
     protected $hidden = ['pivot'];
@@ -56,7 +52,7 @@ class Patient extends Model
                     'user_id' => 1,
                     'album_id' => $newAlbum->id,
                     'is_heritage' => true,
-                    'heritage_id' => $heritage->id
+                    'heritage_id' => $heritage->id,
                 ]);
             }
         }

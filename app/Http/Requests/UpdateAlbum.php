@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class UpdateAlbum extends StoreAlbum
 {
     /**
@@ -14,7 +12,7 @@ class UpdateAlbum extends StoreAlbum
     public function rules()
     {
         return [
-            'title' => 'unique:albums'
+            'title' => 'unique:albums',
         ];
     }
 }

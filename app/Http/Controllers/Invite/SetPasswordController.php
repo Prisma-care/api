@@ -22,7 +22,6 @@ use View;
  * In this case an email invite is sent to the new User with a tokenized URL
  * They can use this to access a password (re)set page and accep their membership of Prisma
  */
-
 class SetPasswordController extends Controller
 {
     /**
@@ -48,7 +47,7 @@ class SetPasswordController extends Controller
     {
         $invite = Invite::where('token', $token)->first();
 
-        if (!$invite) {
+        if (! $invite) {
             abort(404, 'Token already used or invalid');
         }
 
@@ -56,12 +55,11 @@ class SetPasswordController extends Controller
             'invite_id' => $invite->id,
             'user_id' => $invite->user_id,
             'email' => $invite->email,
-            'token' => $invite->token
+            'token' => $invite->token,
         ];
 
         return View::make('invites.set', $data);
     }
-
 
     /**
      * Set new password.
@@ -88,7 +86,7 @@ class SetPasswordController extends Controller
 
         $data = [
             'user_name' => $user->first_name,
-            'password' => $new_password
+            'password' => $new_password,
         ];
 
         Mail::to($user)->send(new SendPassword($data));

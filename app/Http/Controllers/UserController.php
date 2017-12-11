@@ -17,7 +17,6 @@ use Hash;
  * A User can create new Albums and Story content
  * A User can also invite other Users and connect them with a Patient
  */
-
 class UserController extends Controller
 {
     public function __contruct()
@@ -39,8 +38,9 @@ class UserController extends Controller
             'id' => $user->id,
             'email' => $user->email,
             'firstName' => $user->first_name,
-            'lastName' => $user->last_name
+            'lastName' => $user->last_name,
         ];
+
         return response()->success($transformed, 200, 'OK');
     }
 
@@ -58,18 +58,19 @@ class UserController extends Controller
             'password' => Hash::make($request->input('password')),
             'first_name' => $request->input('firstName'),
             'last_name' => $request->input('lastName'),
-            'user_type' => $request->input('userType', 'family')
+            'user_type' => $request->input('userType', 'family'),
         ]);
 
-        if (!$user->save()) {
+        if (! $user->save()) {
             return response()->exception('Unexpected error while creating the user', 500);
         }
 
         $createdUser = [
             'id' => $user->id,
-            'email' => $user->email
+            'email' => $user->email,
         ];
         $location = $request->url().'/'.$user->id;
+
         return response()->success($createdUser, 201, 'Created', $location);
     }
 }

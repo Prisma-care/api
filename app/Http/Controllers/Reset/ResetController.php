@@ -26,11 +26,9 @@ class ResetController extends Controller
         $this->middleware('guest');
     }
 
-
     /**
      * @param StoreReset $request
      */
-
     public function store(StoreReset $request)
     {
         $email = $request->email;
@@ -41,11 +39,10 @@ class ResetController extends Controller
             ['email' => $email, 'token' => $token, 'created_at' => $created_at]
         );
 
-
         $user = User::where('email', $email)->get();
 
         $data = [
-            'token' => $token
+            'token' => $token,
         ];
 
         Mail::to($user)->send(new SendPasswordResetLink($data));
@@ -66,19 +63,17 @@ class ResetController extends Controller
     {
         $reset = DB::table('password_resets')->where('token', $token)->first();
 
-
-        if (!$reset) {
+        if (! $reset) {
             abort(404, 'Dit wachtwoord herstel token is niet geldig.'); // This password recovery token is not valid
         }
 
         $data = [
             'email' => $reset->email,
-            'token' => $token
+            'token' => $token,
         ];
 
         return View::make('reset.set', $data);
     }
-
 
     /**
      *  Set a new password.
@@ -101,7 +96,7 @@ class ResetController extends Controller
 
         $data = [
             'user_name' => $user->first_name,
-            'password' => $new_password
+            'password' => $new_password,
         ];
 
         Mail::to($user)->send(new SendNewPassword($data));

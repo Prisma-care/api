@@ -23,7 +23,6 @@ class PatientPolicy
         return $patient->users->contains($user);
     }
 
-
     /**
      * Determine whether the user can update the patient.
      *

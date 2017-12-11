@@ -17,7 +17,6 @@ use App\Http\Requests\Story as StoryRequest;
  * Stories are collected in Albums and a number of Heritage items are supplied by default
  * when a new User registers a Patient
  */
-
 class StoryController extends Controller
 {
     private $keyTranslations = [
@@ -26,14 +25,13 @@ class StoryController extends Controller
         'happenedAt' => 'happened_at',
         'favorited' => 'favorited',
         'creatorId' => 'user_id',
-        'albumId' => 'album_id'
+        'albumId' => 'album_id',
     ];
 
     public function __construct()
     {
         $this->middleware('jwt.auth');
     }
-
 
     /**
      * Persist a new Story.
@@ -54,9 +52,9 @@ class StoryController extends Controller
             // NYI
             'asset_type' => null,
             'user_id' => $request->input('creatorId'),
-            'album_id' => $request->input('albumId')
+            'album_id' => $request->input('albumId'),
         ]);
-        if (!$story->save()) {
+        if (! $story->save()) {
             return response()->exception('The story could not be created', 500);
         }
 
@@ -66,13 +64,13 @@ class StoryController extends Controller
             'happenedAt' => $story->happened_at,
             'albumId' => $story->album_id,
             'creatorId' => $story->user_id,
-            'favorited' => false
+            'favorited' => false,
         ];
 
         $location = $request->url().'/'.$story->id;
+
         return response()->success($createdStory, 201, 'Created', $location);
     }
-
 
     /**
      * Fetch a Story.
@@ -92,12 +90,11 @@ class StoryController extends Controller
             'albumId' => $story->album_id,
             'creatorId' => $story->user_id,
             'assetSource' => $story->asset_name,
-            'favorited' => $story->favorited
+            'favorited' => $story->favorited,
         ];
 
         return response()->success($gotStory, 200, 'OK');
     }
-
 
     /**
      * Update a Story.
@@ -119,7 +116,7 @@ class StoryController extends Controller
                 $story[$translatedKey] = $values[$key];
             }
         }
-        if (!$story->update()) {
+        if (! $story->update()) {
             return response()->exception('The story could not be updated', 500);
         }
 
@@ -138,6 +135,7 @@ class StoryController extends Controller
         if ($story->delete()) {
             $directory = storage_path("app/stories/$patientId/$story->id");
             File::deleteDirectory($directory);
+
             return response()->success([], 200, 'OK');
         } else {
             return response()->exception('The story could not be deleted', 500);

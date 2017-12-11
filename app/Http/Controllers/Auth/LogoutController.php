@@ -11,8 +11,6 @@ use App\Http\Controllers\Controller;
  *
  * @resource Auth
  */
-
-
 class LogoutController extends Controller
 {
     public function __construct()
@@ -30,6 +28,7 @@ class LogoutController extends Controller
         $token = JWTAuth::getToken();
         if (JWTAuth::invalidate($token)) {
             Auth::logout();
+
             return response()->success([], 200, 'User logged out successfully');
         }
     }

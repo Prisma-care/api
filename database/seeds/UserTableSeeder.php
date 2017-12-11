@@ -17,7 +17,7 @@ class UserTableSeeder extends Seeder
             'email' => 'noreply@prisma.care',
             'password' => Hash::make(str_random(20)),
             'first_name' => 'Prisma',
-            'last_name' => 'System'
+            'last_name' => 'System',
         ]);
     }
 }

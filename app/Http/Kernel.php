@@ -12,7 +12,6 @@ class Kernel extends HttpKernel
         $schedule->command('backup:run')->daily()->at('02:00');
     }
 
-
     /**
      * The application's global HTTP middleware stack.
      *

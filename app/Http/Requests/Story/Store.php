@@ -14,6 +14,7 @@ class Store extends BaseRequest
         $user = $this->getUser();
         $patient = Patient::findOrFail($this->route('patient'));
         $album = Album::findOrFail(request('albumId'));
+
         return $user->can('create', [Story::class, $patient, $album]);
     }
 
@@ -26,7 +27,7 @@ class Store extends BaseRequest
     {
         return [
             'creatorId' => 'required',
-            'albumId' => 'required'
+            'albumId' => 'required',
         ];
     }
 }

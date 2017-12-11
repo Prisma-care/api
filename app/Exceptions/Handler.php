@@ -23,7 +23,6 @@ class Handler extends ExceptionHandler
         \Illuminate\Validation\ValidationException::class,
     ];
 
-
     /**
      * Report or log an exception.
      *
@@ -39,7 +38,6 @@ class Handler extends ExceptionHandler
         parent::report($exception);
     }
 
-
     /**
      * Render an exception into an HTTP response.
      *
@@ -52,6 +50,7 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ModelNotFoundException) {
             $resource = class_basename($exception->getModel());
+
             return response()->exception("There is no $resource resource with the provided id.", 400);
         }
         if ($request->expectsJson() && $exception instanceof HttpException) {
@@ -60,6 +59,7 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson() && $exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
             return response()->exception('Forbidden', 403);
         }
+
         return parent::render($request, $exception);
     }
 

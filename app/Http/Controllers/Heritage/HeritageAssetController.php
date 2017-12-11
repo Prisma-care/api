@@ -17,7 +17,6 @@ use App\Http\Requests\HeritageAsset as HeritageAssetRequest;
  * HeritageAssets are photographic and video materials used to stimulate discussion between the User and Patient
  * HeritageAssets are supplied by local heritage organisations rather than from the Users
  */
-
 class HeritageAssetController extends Controller
 {
     public function __construct()
@@ -46,7 +45,6 @@ class HeritageAssetController extends Controller
         $heritage->save();
     }
 
-
     /**
      * Store a new HeritageAsset and attach it to a Heritage.
      *
@@ -63,30 +61,31 @@ class HeritageAssetController extends Controller
         Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
         $assetType = $request->input('assetType');
-        if (!$assetType || $assetType === 'image') {
-            if (!$request->hasFile('asset')) {
+        if (! $assetType || $assetType === 'image') {
+            if (! $request->hasFile('asset')) {
                 return response()->exception('No asset was provided or the form-data request was malformed', 400);
-            } elseif (!$request->file('asset')->isValid()) {
+            } elseif (! $request->file('asset')->isValid()) {
                 return response()->exception('Asset upload failed, please try again later.', 500);
             }
 
             $this->attachImageAsset($request, $heritage);
             $location = $heritage->asset_name;
-            return response()->success(['id'=> $heritage->id], 201, 'Created', $location);
+
+            return response()->success(['id' => $heritage->id], 201, 'Created', $location);
         } elseif ($assetType === 'youtube') {
             $heritage->asset_name = $request->input('asset');
             $heritage->asset_type = 'youtube';
             $heritage->save();
 
             $location = $request->url().'/'.$heritage->id;
+
             return response()->success([
-              'id'=> $heritage->id,
+              'id' => $heritage->id,
               'source' => $heritage->asset_name,
-              'type' => 'youtube'
+              'type' => 'youtube',
             ], 201, 'Created', $location);
         }
     }
-
 
     /**
      * Fetch a particular HeritageAsset.
@@ -108,12 +107,12 @@ class HeritageAssetController extends Controller
             return response()->success([
                 'id' => $heritage->id,
                 'source' => $heritage->asset_name,
-                'type' => 'youtube'
+                'type' => 'youtube',
             ], 200, 'OK');
         }
 
         $storagePath = "heritage/$heritageId/$assetId";
-        if (!Storage::exists($storagePath)) {
+        if (! Storage::exists($storagePath)) {
             return response()->exception('This asset does not exist.', 404);
         }
 

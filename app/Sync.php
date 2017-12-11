@@ -10,6 +10,6 @@ class Sync extends Model
         'status',
         'model_type',
         'model_id',
-        'finished_at'
+        'finished_at',
     ];
 }

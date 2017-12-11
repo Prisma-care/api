@@ -11,6 +11,7 @@ class Update extends BaseRequest
     {
         $user = $this->getUser();
         $heritage = Heritage::findOrFail($this->route('heritage'));
+
         return $user->can('update', $heritage);
     }
 }

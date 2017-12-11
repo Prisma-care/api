@@ -12,7 +12,6 @@ use App\Patient;
  *
  * Controller used to connect Users to Patients
  */
-
 class ConnectionController extends Controller
 {
     public function __construct()
@@ -36,6 +35,7 @@ class ConnectionController extends Controller
         }
 
         $patient->users()->attach($userId);
+
         return response()->success([], 200, 'OK');
     }
 
@@ -50,11 +50,12 @@ class ConnectionController extends Controller
     {
         $userId = JWTAuth::parseToken()->authenticate()->id;
         $patient = Patient::findOrFail($patientId);
-        if (!$patient->users->contains($userId)) {
+        if (! $patient->users->contains($userId)) {
             return response()->exception('The patient and user are not connected', 400);
         }
 
         $patient->users()->detach($userId);
+
         return response()->success([], 200, 'OK');
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\User;
-use App\Patient;
 use App\Album;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

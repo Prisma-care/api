@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class VerifyJWTToken
 {
@@ -31,6 +30,7 @@ class VerifyJWTToken
                 return response()->exception('No authorization token provided', 401);
             }
         }
+
         return $next($request);
     }
 }

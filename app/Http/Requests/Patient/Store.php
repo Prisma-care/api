@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Patient;
 
-use App\Patient;
 use App\Http\Requests\BaseRequest;
 
 class Store extends BaseRequest
@@ -16,7 +15,7 @@ class Store extends BaseRequest
     {
         return [
             'firstName' => 'required',
-            'lastName' => 'required'
+            'lastName' => 'required',
         ];
     }
 }
