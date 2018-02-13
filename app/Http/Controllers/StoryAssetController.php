@@ -76,15 +76,15 @@ class StoryAssetController extends Controller
         }
     }
 
+
     /**
      * Fetch a particular StoryAsset.
-     *
      * @param StoryAssetRequest\Show $request
      * @param $patientId
      * @param $storyId
      * @param $asset
-     *
      * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function show(StoryAssetRequest\Show $request, $patientId, $storyId, $asset)
     {
