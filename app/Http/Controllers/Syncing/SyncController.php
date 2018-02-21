@@ -22,7 +22,6 @@ class SyncController extends Controller
 
             $this->runSync($sync);
         } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-
             // there are no sync jobs to run
         }
     }

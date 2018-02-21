@@ -123,12 +123,14 @@ class StoryController extends Controller
         return response()->success([], 200, 'OK');
     }
 
+
     /**
      * Remove a story from storage.
-     *
-     * @param \App\Story $story
-     *
-     * @return \Illuminate\Http\Response
+     * @param StoryRequest\Destroy $request
+     * @param $patientId
+     * @param Story $story
+     * @return mixed
+     * @throws \Exception
      */
     public function destroy(StoryRequest\Destroy $request, $patientId, Story $story)
     {
