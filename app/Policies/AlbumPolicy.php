@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Album;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AlbumPolicy
@@ -13,7 +13,7 @@ class AlbumPolicy
     /**
      * Determine whether the user can view the album.
      *
-     * @param \App\User  $user
+     * @param \App\User $user
      * @param \App\Album $album
      *
      * @return mixed
@@ -38,7 +38,7 @@ class AlbumPolicy
     /**
      * Determine whether the user can update the album.
      *
-     * @param \App\User  $user
+     * @param \App\User $user
      * @param \App\Album $album
      *
      * @return mixed
@@ -51,7 +51,7 @@ class AlbumPolicy
     /**
      * Determine whether the user can delete the album.
      *
-     * @param \App\User  $user
+     * @param \App\User $user
      * @param \App\Album $album
      *
      * @return mixed

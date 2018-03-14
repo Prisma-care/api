@@ -6,12 +6,6 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
-    protected function schedule(Schedule $schedule)
-    {
-        $schedule->command('backup:clean')->daily()->at('01:00');
-        $schedule->command('backup:run')->daily()->at('02:00');
-    }
-
     /**
      * The application's global HTTP middleware stack.
      *
@@ -25,7 +19,6 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
-
     /**
      * The application's route middleware groups.
      *
@@ -48,7 +41,6 @@ class Kernel extends HttpKernel
             \Barryvdh\Cors\HandleCors::class,
         ],
     ];
-
     /**
      * The application's route middleware.
      *
@@ -66,4 +58,10 @@ class Kernel extends HttpKernel
         'jwt.auth' => \App\Http\Middleware\VerifyJWTToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
     ];
+
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('backup:clean')->daily()->at('01:00');
+        $schedule->command('backup:run')->daily()->at('02:00');
+    }
 }

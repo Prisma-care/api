@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use File;
-use App\Story;
 use App\Album;
 use App\Http\Requests\Story as StoryRequest;
+use App\Story;
+use File;
 
 /**
  * Class StoryController.
@@ -54,7 +54,7 @@ class StoryController extends Controller
             'user_id' => $request->input('creatorId'),
             'album_id' => $request->input('albumId'),
         ]);
-        if (! $story->save()) {
+        if (!$story->save()) {
             return response()->exception('The story could not be created', 500);
         }
 
@@ -67,7 +67,7 @@ class StoryController extends Controller
             'favorited' => false,
         ];
 
-        $location = $request->url().'/'.$story->id;
+        $location = $request->url() . '/' . $story->id;
 
         return response()->success($createdStory, 201, 'Created', $location);
     }
@@ -110,13 +110,13 @@ class StoryController extends Controller
         $values = $request->all();
         foreach (array_keys($values) as $key) {
             $translatedKey = (isset($this->keyTranslations[$key]))
-                                ? $this->keyTranslations[$key]
-                                : null;
+                ? $this->keyTranslations[$key]
+                : null;
             if ($translatedKey) {
                 $story[$translatedKey] = $values[$key];
             }
         }
-        if (! $story->update()) {
+        if (!$story->update()) {
             return response()->exception('The story could not be updated', 500);
         }
 

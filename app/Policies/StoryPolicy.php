@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Story;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class StoryPolicy
@@ -13,7 +13,7 @@ class StoryPolicy
     /**
      * Determine whether the user can view the story.
      *
-     * @param \App\User  $user
+     * @param \App\User $user
      * @param \App\Story $story
      *
      * @return mixed
@@ -38,7 +38,7 @@ class StoryPolicy
     /**
      * Determine whether the user can update the story.
      *
-     * @param \App\User  $user
+     * @param \App\User $user
      * @param \App\Story $story
      *
      * @return mixed
@@ -51,7 +51,7 @@ class StoryPolicy
     /**
      * Determine whether the user can delete the story.
      *
-     * @param \App\User  $user
+     * @param \App\User $user
      * @param \App\Story $story
      *
      * @return mixed

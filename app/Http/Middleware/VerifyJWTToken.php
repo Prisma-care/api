@@ -12,7 +12,7 @@ class VerifyJWTToken
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
+     * @param \Closure $next
      *
      * @return mixed
      */
@@ -24,7 +24,7 @@ class VerifyJWTToken
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
                 return response()->exception('The provided auth token has expired', 401);
             } elseif ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException ||
-                     $e instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
+                $e instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
                 return response()->exception('The provided auth token is invalid', 400);
             } else {
                 return response()->exception('No authorization token provided', 401);

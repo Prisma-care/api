@@ -9,10 +9,10 @@ use App\Mail\SendNewPassword;
 use App\Mail\SendPasswordResetLink;
 use App\User;
 use Carbon\Carbon;
+use DB;
 use Hash;
 use Mail;
 use View;
-use DB;
 
 class ResetController extends Controller
 {
@@ -63,7 +63,7 @@ class ResetController extends Controller
     {
         $reset = DB::table('password_resets')->where('token', $token)->first();
 
-        if (! $reset) {
+        if (!$reset) {
             abort(404, 'Dit wachtwoord herstel token is niet geldig.'); // This password recovery token is not valid
         }
 

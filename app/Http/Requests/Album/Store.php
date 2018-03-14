@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Album;
 
+use App\Http\Requests\BaseRequest;
 use App\Patient;
 use Illuminate\Validation\Rule;
-use App\Http\Requests\BaseRequest;
 
 class Store extends BaseRequest
 {

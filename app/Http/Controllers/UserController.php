@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use JWTAuth;
 use App\Http\Requests\User as UserRequest;
+use App\User;
 use Hash;
+use JWTAuth;
 
 /**
  * Class UserController.
@@ -61,7 +61,7 @@ class UserController extends Controller
             'user_type' => $request->input('userType', 'family'),
         ]);
 
-        if (! $user->save()) {
+        if (!$user->save()) {
             return response()->exception('Unexpected error while creating the user', 500);
         }
 
@@ -69,7 +69,7 @@ class UserController extends Controller
             'id' => $user->id,
             'email' => $user->email,
         ];
-        $location = $request->url().'/'.$user->id;
+        $location = $request->url() . '/' . $user->id;
 
         return response()->success($createdUser, 201, 'Created', $location);
     }

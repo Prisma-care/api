@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Invite;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invite\SetPassword;
-use App\Mail\SendPassword;
 use App\Invite;
+use App\Mail\SendPassword;
 use App\User;
 use Hash;
 use Mail;
@@ -47,7 +47,7 @@ class SetPasswordController extends Controller
     {
         $invite = Invite::where('token', $token)->first();
 
-        if (! $invite) {
+        if (!$invite) {
             abort(404, 'Token already used or invalid');
         }
 

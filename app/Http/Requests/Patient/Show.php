@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Patient;
 
-use App\Patient;
 use App\Http\Requests\BaseRequest;
 
 class Show extends BaseRequest

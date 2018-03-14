@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Heritage;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class HeritagePolicy
@@ -25,7 +25,7 @@ class HeritagePolicy
     /**
      * Determine whether the user can update the heritage.
      *
-     * @param \App\User     $user
+     * @param \App\User $user
      * @param \App\Heritage $heritage
      *
      * @return mixed
@@ -38,7 +38,7 @@ class HeritagePolicy
     /**
      * Determine whether the user can delete the heritage.
      *
-     * @param \App\User     $user
+     * @param \App\User $user
      * @param \App\Heritage $heritage
      *
      * @return mixed

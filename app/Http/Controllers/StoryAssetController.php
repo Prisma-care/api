@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoryAsset as StoryAssetRequest;
 use App\Story;
 use App\Utils\ImageUtility;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class StoryAssetController.
@@ -19,24 +19,6 @@ class StoryAssetController extends Controller
     public function __construct()
     {
         $this->middleware('jwt.auth');
-    }
-
-    private function attachImageAsset($request, $story, $patientId)
-    {
-        $asset = $request->file('asset');
-        $extension = ($asset->extension())
-                    ? ($asset->extension())
-                    : pathinfo($asset, PATHINFO_EXTENSION);
-
-        $assetName = $story->id;
-        $fullAssetName = "$assetName.$extension";
-        $storagePath = "stories/$patientId/$story->id";
-        $asset->storeAs($storagePath, $fullAssetName);
-        ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
-
-        $story->asset_type = 'image';
-        $story->asset_name = $request->url().'/'.$fullAssetName;
-        $story->save();
     }
 
     /**
@@ -54,10 +36,10 @@ class StoryAssetController extends Controller
     {
         $story = Story::findOrFail($storyId);
         $assetType = $request->input('assetType');
-        if (! $assetType || $assetType === 'image') {
-            if (! $request->hasFile('asset')) {
+        if (!$assetType || $assetType === 'image') {
+            if (!$request->hasFile('asset')) {
                 return response()->exception('No asset was provided or the form-data request was malformed', 400);
-            } elseif (! $request->file('asset')->isValid()) {
+            } elseif (!$request->file('asset')->isValid()) {
                 return response()->exception('Asset upload failed, please try again later.', 500);
             }
 
@@ -70,12 +52,29 @@ class StoryAssetController extends Controller
             $story->asset_type = 'youtube';
             $story->save();
 
-            $location = $request->url().'/'.$story->id;
+            $location = $request->url() . '/' . $story->id;
 
             return response()->success(['id' => $story->id], 201, 'Created', $location);
         }
     }
 
+    private function attachImageAsset($request, $story, $patientId)
+    {
+        $asset = $request->file('asset');
+        $extension = ($asset->extension())
+            ? ($asset->extension())
+            : pathinfo($asset, PATHINFO_EXTENSION);
+
+        $assetName = $story->id;
+        $fullAssetName = "$assetName.$extension";
+        $storagePath = "stories/$patientId/$story->id";
+        $asset->storeAs($storagePath, $fullAssetName);
+        ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
+
+        $story->asset_type = 'image';
+        $story->asset_name = $request->url() . '/' . $fullAssetName;
+        $story->save();
+    }
 
     /**
      * Fetch a particular StoryAsset.
@@ -98,7 +97,7 @@ class StoryAssetController extends Controller
         }
 
         $storagePath = "stories/$patientId/$storyId/$asset";
-        if (! Storage::exists($storagePath)) {
+        if (!Storage::exists($storagePath)) {
             return response()->exception('This asset does not exist.', 404);
         }
 

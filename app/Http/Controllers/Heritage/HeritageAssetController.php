@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Heritage;
 
 use App\Album;
 use App\Heritage;
-use App\Utils\ImageUtility;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\HeritageAsset as HeritageAssetRequest;
+use App\Utils\ImageUtility;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class HeritageAssetController.
@@ -22,27 +22,6 @@ class HeritageAssetController extends Controller
     public function __construct()
     {
         $this->middleware('jwt.auth');
-    }
-
-    /**
-     * @param $request
-     * @param $heritage
-     */
-    private function attachImageAsset($request, $heritage)
-    {
-        $asset = $request->file('asset');
-        $extension = ($asset->extension()) ? ($asset->extension()) : pathinfo($asset, PATHINFO_EXTENSION);
-
-        $assetName = $heritage->id;
-        $fullAssetName = "$assetName.$extension";
-        $storagePath = "heritage/$heritage->id";
-        $asset->storeAs($storagePath, $fullAssetName);
-        ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
-
-        $location = $request->url().'/'.$fullAssetName;
-        $heritage->asset_name = $location;
-        $heritage->asset_type = 'image';
-        $heritage->save();
     }
 
     /**
@@ -61,10 +40,10 @@ class HeritageAssetController extends Controller
         Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
         $assetType = $request->input('assetType');
-        if (! $assetType || $assetType === 'image') {
-            if (! $request->hasFile('asset')) {
+        if (!$assetType || $assetType === 'image') {
+            if (!$request->hasFile('asset')) {
                 return response()->exception('No asset was provided or the form-data request was malformed', 400);
-            } elseif (! $request->file('asset')->isValid()) {
+            } elseif (!$request->file('asset')->isValid()) {
                 return response()->exception('Asset upload failed, please try again later.', 500);
             }
 
@@ -77,14 +56,35 @@ class HeritageAssetController extends Controller
             $heritage->asset_type = 'youtube';
             $heritage->save();
 
-            $location = $request->url().'/'.$heritage->id;
+            $location = $request->url() . '/' . $heritage->id;
 
             return response()->success([
-              'id' => $heritage->id,
-              'source' => $heritage->asset_name,
-              'type' => 'youtube',
+                'id' => $heritage->id,
+                'source' => $heritage->asset_name,
+                'type' => 'youtube',
             ], 201, 'Created', $location);
         }
+    }
+
+    /**
+     * @param $request
+     * @param $heritage
+     */
+    private function attachImageAsset($request, $heritage)
+    {
+        $asset = $request->file('asset');
+        $extension = ($asset->extension()) ? ($asset->extension()) : pathinfo($asset, PATHINFO_EXTENSION);
+
+        $assetName = $heritage->id;
+        $fullAssetName = "$assetName.$extension";
+        $storagePath = "heritage/$heritage->id";
+        $asset->storeAs($storagePath, $fullAssetName);
+        ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
+
+        $location = $request->url() . '/' . $fullAssetName;
+        $heritage->asset_name = $location;
+        $heritage->asset_type = 'image';
+        $heritage->save();
     }
 
     /**
@@ -112,7 +112,7 @@ class HeritageAssetController extends Controller
         }
 
         $storagePath = "heritage/$heritageId/$assetId";
-        if (! Storage::exists($storagePath)) {
+        if (!Storage::exists($storagePath)) {
             return response()->exception('This asset does not exist.', 404);
         }
 

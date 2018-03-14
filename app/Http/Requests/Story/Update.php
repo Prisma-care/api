@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Story;
 
-use App\Patient;
 use App\Http\Requests\BaseRequest;
+use App\Patient;
 
 class Update extends BaseRequest
 {

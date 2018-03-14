@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use JWTAuth;
-use App\Patient;
 use App\Http\Requests\Patient as PatientRequest;
+use App\Patient;
+use JWTAuth;
 
 /**
  * Class PatientController.
@@ -42,7 +42,7 @@ class PatientController extends Controller
             'location' => $request->input('location'),
         ]);
 
-        if (! $patient->save()) {
+        if (!$patient->save()) {
             return response()->exception('The patient could not be created', 500);
         }
 
@@ -61,7 +61,7 @@ class PatientController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
         $patient->users()->attach($user->id);
 
-        $location = $request->url().'/'.$patient->id;
+        $location = $request->url() . '/' . $patient->id;
 
         return response()->success($createdPatient, 201, 'Created', $location);
     }
@@ -70,7 +70,7 @@ class PatientController extends Controller
      * Return the specified Patient if permitted by the Form Request.
      *
      * @param PatientRequest\Show $request
-     * @param Patient             $patient
+     * @param Patient $patient
      *
      * @return mixed
      */

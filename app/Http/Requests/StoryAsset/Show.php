@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\StoryAsset;
 
-use App\Patient;
 use App\Http\Requests\BaseRequest;
+use App\Patient;
 
 class Show extends BaseRequest
 {

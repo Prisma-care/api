@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Patient;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PatientPolicy
@@ -13,7 +13,7 @@ class PatientPolicy
     /**
      * Determine whether the user can view the patient.
      *
-     * @param \App\User    $user
+     * @param \App\User $user
      * @param \App\Patient $patient
      *
      * @return mixed
@@ -26,7 +26,7 @@ class PatientPolicy
     /**
      * Determine whether the user can update the patient.
      *
-     * @param \App\User    $user
+     * @param \App\User $user
      * @param \App\Patient $patient
      *
      * @return mixed
@@ -39,7 +39,7 @@ class PatientPolicy
     /**
      * Determine whether the user can delete the patient.
      *
-     * @param \App\User    $user
+     * @param \App\User $user
      * @param \App\Patient $patient
      *
      * @return mixed

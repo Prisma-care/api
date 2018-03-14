@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Carbon\Carbon;
 use App\Album;
+use App\Http\Requests\Album as AlbumRequest;
 use App\Patient;
 use App\User;
-use App\Http\Requests\Album as AlbumRequest;
+use Auth;
+use Carbon\Carbon;
 
 /**
  * Class AlbumController.
@@ -19,11 +19,6 @@ use App\Http\Requests\Album as AlbumRequest;
  */
 class AlbumController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('jwt.auth');
-    }
-
     private $keyTranslations = [
         'id' => 'id',
         'title' => 'title',
@@ -34,6 +29,11 @@ class AlbumController extends Controller
         'updatedAt' => 'updated_at',
         'createdAt' => 'created_at',
     ];
+
+    public function __construct()
+    {
+        $this->middleware('jwt.auth');
+    }
 
     /**
      * Returns an array of Albums belonging to a particular Patient.
@@ -75,7 +75,7 @@ class AlbumController extends Controller
 
                 ];
 
-                if (! is_null($last_login) && ($last_login <= $story->created_at) && $thisAlbum['hasNew'] === false) {
+                if (!is_null($last_login) && ($last_login <= $story->created_at) && $thisAlbum['hasNew'] === false) {
                     $thisAlbum['hasNew'] = true;
                 }
             }
@@ -100,7 +100,7 @@ class AlbumController extends Controller
             'description' => $request->input('description'),
             'patient_id' => $patientId,
         ]);
-        if (! $album->save()) {
+        if (!$album->save()) {
             return response()->exception('The album could not be created', 500);
         }
 
@@ -108,7 +108,7 @@ class AlbumController extends Controller
             'id' => $album->id,
             'title' => $album->title,
         ];
-        $location = $request->url().'/'.$album->id;
+        $location = $request->url() . '/' . $album->id;
 
         return response()->success($createdAlbum, 201, 'Created', $location);
     }
@@ -170,7 +170,7 @@ class AlbumController extends Controller
                 $album[$translatedKey] = $values[$key];
             }
         }
-        if (! $album->update()) {
+        if (!$album->update()) {
             return response()->exception('The album could not be updated', 500);
         }
 

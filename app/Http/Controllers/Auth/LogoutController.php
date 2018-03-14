@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use JWTAuth;
-use Auth;
 use App\Http\Controllers\Controller;
+use Auth;
+use JWTAuth;
 
 /**
  * Class LogoutController.

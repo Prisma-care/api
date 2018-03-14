@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use JWTAuth;
 use App\Patient;
+use JWTAuth;
 
 /**
  * Class ConnectionController.
@@ -50,7 +50,7 @@ class ConnectionController extends Controller
     {
         $userId = JWTAuth::parseToken()->authenticate()->id;
         $patient = Patient::findOrFail($patientId);
-        if (! $patient->users->contains($userId)) {
+        if (!$patient->users->contains($userId)) {
             return response()->exception('The patient and user are not connected', 400);
         }
 

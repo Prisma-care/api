@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Heritage;
 
 use App\Album;
 use App\Heritage;
-use App\Sync;
 use App\Http\Controllers\Controller;
-use File;
 use App\Http\Requests\Heritage as HeritageRequest;
+use App\Sync;
+use File;
 
 /**
  * Class HeritageController.
@@ -28,7 +28,7 @@ class HeritageController extends Controller
      * Fetch all Heritages for an Album.
      *
      * @param \App\Http\Requests\Heritage\Index $request
-     * @param int                               $albumId
+     * @param int $albumId
      *
      * @return \Illuminate\Http\Response
      */
@@ -44,14 +44,14 @@ class HeritageController extends Controller
      * Persist a new Heritage and assign it to an Album.
      *
      * @param \App\Http\Requests\Heritage\Store $request
-     * @param int                               $albumId
+     * @param int $albumId
      *
      * @return \Illuminate\Http\Response
      */
     public function store(HeritageRequest\Store $request, $albumId)
     {
         $album = Album::findOrFail($albumId);
-        if (! $album->isDefault()) {
+        if (!$album->isDefault()) {
             return response()->exception('You can only store new heritage in a default album', 400);
         }
         $heritage = new Heritage([
@@ -59,7 +59,7 @@ class HeritageController extends Controller
             'happened_at' => $request->input('happenedAt'),
             'album_id' => $albumId,
         ]);
-        if (! $heritage->save()) {
+        if (!$heritage->save()) {
             return response()->exception('The heritage could not be created', 500);
         }
 
@@ -67,7 +67,7 @@ class HeritageController extends Controller
 
         Sync::create(['model_type' => 'Story', 'model_id' => $heritageId]);
 
-        $location = $request->url().'/'.$heritageId;
+        $location = $request->url() . '/' . $heritageId;
 
         return response()->success($heritage, 201, 'Created', $location);
     }
@@ -95,8 +95,8 @@ class HeritageController extends Controller
      * Update a specific Heritage.
      *
      * @param \App\Http\Requests\Heritage\Update $request
-     * @param int                                $albumId
-     * @param int                                $heritageId
+     * @param int $albumId
+     * @param int $heritageId
      *
      * @return \Illuminate\Http\Response
      */
@@ -106,7 +106,7 @@ class HeritageController extends Controller
         $heritage = Heritage::findOrFail($heritageId);
         $heritage->description = $request->input('description') ?: $heritage->description;
         $heritage->happened_at = $request->input('happened_at') ?: $heritage->happenedAt;
-        if (! $heritage->update()) {
+        if (!$heritage->update()) {
             return response()->exception('The story could not be updated', 500);
         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use JWTAuth;
 use Illuminate\Foundation\Http\FormRequest;
+use JWTAuth;
 
 class BaseRequest extends FormRequest
 {

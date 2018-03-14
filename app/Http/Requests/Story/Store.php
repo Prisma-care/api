@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Story;
 
-use App\Story;
 use App\Album;
-use App\Patient;
 use App\Http\Requests\BaseRequest;
+use App\Patient;
+use App\Story;
 
 class Store extends BaseRequest
 {
