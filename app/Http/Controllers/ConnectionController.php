@@ -36,7 +36,11 @@ class ConnectionController extends Controller
 
         $patient->users()->attach($userId);
 
-        return response()->success([], 200, 'OK');
+        return response()->success(
+            [],
+            200,
+            'OK'
+        );
     }
 
     /**
