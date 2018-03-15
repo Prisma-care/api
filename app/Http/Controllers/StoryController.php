@@ -54,7 +54,7 @@ class StoryController extends Controller
             'user_id' => $request->input('creatorId'),
             'album_id' => $request->input('albumId'),
         ]);
-        if (!$story->save()) {
+        if (! $story->save()) {
             return response()->exception('The story could not be created', 500);
         }
 
@@ -67,7 +67,7 @@ class StoryController extends Controller
             'favorited' => false,
         ];
 
-        $location = $request->url() . '/' . $story->id;
+        $location = $request->url().'/'.$story->id;
 
         return response()->success($createdStory, 201, 'Created', $location);
     }
@@ -116,13 +116,12 @@ class StoryController extends Controller
                 $story[$translatedKey] = $values[$key];
             }
         }
-        if (!$story->update()) {
+        if (! $story->update()) {
             return response()->exception('The story could not be updated', 500);
         }
 
         return response()->success([], 200, 'OK');
     }
-
 
     /**
      * Remove a story from storage.

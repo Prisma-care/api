@@ -71,13 +71,13 @@ class DefaultAlbumController extends Controller
         $album = new Album([
             'title' => $request->input('title'),
         ]);
-        if (!$album->save()) {
+        if (! $album->save()) {
             return response()->exception('The default album could not be created', 500);
         }
 
         Sync::create(['model_type' => 'Album', 'model_id' => $album->id]);
 
-        $location = $request->url() . '/' . $album->id;
+        $location = $request->url().'/'.$album->id;
 
         return response()->success($album, 201, 'Created', $location);
     }
@@ -93,11 +93,11 @@ class DefaultAlbumController extends Controller
     public function update(DefaultAlbumRequest\Update $request, $albumId)
     {
         $album = Album::findOrFail($albumId);
-        if (!$album->isDefault()) {
+        if (! $album->isDefault()) {
             return response()->exception("The album you're trying to update is not a default album", 400);
         }
         $album->title = $request->input('title') ?: $album->title;
-        if (!$album->update()) {
+        if (! $album->update()) {
             return response()->exception('The album could not be updated', 500);
         }
 
@@ -117,7 +117,7 @@ class DefaultAlbumController extends Controller
     public function destroy(DefaultAlbumRequest\Destroy $request, $albumId)
     {
         $album = Album::findOrFail($albumId);
-        if (!$album->isDefault()) {
+        if (! $album->isDefault()) {
             return response()->exception("The album you're trying to delete is not a default album", 400);
         }
 

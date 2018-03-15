@@ -36,10 +36,10 @@ class StoryAssetController extends Controller
     {
         $story = Story::findOrFail($storyId);
         $assetType = $request->input('assetType');
-        if (!$assetType || $assetType === 'image') {
-            if (!$request->hasFile('asset')) {
+        if (! $assetType || $assetType === 'image') {
+            if (! $request->hasFile('asset')) {
                 return response()->exception('No asset was provided or the form-data request was malformed', 400);
-            } elseif (!$request->file('asset')->isValid()) {
+            } elseif (! $request->file('asset')->isValid()) {
                 return response()->exception('Asset upload failed, please try again later.', 500);
             }
 
@@ -52,7 +52,7 @@ class StoryAssetController extends Controller
             $story->asset_type = 'youtube';
             $story->save();
 
-            $location = $request->url() . '/' . $story->id;
+            $location = $request->url().'/'.$story->id;
 
             return response()->success(['id' => $story->id], 201, 'Created', $location);
         }
@@ -72,7 +72,7 @@ class StoryAssetController extends Controller
         ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
 
         $story->asset_type = 'image';
-        $story->asset_name = $request->url() . '/' . $fullAssetName;
+        $story->asset_name = $request->url().'/'.$fullAssetName;
         $story->save();
     }
 
@@ -97,7 +97,7 @@ class StoryAssetController extends Controller
         }
 
         $storagePath = "stories/$patientId/$storyId/$asset";
-        if (!Storage::exists($storagePath)) {
+        if (! Storage::exists($storagePath)) {
             return response()->exception('This asset does not exist.', 404);
         }
 

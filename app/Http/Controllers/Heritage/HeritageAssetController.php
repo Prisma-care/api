@@ -40,10 +40,10 @@ class HeritageAssetController extends Controller
         Album::findOrFail($albumId);
         $heritage = Heritage::findOrFail($heritageId);
         $assetType = $request->input('assetType');
-        if (!$assetType || $assetType === 'image') {
-            if (!$request->hasFile('asset')) {
+        if (! $assetType || $assetType === 'image') {
+            if (! $request->hasFile('asset')) {
                 return response()->exception('No asset was provided or the form-data request was malformed', 400);
-            } elseif (!$request->file('asset')->isValid()) {
+            } elseif (! $request->file('asset')->isValid()) {
                 return response()->exception('Asset upload failed, please try again later.', 500);
             }
 
@@ -56,7 +56,7 @@ class HeritageAssetController extends Controller
             $heritage->asset_type = 'youtube';
             $heritage->save();
 
-            $location = $request->url() . '/' . $heritage->id;
+            $location = $request->url().'/'.$heritage->id;
 
             return response()->success([
                 'id' => $heritage->id,
@@ -81,7 +81,7 @@ class HeritageAssetController extends Controller
         $asset->storeAs($storagePath, $fullAssetName);
         ImageUtility::saveThumbs($asset, $storagePath, $assetName, $extension);
 
-        $location = $request->url() . '/' . $fullAssetName;
+        $location = $request->url().'/'.$fullAssetName;
         $heritage->asset_name = $location;
         $heritage->asset_type = 'image';
         $heritage->save();
@@ -112,7 +112,7 @@ class HeritageAssetController extends Controller
         }
 
         $storagePath = "heritage/$heritageId/$assetId";
-        if (!Storage::exists($storagePath)) {
+        if (! Storage::exists($storagePath)) {
             return response()->exception('This asset does not exist.', 404);
         }
 
