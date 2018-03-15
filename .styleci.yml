@@ -4,10 +4,14 @@ enabled:
   - alpha_ordered_imports
 
 disabled:
+  - single_class_element_per_statement
+  - simplified_null_return
   - length_ordered_imports
 
 finder:
   exclude:
+    - "tests"
+    - "database/migrations"
     - "node_modules"
     - "storage"
     - "vendor"
