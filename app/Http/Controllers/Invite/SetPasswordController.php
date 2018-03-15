@@ -47,7 +47,7 @@ class SetPasswordController extends Controller
     {
         $invite = Invite::where('token', $token)->first();
 
-        if (!$invite) {
+        if (! $invite) {
             abort(404, 'Token already used or invalid');
         }
 

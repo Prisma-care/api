@@ -32,7 +32,7 @@ class Invitation extends Mailable
         $data = $this->data;
 
         return $this->from('info@prisma.care', 'Prisma')
-            ->subject($data['inviter'] . ' nodigde je uit voor Prisma')
+            ->subject($data['inviter'].' nodigde je uit voor Prisma')
             ->with($data)
             ->markdown('emails.invite');
     }

@@ -51,7 +51,7 @@ class HeritageController extends Controller
     public function store(HeritageRequest\Store $request, $albumId)
     {
         $album = Album::findOrFail($albumId);
-        if (!$album->isDefault()) {
+        if (! $album->isDefault()) {
             return response()->exception('You can only store new heritage in a default album', 400);
         }
         $heritage = new Heritage([
@@ -59,7 +59,7 @@ class HeritageController extends Controller
             'happened_at' => $request->input('happenedAt'),
             'album_id' => $albumId,
         ]);
-        if (!$heritage->save()) {
+        if (! $heritage->save()) {
             return response()->exception('The heritage could not be created', 500);
         }
 
@@ -67,7 +67,7 @@ class HeritageController extends Controller
 
         Sync::create(['model_type' => 'Story', 'model_id' => $heritageId]);
 
-        $location = $request->url() . '/' . $heritageId;
+        $location = $request->url().'/'.$heritageId;
 
         return response()->success($heritage, 201, 'Created', $location);
     }
@@ -106,7 +106,7 @@ class HeritageController extends Controller
         $heritage = Heritage::findOrFail($heritageId);
         $heritage->description = $request->input('description') ?: $heritage->description;
         $heritage->happened_at = $request->input('happened_at') ?: $heritage->happenedAt;
-        if (!$heritage->update()) {
+        if (! $heritage->update()) {
             return response()->exception('The story could not be updated', 500);
         }
 

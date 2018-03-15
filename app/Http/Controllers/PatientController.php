@@ -42,7 +42,7 @@ class PatientController extends Controller
             'location' => $request->input('location'),
         ]);
 
-        if (!$patient->save()) {
+        if (! $patient->save()) {
             return response()->exception('The patient could not be created', 500);
         }
 
@@ -61,7 +61,7 @@ class PatientController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
         $patient->users()->attach($user->id);
 
-        $location = $request->url() . '/' . $patient->id;
+        $location = $request->url().'/'.$patient->id;
 
         return response()->success($createdPatient, 201, 'Created', $location);
     }
