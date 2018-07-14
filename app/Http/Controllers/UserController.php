@@ -39,6 +39,7 @@ class UserController extends Controller
             'email' => $user->email,
             'firstName' => $user->first_name,
             'lastName' => $user->last_name,
+            'isCustomer' => $user->isCustomer()
         ];
 
         return response()->success($transformed, 200, 'OK');
