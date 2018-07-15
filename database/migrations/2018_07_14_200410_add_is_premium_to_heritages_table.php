@@ -26,7 +26,7 @@ class AddIsPremiumToHeritagesTable extends Migration
     public function down()
     {
         Schema::table('heritages', function (Blueprint $table) {
-            $table->boolean('is_premium')->default(false);
+            $table->dropColumn('is_premium');
         });
     }
 }
